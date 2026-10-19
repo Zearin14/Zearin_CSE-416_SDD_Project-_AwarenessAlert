@@ -1,0 +1,10 @@
+{
+  "description": "Crowdsourced platform enabling users in Bangladesh to report and review food and fuel safety concerns with real-time trust scores and authority reviews.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
