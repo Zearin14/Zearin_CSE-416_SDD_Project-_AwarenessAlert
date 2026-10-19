@@ -111,3 +111,8 @@ export const loginHistory = (filter: string) =>
     events: LoginEvent[]
     summary: { logins24h: number; failed24h: number; people24h: number }
   }>(`login_history.php?filter=${encodeURIComponent(filter)}`)
+export const validateStaffInput = (name: string, login: string, password: string) => {
+  if (!name || !login || !password) return false;
+  if (password.length < 6) return false;
+  return true;
+};
