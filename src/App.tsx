@@ -4560,12 +4560,9 @@ function TeamPage({ store, updateStore }: StorePageProps) {
   async function addStaff(event: FormEvent) {
     event.preventDefault()
     setMessage("")
-    if (!form.name.trim() || !form.login.trim()) {
-      setMessage("Name and email/phone are required.")
-      return
-    }
-    if (form.password.length < 8) {
-      setMessage("The password must be at least 8 characters.")
+       const validationError = api.validateStaffInput(form.name, form.login, form.password)
+    if (validationError) {
+      setMessage(validationError)
       return
     }
     if (backend.online) {
