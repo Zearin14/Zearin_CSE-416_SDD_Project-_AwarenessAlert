@@ -1,0 +1,29 @@
+
+> figma-make-app@1.0.0 test
+> vitest run tests/unit --coverage
+
+
+ RUN  v4.1.11 /home/claude/work/aa
+      Coverage enabled with v8
+
+
+ Test Files  3 passed (3)
+      Tests  54 passed (54)
+   Start at  01:56:52
+   Duration  1.40s (transform 145ms, setup 0ms, import 205ms, tests 53ms, environment 580ms)
+
+ % Coverage report from v8
+----------|---------|----------|---------|---------|-------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+----------|---------|----------|---------|---------|-------------------
+All files |     100 |      100 |     100 |     100 |                   
+ api.ts   |     100 |      100 |     100 |     100 |                   
+ logic.ts |     100 |      100 |     100 |     100 |                   
+----------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 100% ( 163/163 )
+Branches     : 100% ( 109/109 )
+Functions    : 100% ( 47/47 )
+Lines        : 100% ( 129/129 )
+================================================================================

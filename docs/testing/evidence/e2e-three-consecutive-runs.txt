@@ -1,0 +1,6 @@
+Run 1:
+  26 passed (51.7s)
+Run 2:
+  26 passed (48.3s)
+Run 3:
+  26 passed (48.1s)

@@ -42,6 +42,7 @@ test("E2E-02 a too-short description is rejected and the user stays on the form"
 test("E2E-03 a moderator verifies a newly submitted report", async ({ page }) => {
   await fillReport(page, "Fuel meter showed 5 litres but the can held about 4.")
   await page.getByRole("button", { name: "Submit report" }).click()
+  await expect(page).toHaveURL(/\/report\/done/)
   const id = await page.locator("strong").filter({ hasText: /^AA-/ }).first().innerText()
 
   await adminLogin(page)
@@ -75,8 +76,30 @@ test("E2E-07 script code typed into a report is shown as text, never run (XSS)",
   const payload = `<img src=x onerror="window.__xss=1"> expired food on display`
   await fillReport(page, payload)
   await page.getByRole("button", { name: "Submit report" }).click()
+  await expect(page).toHaveURL(/\/report\/done/)
   const id = await page.locator("strong").filter({ hasText: /^AA-/ }).first().innerText()
   await page.goto(`/reports/${id}`)
   await expect(page.getByText(payload)).toBeVisible()
+  await page.waitForLoadState("networkidle")
   expect(await page.evaluate(() => (window as any).__xss)).toBeUndefined()
+})
+
+test("E2E-08 a visitor saves an area and it is still saved after reloading", async ({ page }) => {
+  await page.goto("/")
+  await page.getByRole("link", { name: "Saved Areas" }).first().click()
+  const first = page.locator(".area-card").first()
+  await expect(first).toContainText("Add area")
+  await first.click()
+  await expect(first).toContainText("Saved")
+  await page.reload()
+  await expect(page.locator(".area-card").first()).toContainText("Saved")
+})
+
+test("E2E-09 the admin changes a routing rule and it is kept", async ({ page }) => {
+  await adminLogin(page)
+  await page.goto("/admin/routing")
+  const food = page.locator(".routing-card select").first()
+  await food.selectOption("Accredited Laboratory")
+  await page.reload()
+  await expect(page.locator(".routing-card select").first()).toHaveValue("Accredited Laboratory")
 })

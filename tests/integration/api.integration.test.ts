@@ -347,6 +347,27 @@ describe("Reviews (reviews.php)", () => {
   })
 })
 
+describe("Vendor badges and approval list (vendors.php) — admin only", () => {
+  const update = (c: Client, body: Record<string, unknown>) => c.call("vendors.php", { id: 2, ...body })
+
+  it("IT-90 the admin grants verification badges; the public sees them", async () => {
+    expect((await update(await as("admin"), { badges: ["BSTI", "DNCRP"] })).status).toBe(200)
+    const v = (await new Client().call("vendors.php")).body.vendors.find((x: any) => x.id === "2")
+    expect(v.badges).toEqual(["BSTI", "DNCRP"])
+    expect(v.verifiedDate).not.toBe("")
+  })
+
+  it("IT-91 a moderator cannot change badges", async () => {
+    expect((await update(await as("moderator"), { badges: [] })).status).toBe(403)
+  })
+
+  it("IT-92 an unknown badge name is ignored (only BSTI, DNCRP, Accredited Laboratory)", async () => {
+    await update(await as("admin"), { badges: ["BSTI", "FakeAuthority"] })
+    const v = (await new Client().call("vendors.php")).body.vendors.find((x: any) => x.id === "2")
+    expect(v.badges).toEqual(["BSTI"])
+  })
+})
+
 describe("Hidden reviews stay hidden", () => {
   it("IT-75 a review hidden by a moderator is not sent to guests at all — defect D-05", async () => {
     const mod = await as("moderator")

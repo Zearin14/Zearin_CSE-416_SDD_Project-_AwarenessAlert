@@ -1,11 +1,69 @@
 
- RUN  v3.2.4 /home/claude/work/aa
+ RUN  v4.1.11 /home/claude/work/aa
 
- ✓ tests/integration/api.integration.test.ts (57 tests) 4499ms
-   ✓ Team page (users.php) — admin only > IT-68 changing your own password needs the correct current password  486ms
+ ✓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-01 admin logs in with the correct password 69ms
+ ✓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-02 wrong password is rejected with a generic message 65ms
+ ✓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-03 unknown account gets the SAME message (no account enumeration) 5ms
+ ✓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-04 SQL injection in the login field does not log in 5ms
+ ✓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-05 a public account cannot use the Admin login page 63ms
+ ✓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-06 a moderator CAN use the Admin login page 70ms
+ ✓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-07 login is case-insensitive for the email 70ms
+ ✓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-08 logout ends the session 70ms
+ ✓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-10 7-character password is rejected (BVA min-1) 2ms
+ ✓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-11 8-character password is accepted and the user is logged in (BVA min) 62ms
+ ✓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-12 the same email cannot register twice, even with other capitals 3ms
+ ✓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-13 a 4-character Bangla password is rejected (multibyte EP) — defect D-02 2ms
+ ✓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-14 a name longer than 100 characters gets a clear 400 error, not a 500 — defect D-03 2ms
+ ✓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-20 14-character description is rejected (BVA min-1) 2ms
+ ✓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-21 15-character description is accepted; report starts as Pending (BVA min) 92ms
+ ✓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-22 an invalid category is rejected 2ms
+ ✓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-23 an unknown vendor is rejected 2ms
+ ✓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-24 a fake image (text renamed as PNG) is rejected 4ms
+ ✓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-25 a GIF or PDF upload is rejected (only JPG/PNG allowed) 2ms
+ ✓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-26 a real PNG photo is saved as evidence 7ms
+ ✓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-27 a logged-in user reporting anonymously is stored as Anonymous 138ms
+ ✓ tests/integration/api.integration.test.ts > Privacy — what the public can see (data.php) > IT-30 guests never see IP addresses, device IDs or internal notes 4ms
+ ✓ tests/integration/api.integration.test.ts > Privacy — what the public can see (data.php) > IT-31 guests never see Removed reports; admin does 80ms
+ ✓ tests/integration/api.integration.test.ts > Privacy — what the public can see (data.php) > IT-32 guests get no audit history; staff do 70ms
+ ✓ tests/integration/api.integration.test.ts > Privacy — what the public can see (data.php) > IT-33 an organization sees internal notes only for reports routed to it 70ms
+ ✓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-40 a guest cannot change a report status 2ms
+ ✓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-41 a public user and an organization cannot change a report status 140ms
+ ✓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-42 a Pending report cannot be sent to an authority (must be Verified first) 72ms
+ ✓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-43 Pending -> Verified -> Escalated(BSTI) sets the outcome to Awaiting and is audited 72ms
+ ✓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-44 escalating to an organization that does not exist is rejected 70ms
+ ✓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-45 an invalid status value is rejected 68ms
+ ✓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-46 recalling an escalation (Escalated -> Verified) clears the authority 67ms
+ ✓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-47 an unknown report id returns 404 64ms
+ ✓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-50 BSTI cannot set the outcome of a report assigned to DNCRP (access control) 63ms
+ ✓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-51 a moderator cannot set an authority outcome 64ms
+ ✓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-52 Confirmed without a public comment is rejected 66ms
+ ✓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-53 a public comment of 281 characters is rejected (BVA max+1) 71ms
+ ✓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-54 a public comment of 280 characters is accepted (BVA max) 72ms
+ ✓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-60 a moderator cannot open the staff list 63ms
+ ✓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-61 staff list never contains password hashes 67ms
+ ✓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-62 a 7-character staff password is rejected (BVA) 75ms
+ ✓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-63 organization staff must have a valid organization 66ms
+ ✓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-64 an admin role cannot be created from the Team page 71ms
+ ✓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-65 a valid moderator is created and can log in 197ms
+ ✓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-66 a turned-off account is blocked immediately, even if already logged in 199ms
+ ✓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-67 the admin cannot turn off their own account 68ms
+ ✓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-68 changing your own password needs the correct current password 438ms
+ ✓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-70 a guest cannot write a review 3ms
+ ✓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-71 rating 0 is rejected (BVA outside 1-5) 68ms
+ ✓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-71 rating 6 is rejected (BVA outside 1-5) 68ms
+ ✓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-72 rating 1 is accepted (BVA edges) 65ms
+ ✓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-72 rating 5 is accepted (BVA edges) 69ms
+ ✓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-73 a review for a vendor that does not exist gets a 400, not a 500 — defect D-04 65ms
+ ✓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-74 only staff can hide a review 139ms
+ ✓ tests/integration/api.integration.test.ts > Vendor badges and approval list (vendors.php) — admin only > IT-90 the admin grants verification badges; the public sees them 67ms
+ ✓ tests/integration/api.integration.test.ts > Vendor badges and approval list (vendors.php) — admin only > IT-91 a moderator cannot change badges 63ms
+ ✓ tests/integration/api.integration.test.ts > Vendor badges and approval list (vendors.php) — admin only > IT-92 an unknown badge name is ignored (only BSTI, DNCRP, Accredited Laboratory) 65ms
+ ✓ tests/integration/api.integration.test.ts > Hidden reviews stay hidden > IT-75 a review hidden by a moderator is not sent to guests at all — defect D-05 80ms
+ ✓ tests/integration/api.integration.test.ts > Login history (login_history.php) > IT-80 failed logins are recorded with a reason 130ms
+ ✓ tests/integration/api.integration.test.ts > Login history (login_history.php) > IT-81 only the admin can read login history 81ms
 
  Test Files  1 passed (1)
-      Tests  57 passed (57)
-   Start at  01:23:31
-   Duration  4.81s (transform 77ms, setup 0ms, collect 87ms, tests 4.50s, environment 0ms, prepare 51ms)
+      Tests  60 passed (60)
+   Start at  01:59:45
+   Duration  4.84s (transform 82ms, setup 0ms, import 100ms, tests 4.60s, environment 0ms)
 
