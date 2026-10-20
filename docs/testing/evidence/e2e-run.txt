@@ -3,9 +3,9 @@
 [WebServer]   - JSON import "./.figma/make/site.json" without import attributes (vite.config.ts:6:31). Add `with { type: 'json' }`
 [WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
 
-Running 26 tests using 1 worker
+Running 28 tests using 1 worker
 
-[WebServer] 2:03:02 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:31 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -16,7 +16,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:02 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:31 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -27,9 +27,9 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:04 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
-  ✓   1 [chromium] › tests/e2e/a11y.spec.ts:9:3 › A11Y / has no critical accessibility violations (2.8s)
-[WebServer] 2:03:05 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:32 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
+  ✓   1 [chromium] › tests/e2e/a11y.spec.ts:9:3 › A11Y / has no critical accessibility violations (2.4s)
+[WebServer] 2:12:33 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -40,7 +40,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:05 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:33 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -51,9 +51,9 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:06 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
-  ✓   2 [chromium] › tests/e2e/a11y.spec.ts:9:3 › A11Y /report has no critical accessibility violations (2.0s)
-[WebServer] 2:03:07 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:34 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
+  ✓   2 [chromium] › tests/e2e/a11y.spec.ts:9:3 › A11Y /report has no critical accessibility violations (2.1s)
+[WebServer] 2:12:35 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -64,7 +64,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:07 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:36 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -75,9 +75,9 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:09 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
-  ✓   3 [chromium] › tests/e2e/a11y.spec.ts:9:3 › A11Y /reports has no critical accessibility violations (2.4s)
-[WebServer] 2:03:10 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:37 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
+  ✓   3 [chromium] › tests/e2e/a11y.spec.ts:9:3 › A11Y /reports has no critical accessibility violations (2.6s)
+[WebServer] 2:12:38 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -88,7 +88,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:10 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:38 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -99,9 +99,9 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:11 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
-  ✓   4 [chromium] › tests/e2e/a11y.spec.ts:9:3 › A11Y /admin/login has no critical accessibility violations (1.7s)
-[WebServer] 2:03:11 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:39 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
+  ✓   4 [chromium] › tests/e2e/a11y.spec.ts:9:3 › A11Y /admin/login has no critical accessibility violations (2.0s)
+[WebServer] 2:12:40 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -112,7 +112,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:11 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:40 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -123,7 +123,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:13 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:42 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -134,7 +134,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:13 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:42 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -145,8 +145,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓   5 [chromium] › tests/e2e/journeys.spec.ts:22:1 › E2E-01 a guest reports a concern without an account and sees it under review (2.1s)
-[WebServer] 2:03:14 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓   5 [chromium] › tests/e2e/journeys.spec.ts:21:1 › E2E-01 a guest reports a concern without an account and sees it under review (2.4s)
+[WebServer] 2:12:42 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -157,7 +157,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:14 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:42 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -168,8 +168,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓   6 [chromium] › tests/e2e/journeys.spec.ts:43:1 › E2E-02 a too-short description is rejected and the user stays on the form (1.3s)
-[WebServer] 2:03:15 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓   6 [chromium] › tests/e2e/journeys.spec.ts:35:1 › E2E-02 a too-short description is rejected and the user stays on the form (1.2s)
+[WebServer] 2:12:44 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -180,7 +180,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:15 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:44 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -191,7 +191,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:16 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:45 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -202,7 +202,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:16 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:45 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -213,7 +213,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:16 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:45 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -224,7 +224,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:16 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:45 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -235,8 +235,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓   7 [chromium] › tests/e2e/journeys.spec.ts:53:1 › E2E-03 a moderator verifies a newly submitted report (2.3s)
-[WebServer] 2:03:17 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓   7 [chromium] › tests/e2e/journeys.spec.ts:42:1 › E2E-03 a moderator verifies a newly submitted report (2.5s)
+[WebServer] 2:12:46 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -247,7 +247,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:17 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:46 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -258,8 +258,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓   8 [chromium] › tests/e2e/journeys.spec.ts:72:1 › E2E-04 a guest who opens the admin portal is sent to the admin login (access control) (849ms)
-[WebServer] 2:03:18 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓   8 [chromium] › tests/e2e/journeys.spec.ts:55:1 › E2E-04 a guest who opens the admin portal is sent to the admin login (access control) (677ms)
+[WebServer] 2:12:47 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -270,7 +270,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:18 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:47 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -281,8 +281,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓   9 [chromium] › tests/e2e/journeys.spec.ts:81:1 › E2E-05 a wrong password shows an error and does not log in (713ms)
-[WebServer] 2:03:19 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓   9 [chromium] › tests/e2e/journeys.spec.ts:61:1 › E2E-05 a wrong password shows an error and does not log in (742ms)
+[WebServer] 2:12:47 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -293,7 +293,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:19 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:47 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -304,8 +304,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  10 [chromium] › tests/e2e/journeys.spec.ts:93:1 › E2E-06 a public user cannot use the organization portal (560ms)
-[WebServer] 2:03:19 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  10 [chromium] › tests/e2e/journeys.spec.ts:70:1 › E2E-06 a public user cannot use the organization portal (653ms)
+[WebServer] 2:12:48 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -316,7 +316,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:19 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:48 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -327,7 +327,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:20 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:49 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -338,7 +338,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:20 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:49 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -349,8 +349,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  11 [chromium] › tests/e2e/journeys.spec.ts:99:1 › E2E-07 script code typed into a report is shown as text, never run (XSS) (2.0s)
-[WebServer] 2:03:21 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  11 [chromium] › tests/e2e/journeys.spec.ts:75:1 › E2E-07 script code typed into a report is shown as text, never run (XSS) (2.2s)
+[WebServer] 2:12:50 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -361,7 +361,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:21 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:50 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -372,7 +372,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:22 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:51 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -383,7 +383,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:22 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:51 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -394,8 +394,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  12 [chromium] › tests/e2e/journeys.spec.ts:116:1 › E2E-08 a visitor saves an area and it is still saved after reloading (1.2s)
-[WebServer] 2:03:22 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  12 [chromium] › tests/e2e/journeys.spec.ts:87:1 › E2E-08 a visitor saves an area and it is still saved after reloading (1.3s)
+[WebServer] 2:12:52 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -406,7 +406,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:22 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:52 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -417,7 +417,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:23 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:52 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -428,7 +428,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:23 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:52 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -439,7 +439,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:23 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:53 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -450,7 +450,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:23 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:53 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -461,8 +461,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  13 [chromium] › tests/e2e/journeys.spec.ts:130:1 › E2E-09 the admin changes a routing rule and it is kept (1.5s)
-[WebServer] 2:03:25 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  13 [chromium] › tests/e2e/journeys.spec.ts:98:1 › E2E-09 the admin changes a routing rule and it is kept (1.7s)
+[WebServer] 2:12:53 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -473,7 +473,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:25 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:53 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -484,8 +484,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:26 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
-[WebServer] 2:03:27 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:54 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -496,7 +495,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:27 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:54 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -507,8 +506,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  14 [mobile] › tests/e2e/a11y.spec.ts:9:3 › A11Y / has no critical accessibility violations (2.6s)
-[WebServer] 2:03:28 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  14 [chromium] › tests/e2e/journeys.spec.ts:107:1 › E2E-10 a moderator cannot open the admin-only routing rules page (1.2s)
+[WebServer] 2:12:56 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -519,7 +518,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:28 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:56 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -530,8 +529,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:29 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
-[WebServer] 2:03:30 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:57 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
+[WebServer] 2:12:58 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -542,19 +541,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-  ✓  15 [mobile] › tests/e2e/a11y.spec.ts:9:3 › A11Y /report has no critical accessibility violations (2.1s)
-[WebServer] 2:03:30 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
-[WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
-[WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
-[WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
-[WebServer]     at Object.react_stack_bottom_frame (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:14178:13)
-[WebServer]     at runWithFiberInDEV (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:944:66)
-[WebServer]     at commitHookEffectListMount (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6901:153)
-[WebServer]     at commitHookPassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6936:55)
-[WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
-[WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
-[WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:30 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:58 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -565,8 +552,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:31 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
-[WebServer] 2:03:32 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  15 [mobile] › tests/e2e/a11y.spec.ts:9:3 › A11Y / has no critical accessibility violations (3.1s)
+[WebServer] 2:12:59 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -577,7 +564,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:32 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:12:59 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -588,8 +575,9 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  16 [mobile] › tests/e2e/a11y.spec.ts:9:3 › A11Y /reports has no critical accessibility violations (2.5s)
-[WebServer] 2:03:32 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:00 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
+  ✓  16 [mobile] › tests/e2e/a11y.spec.ts:9:3 › A11Y /report has no critical accessibility violations (2.1s)
+[WebServer] 2:13:01 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -600,7 +588,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:32 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:01 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -611,8 +599,9 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:34 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
-[WebServer] 2:03:34 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:02 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
+  ✓  17 [mobile] › tests/e2e/a11y.spec.ts:9:3 › A11Y /reports has no critical accessibility violations (2.7s)
+[WebServer] 2:13:04 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -623,7 +612,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:34 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:04 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -634,8 +623,9 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  17 [mobile] › tests/e2e/a11y.spec.ts:9:3 › A11Y /admin/login has no critical accessibility violations (2.0s)
-[WebServer] 2:03:34 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:05 AM [vite] (client) [console.warn] Couldn't load preload assets:  { isTrusted: true }
+  ✓  18 [mobile] › tests/e2e/a11y.spec.ts:9:3 › A11Y /admin/login has no critical accessibility violations (2.1s)
+[WebServer] 2:13:06 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -646,7 +636,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:34 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:06 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -657,7 +647,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:36 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:07 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -668,7 +658,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:36 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:07 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -679,8 +669,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  18 [mobile] › tests/e2e/journeys.spec.ts:22:1 › E2E-01 a guest reports a concern without an account and sees it under review (2.2s)
-[WebServer] 2:03:37 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  19 [mobile] › tests/e2e/journeys.spec.ts:21:1 › E2E-01 a guest reports a concern without an account and sees it under review (2.5s)
+[WebServer] 2:13:08 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -691,7 +681,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:37 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:08 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -702,8 +692,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  19 [mobile] › tests/e2e/journeys.spec.ts:43:1 › E2E-02 a too-short description is rejected and the user stays on the form (1.3s)
-[WebServer] 2:03:38 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  20 [mobile] › tests/e2e/journeys.spec.ts:35:1 › E2E-02 a too-short description is rejected and the user stays on the form (1.3s)
+[WebServer] 2:13:09 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -714,7 +704,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:38 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:09 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -725,7 +715,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:39 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:10 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -736,7 +726,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:39 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:10 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -747,7 +737,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:39 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:11 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -758,7 +748,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:39 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:11 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -769,8 +759,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  20 [mobile] › tests/e2e/journeys.spec.ts:53:1 › E2E-03 a moderator verifies a newly submitted report (2.2s)
-[WebServer] 2:03:40 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  21 [mobile] › tests/e2e/journeys.spec.ts:42:1 › E2E-03 a moderator verifies a newly submitted report (2.2s)
+[WebServer] 2:13:12 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -781,7 +771,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:40 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:12 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -792,8 +782,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  21 [mobile] › tests/e2e/journeys.spec.ts:72:1 › E2E-04 a guest who opens the admin portal is sent to the admin login (access control) (655ms)
-[WebServer] 2:03:41 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  22 [mobile] › tests/e2e/journeys.spec.ts:55:1 › E2E-04 a guest who opens the admin portal is sent to the admin login (access control) (677ms)
+[WebServer] 2:13:12 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -804,7 +794,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:41 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:12 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -815,8 +805,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  22 [mobile] › tests/e2e/journeys.spec.ts:81:1 › E2E-05 a wrong password shows an error and does not log in (779ms)
-[WebServer] 2:03:42 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  23 [mobile] › tests/e2e/journeys.spec.ts:61:1 › E2E-05 a wrong password shows an error and does not log in (727ms)
+[WebServer] 2:13:13 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -827,7 +817,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:42 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:13 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -838,8 +828,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  23 [mobile] › tests/e2e/journeys.spec.ts:93:1 › E2E-06 a public user cannot use the organization portal (691ms)
-[WebServer] 2:03:42 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  24 [mobile] › tests/e2e/journeys.spec.ts:70:1 › E2E-06 a public user cannot use the organization portal (688ms)
+[WebServer] 2:13:14 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -850,7 +840,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:42 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:14 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -861,7 +851,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:43 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:15 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -872,7 +862,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:43 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:15 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -883,8 +873,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  24 [mobile] › tests/e2e/journeys.spec.ts:99:1 › E2E-07 script code typed into a report is shown as text, never run (XSS) (2.2s)
-[WebServer] 2:03:45 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  25 [mobile] › tests/e2e/journeys.spec.ts:75:1 › E2E-07 script code typed into a report is shown as text, never run (XSS) (2.2s)
+[WebServer] 2:13:16 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -895,7 +885,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:45 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:16 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -906,7 +896,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:46 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:18 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -917,7 +907,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:46 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:18 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -928,8 +918,8 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  25 [mobile] › tests/e2e/journeys.spec.ts:116:1 › E2E-08 a visitor saves an area and it is still saved after reloading (2.1s)
-[WebServer] 2:03:47 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+  ✓  26 [mobile] › tests/e2e/journeys.spec.ts:87:1 › E2E-08 a visitor saves an area and it is still saved after reloading (2.3s)
+[WebServer] 2:13:18 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -940,7 +930,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:47 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:18 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -951,7 +941,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:47 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:19 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -962,7 +952,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:47 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:19 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -973,7 +963,7 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-[WebServer] 2:03:48 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:19 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -984,7 +974,7 @@ Running 26 tests using 1 worker
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
 [WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
 [WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
-[WebServer] 2:03:48 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer] 2:13:19 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
 [WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
 [WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
 [WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
@@ -995,9 +985,54 @@ Running 26 tests using 1 worker
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
 [WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
 [WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
-  ✓  26 [mobile] › tests/e2e/journeys.spec.ts:130:1 › E2E-09 the admin changes a routing rule and it is kept (1.6s)
+  ✓  27 [mobile] › tests/e2e/journeys.spec.ts:98:1 › E2E-09 the admin changes a routing rule and it is kept (1.7s)
+[WebServer] 2:13:20 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
+[WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
+[WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
+[WebServer]     at Object.react_stack_bottom_frame (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:14178:13)
+[WebServer]     at runWithFiberInDEV (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:944:66)
+[WebServer]     at commitHookEffectListMount (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6901:153)
+[WebServer]     at commitHookPassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6936:55)
+[WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
+[WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
+[WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
+[WebServer] 2:13:20 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
+[WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
+[WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
+[WebServer]     at Object.react_stack_bottom_frame (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:14178:13)
+[WebServer]     at runWithFiberInDEV (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:944:66)
+[WebServer]     at commitHookEffectListMount (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6901:153)
+[WebServer]     at commitHookPassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6936:55)
+[WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
+[WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
+[WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
+[WebServer] 2:13:21 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
+[WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
+[WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
+[WebServer]     at Object.react_stack_bottom_frame (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:14178:13)
+[WebServer]     at runWithFiberInDEV (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:944:66)
+[WebServer]     at commitHookEffectListMount (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6901:153)
+[WebServer]     at commitHookPassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6936:55)
+[WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8313:22)
+[WebServer]     at recursivelyTraversePassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8300:313)
+[WebServer]     at commitPassiveMountOnFiber (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8372:14)
+[WebServer] 2:13:21 AM [vite] (client) [console.warn] Database not reachable, using demo data: TypeError: Failed to fetch
+[WebServer]     at request (http://127.0.0.1:4173/src/api.ts:5:25)
+[WebServer]     at Module.loadAll (http://127.0.0.1:4173/src/api.ts:23:30)
+[WebServer]     at http://127.0.0.1:4173/src/App.tsx:9399:7
+[WebServer]     at Object.react_stack_bottom_frame (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:14178:13)
+[WebServer]     at runWithFiberInDEV (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:944:66)
+[WebServer]     at commitHookEffectListMount (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6901:153)
+[WebServer]     at commitHookPassiveMountEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:6936:55)
+[WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8401:6)
+[WebServer]     at recursivelyTraverseReconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8388:5)
+[WebServer]     at reconnectPassiveEffects (http://127.0.0.1:4173/node_modules/.vite/deps/react-dom_client.js?v=b1dc14b8:8413:14)
+  ✓  28 [mobile] › tests/e2e/journeys.spec.ts:107:1 › E2E-10 a moderator cannot open the admin-only routing rules page (1.3s)
 
-  26 passed (48.1s)
+  28 passed (52.9s)
 
 To open last HTML report run:
 
