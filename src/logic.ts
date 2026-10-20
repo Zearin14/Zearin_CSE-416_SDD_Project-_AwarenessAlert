@@ -291,3 +291,17 @@ export function ratingFor(vendorId: string, reviews: Review[]) {
     reviews: visible,
   }
 }
+
+// SRS FR-5.3: how often the same source (account, or device for guests) has reported.
+// fix D-12: the admin page used to show a fixed text instead of the real numbers.
+export function reportFrequency(report: Report, reports: Report[], at: number = now) {
+  const same = reports.filter((item) =>
+    report.reporterId
+      ? item.reporterId === report.reporterId
+      : !item.reporterId && item.deviceId === report.deviceId,
+  )
+  const last30 = same.filter(
+    (item) => at - new Date(item.submittedAt).getTime() <= 30 * DAY,
+  ).length
+  return { last30, total: same.length }
+}

@@ -37,6 +37,14 @@ try {
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     $done[] = "Login history table is ready";
 
+    // 3b. indexes required by SRS 5.1 (fix D-15)
+    foreach (["idx_reports_created" => "created_at", "idx_reports_status" => "moderation_status"] as $index => $column) {
+        if (!$pdo->query("SHOW INDEX FROM reports WHERE Key_name = " . $pdo->quote($index))->fetch()) {
+            $pdo->exec("ALTER TABLE reports ADD INDEX $index ($column)");
+            $done[] = "Added index on reports.$column";
+        }
+    }
+
     // 4. demo moderator account
     $stmt = $pdo->prepare("SELECT id FROM users WHERE login = ?");
     $stmt->execute(["moderator@awarenessalert.test"]);
@@ -50,7 +58,7 @@ try {
 } catch (PDOException $e) {
     error_log($e->getMessage());
     echo "<body style='font-family:system-ui;max-width:700px;margin:60px auto'><h1 style='color:#c94b45'>Upgrade failed</h1>
-          <p>Did you open setup.php before? Is MySQL running? Error: " . htmlspecialchars($e->getMessage()) . "</p></body>";
+          <p>Did you open setup.php before? Is MySQL running? The details were written to the PHP error log.</p></body>"; // fix D-16 (SRS 5.3)
     exit;
 }
 

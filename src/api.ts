@@ -59,6 +59,7 @@ export const setReportOutcome = (
 export const createReview = (vendorId: string, rating: number, text: string) =>
   request("reviews.php", { action: "create", vendorId, rating, text })
 export const toggleReview = (id: string) => request("reviews.php", { action: "toggle", id })
+export const flagReview = (id: string) => request("reviews.php", { action: "flag", id })
 
 // Vendors (admin)
 export const updateVendor = (

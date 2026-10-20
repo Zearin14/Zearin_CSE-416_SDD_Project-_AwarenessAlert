@@ -13,6 +13,7 @@ import {
   labelTone,
   publicLabel,
   ratingFor,
+  reportFrequency,
   vendorMetrics,
 } from "../../src/logic"
 import { DAY, NOW, ago, report, review, store, vendor } from "./factories"
@@ -117,6 +118,17 @@ describe("vendorMetrics — added after mutation testing (Stryker survivors)", (
   it("TC-U28 a report exactly 48 hours old still counts towards a spike (boundary)", () => {
     expect(metrics([report(), report(), report({ submittedAt: ago(2 * DAY) })]).spike).toBe(true)
     expect(metrics([report(), report(), report({ submittedAt: ago(2 * DAY + 60_000) })]).spike).toBe(false)
+  })
+})
+
+describe("vendorMetrics — reviews are separate from safety reports (FR-9.5)", () => {
+  it("TC-U29 one-star reviews do not change the trust score", () => {
+    const reports = [report(), report(), report()]
+    const v = vendor()
+    const without = vendorMetrics(v, store(reports, [v]), NOW)
+    const s = store(reports, [v])
+    s.reviews = [review({ rating: 1 }), review({ rating: 1 }), review({ rating: 1 })]
+    expect(vendorMetrics(v, s, NOW)).toEqual(without)
   })
 })
 
@@ -253,5 +265,24 @@ describe("roles and helpers", () => {
     expect(formatDate("2026-10-20T12:00:00Z")).toMatch(/2026/)
     // with time: the hour and minutes are added
     expect(formatDate("2026-10-20T12:05:00Z", true)).toMatch(/:05/)
+  })
+})
+
+describe("reportFrequency — abuse-prevention signal for moderators (FR-5.3)", () => {
+  it("TC-U60 counts reports from the same account in the last 30 days and in total", () => {
+    const mine = report({ reporterId: "u1" })
+    const all = [mine, report({ reporterId: "u1" }), report({ reporterId: "u1", submittedAt: ago(40 * DAY) }), report({ reporterId: "u2" })]
+    expect(reportFrequency(mine, all, NOW)).toEqual({ last30: 2, total: 3 })
+  })
+
+  it("TC-U61 a guest is matched by device ID, and a logged-in report on that device is not mixed in", () => {
+    const guest = report({ deviceId: "dev-x" })
+    const all = [guest, report({ deviceId: "dev-x" }), report({ deviceId: "dev-x", reporterId: "u9" }), report({ deviceId: "dev-y" })]
+    expect(reportFrequency(guest, all, NOW)).toEqual({ last30: 2, total: 2 })
+  })
+
+  it("TC-U62 a first-time reporter shows 1 report", () => {
+    const r = report({ deviceId: "dev-new" })
+    expect(reportFrequency(r, [r], NOW)).toEqual({ last30: 1, total: 1 })
   })
 })

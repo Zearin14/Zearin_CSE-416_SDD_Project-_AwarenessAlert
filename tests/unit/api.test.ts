@@ -112,6 +112,7 @@ describe("request() — talking to the PHP API", () => {
       [api.setReportOutcome("AA-1", "Cleared", "c", "n"), "report_action.php", { action: "outcome" }],
       [api.createReview("1", 5, "t"), "reviews.php", { action: "create", rating: 5 }],
       [api.toggleReview("RV-1"), "reviews.php", { action: "toggle" }],
+      [api.flagReview("RV-1"), "reviews.php", { action: "flag", id: "RV-1" }],
       [api.updateVendor("1", { badges: ["BSTI"] }), "vendors.php", { id: "1" }],
       [api.toggleStaff("2"), "users.php", { action: "toggle" }],
       [api.resetStaffPassword("2", "Abcd#123"), "users.php", { action: "reset_password" }],

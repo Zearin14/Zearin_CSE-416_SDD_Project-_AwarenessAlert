@@ -26,6 +26,12 @@ if (($_SERVER["REQUEST_METHOD"] ?? "GET") === "OPTIONS") {
     http_response_code(204);
     exit;
 }
+// fix D-11 (SRS 3.3): only GET and POST are used by the API
+if (!in_array($_SERVER["REQUEST_METHOD"] ?? "GET", ["GET", "POST"], true)) {
+    http_response_code(405);
+    echo json_encode(["success" => false, "error" => "Method not allowed"]);
+    exit;
+}
 
 // ---------- PHP session (used for login + role-based access) ----------
 session_set_cookie_params(["path" => "/", "httponly" => true, "samesite" => "Lax"]);

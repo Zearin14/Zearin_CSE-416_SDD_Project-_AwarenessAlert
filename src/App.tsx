@@ -21,6 +21,7 @@ import {
   now,
   publicLabel,
   ratingFor,
+  reportFrequency,
   vendorMetrics,
 } from "./logic"
 import type {
@@ -1438,7 +1439,50 @@ function EmptyState({
   )
 }
 
-function VendorProfile({ store, id }: { store: Store; id: string }) {
+// SRS FR-9.4: users can flag a review for moderators (fix D-10)
+function FlagReviewButton({
+  reviewId,
+  store,
+  updateStore,
+}: {
+  reviewId: string
+  store: Store
+  updateStore: StorePageProps["updateStore"]
+}) {
+  const backend = useBackend()
+  const [note, setNote] = useState("")
+  async function flag() {
+    if (!store.session) return setNote("Log in to flag a review.")
+    try {
+      if (backend.online) await api.flagReview(reviewId)
+      updateStore((current) => ({
+        ...current,
+        reviews: current.reviews.map((item) =>
+          item.id === reviewId ? { ...item, flags: item.flags + 1 } : item,
+        ),
+      }))
+      setNote("Thanks — flagged for moderators.")
+    } catch (error) {
+      setNote(errorText(error))
+    }
+  }
+  if (note) return <span className="flag-link" role="status">{note}</span>
+  return (
+    <button type="button" className="flag-link" onClick={flag}>
+      Flag review
+    </button>
+  )
+}
+
+function VendorProfile({
+  store,
+  id,
+  updateStore,
+}: {
+  store: Store
+  id: string
+  updateStore: StorePageProps["updateStore"]
+}) {
   const vendor = store.vendors.find((item) => item.id === id)
   if (!vendor) return <NotFound />
   const metrics = vendorMetrics(vendor, store)
@@ -1630,9 +1674,11 @@ function VendorProfile({ store, id }: { store: Store; id: string }) {
                       <span>{"★".repeat(5 - review.rating)}</span>
                     </div>
                     <p>{review.text}</p>
-                    <button type="button" className="flag-link">
-                      Flag review
-                    </button>
+                    <FlagReviewButton
+                      reviewId={review.id}
+                      store={store}
+                      updateStore={updateStore}
+                    />
                   </div>
                 </article>
               ))}
@@ -2195,6 +2241,23 @@ type StorePageProps = {
   updateStore: (updater: (store: Store) => Store) => void
 }
 
+// SRS FR-9.3: a guest who tried to write a review goes back to that vendor's review form
+// after logging in (fix D-14: the vendor was saved but never used)
+function afterLoginPath(kind: string) {
+  if (kind === "admin") return "/admin"
+  if (kind === "org") return "/org"
+  try {
+    const vendorId = sessionStorage.getItem("reviewDraftVendor")
+    if (vendorId) {
+      sessionStorage.removeItem("reviewDraftVendor")
+      return `/vendor/${vendorId}/review`
+    }
+  } catch {
+    // storage blocked - go to the homepage
+  }
+  return "/"
+}
+
 function AuthPage({
   kind,
   store,
@@ -2231,7 +2294,7 @@ function AuthPage({
       try {
         await api.login(login.trim(), password, kind)
         await backend.refresh()
-        navigate(kind === "admin" ? "/admin" : kind === "org" ? "/org" : "/")
+        navigate(afterLoginPath(kind))
       } catch (loginError) {
         setError(errorText(loginError))
       } finally {
@@ -2283,7 +2346,7 @@ function AuthPage({
         organization: user.organization,
       },
     }))
-    navigate(kind === "admin" ? "/admin" : kind === "org" ? "/org" : "/")
+    navigate(afterLoginPath(kind))
   }
   return (
     <div className={`auth-page ${kind !== "public" ? "secure-auth" : ""}`}>
@@ -2490,6 +2553,7 @@ function SignUp({
 
 function PasswordPage({ reset }: { reset: boolean }) {
   const [sent, setSent] = useState(false)
+  const [error, setError] = useState("")
   return (
     <div className="auth-page">
       <Link to="/" className="auth-brand">
@@ -2510,19 +2574,28 @@ function PasswordPage({ reset }: { reset: boolean }) {
           <form
             onSubmit={(event) => {
               event.preventDefault()
+              // fix D-13 (SRS FR-1.1, FR-1.6): the new password follows the same 8-character rule
+              if (reset) {
+                const form = new FormData(event.currentTarget)
+                const next = String(form.get("password") ?? "")
+                if (next.length < 8) return setError("The new password must be at least 8 characters.")
+                if (next !== String(form.get("confirm") ?? ""))
+                  return setError("The two new passwords do not match.")
+              }
               setSent(true)
             }}
           >
             <label className="field">
               <span>{reset ? "New password" : "Email or phone"}</span>
-              <input required type={reset ? "password" : "text"} />
+              <input required name="password" type={reset ? "password" : "text"} />
             </label>
             {reset && (
               <label className="field">
                 <span>Confirm password</span>
-                <input required type="password" />
+                <input required name="confirm" type="password" />
               </label>
             )}
+            {error && <div className="form-error" role="alert">{error}</div>}
             <button className="button dark full large" type="submit">
               {reset ? "Reset password" : "Send reset link"}
             </button>
@@ -3237,6 +3310,7 @@ function AdminReportDetail({
     }))
   }
   const locked = report.moderationStatus === "Escalated"
+  const frequency = reportFrequency(report, store.reports)
   return (
     <div className="portal-content" aria-busy={busy}>
       <Link to="/admin/reports" className="back-link">
@@ -3385,10 +3459,13 @@ function AdminReportDetail({
                 ],
                 ["IP address", report.ip],
                 ["Device / session ID", report.deviceId],
-                ["Report frequency", "2 reports in the last 30 days"],
+                [
+                  "Report frequency",
+                  `${frequency.last30} report${frequency.last30 === 1 ? "" : "s"} in the last 30 days from this ${report.reporterId ? "account" : "device"}`,
+                ],
                 [
                   "Account activity",
-                  "Active session · no automated pattern detected",
+                  `${frequency.total} report${frequency.total === 1 ? "" : "s"} in total from this ${report.reporterId ? "account" : "device"}`,
                 ],
               ]}
             />
@@ -5120,7 +5197,13 @@ export default function App() {
         />
       )
     if (/^\/vendor\/[^/]+$/.test(path))
-      return <VendorProfile store={store} id={path.split("/")[2]} />
+      return (
+        <VendorProfile
+          store={store}
+          id={path.split("/")[2]}
+          updateStore={updateStore}
+        />
+      )
     if (path === "/saved-areas")
       return <SavedAreas store={store} updateStore={updateStore} />
     if (path === "/profile")

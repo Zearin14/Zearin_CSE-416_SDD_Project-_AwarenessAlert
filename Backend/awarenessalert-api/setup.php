@@ -100,6 +100,8 @@ $pdo->exec("CREATE TABLE reports (
   outcome_set_at DATETIME NULL,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NULL,
+  INDEX idx_reports_created (created_at),          -- fix D-15 (SRS 5.1): newest-first lists
+  INDEX idx_reports_status (moderation_status),    -- fix D-15 (SRS 5.1): status tabs
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (vendor_id) REFERENCES vendors(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");

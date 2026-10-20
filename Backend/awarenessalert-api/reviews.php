@@ -28,6 +28,16 @@ try {
         json_out(["success" => true]);
     }
 
+    // fix D-10 (SRS FR-9.4): logged-in users can flag a review for moderators
+    if ($action === "flag") {
+        if (!current_user()) fail("Please log in to flag a review.", 401);
+        $id = (int) str_replace("RV-", "", (string) ($body["id"] ?? ""));
+        $stmt = $pdo->prepare("UPDATE reviews SET flags = flags + 1 WHERE id = ?");
+        $stmt->execute([$id]);
+        if ($stmt->rowCount() === 0) fail("Review not found.", 404);
+        json_out(["success" => true]);
+    }
+
     if ($action === "toggle") {
         require_role(STAFF_ROLES);
         $id = (int) str_replace("RV-", "", (string) ($body["id"] ?? ""));

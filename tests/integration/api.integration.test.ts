@@ -2,7 +2,7 @@
 // Run with: ./scripts/start-test-api.sh && npm run test:integration
 // Expected values come from the SRS rules and the README "Fairness and security" list.
 import { beforeAll, describe, expect, it } from "vitest"
-import { Client, TINY_PNG, as, resetDatabase } from "./client"
+import { API, Client, TINY_PNG, as, resetDatabase } from "./client"
 
 beforeAll(resetDatabase)
 
@@ -229,6 +229,51 @@ describe("Moderation workflow (report_action.php) — state transitions", () => 
   })
 })
 
+describe("Moderation state machine (SRS FR-3.2 – FR-3.7) — enforced on the server", () => {
+  const status = (c: Client, id: string, s: string, routedTo?: string) =>
+    c.call("report_action.php", { id, action: "status", status: s, label: `Set ${s}`, routedTo })
+  // Seed data: AA-01003 Pending, AA-01010 Disputed, AA-01009 Removed,
+  // AA-01004 Escalated + Confirmed (DNCRP), AA-01005 Escalated + Cleared, AA-01007 Verified
+
+  it("IT-100 a Disputed report can be marked Verified (FR-3.2)", async () => {
+    expect((await status(await as("admin"), "AA-01010", "Verified")).status).toBe(200)
+  })
+
+  it("IT-101 a Verified report can be Disputed and a Disputed report re-opened to Pending (FR-3.3)", async () => {
+    const admin = await as("admin")
+    expect((await status(admin, "AA-01010", "Disputed")).status).toBe(200)
+    expect((await status(admin, "AA-01010", "Pending")).status).toBe(200)
+  })
+
+  it("IT-102 a Verified report cannot jump back to Pending (only Disputed can be re-opened)", async () => {
+    expect((await status(await as("admin"), "AA-01007", "Pending")).status).toBe(400)
+  })
+
+  it("IT-103 a Removed report cannot be marked Verified (FR-3.2 allows only Pending/Disputed)", async () => {
+    expect((await status(await as("admin"), "AA-01009", "Verified")).status).toBe(400)
+  })
+
+  it("IT-104 an Escalated report cannot be Removed or Disputed — it is locked (FR-3.4, FR-3.7) — defect D-09", async () => {
+    const admin = await as("admin")
+    expect((await status(admin, "AA-01004", "Removed")).status).toBe(400)
+    expect((await status(admin, "AA-01004", "Disputed")).status).toBe(400)
+  })
+
+  it("IT-105 an escalation with outcome Confirmed cannot be recalled; the official outcome stays (FR-3.6) — defect D-09", async () => {
+    const admin = await as("admin")
+    expect((await status(admin, "AA-01004", "Verified")).status).toBe(400)
+    const r = (await new Client().call("data.php")).body.reports.find((x: any) => x.id === "AA-01004")
+    expect(r.moderationStatus).toBe("Escalated")
+    expect(r.authorityOutcome).toBe("Confirmed")
+  })
+
+  it("IT-106 a Pending report can be Removed and is then hidden from the public (FR-3.4)", async () => {
+    expect((await status(await as("admin"), "AA-01003", "Removed")).status).toBe(200)
+    const pub = (await new Client().call("data.php")).body.reports
+    expect(pub.some((x: any) => x.id === "AA-01003")).toBe(false)
+  })
+})
+
 describe("Authority outcome (report_action.php outcome)", () => {
   const outcome = (c: Client, id: string, o: string, publicComment: string) =>
     c.call("report_action.php", { id, action: "outcome", outcome: o, publicComment, internalNote: "note" })
@@ -368,6 +413,23 @@ describe("Vendor badges and approval list (vendors.php) — admin only", () => {
   })
 })
 
+describe("Approval List and Bangla text", () => {
+  it("IT-93 the admin edits Approval List fields and adds a new field; the public sees them (FR-7.2)", async () => {
+    const approval = { "Product Origin": "Bangladesh", Manufacturer: "Test Ltd.", "Factory Location": "Gazipur", Owner: "Test Holdings", "Halal certificate": "HC-2026-17" }
+    expect((await (await as("admin")).call("vendors.php", { id: 3, approval })).status).toBe(200)
+    const v = (await new Client().call("vendors.php")).body.vendors.find((x: any) => x.id === "3")
+    expect(v.approval).toEqual(approval)
+  })
+
+  it("IT-130 a report written in Bangla is stored and returned unchanged (SRS 3.4 UTF-8)", async () => {
+    const text = "দোকানে মেয়াদোত্তীর্ণ দুধ বিক্রি হচ্ছে, লেবেল পড়া যাচ্ছে না।"
+    const r = await new Client().call("reports.php", { vendorId: 1, category: "Food", anonymous: true, deviceId: "dev-bn", description: text })
+    expect(r.status).toBe(200)
+    const saved = (await new Client().call("data.php")).body.reports.find((x: any) => x.id === r.body.id)
+    expect(saved.description).toBe(text)
+  })
+})
+
 describe("Hidden reviews stay hidden", () => {
   it("IT-75 a review hidden by a moderator is not sent to guests at all — defect D-05", async () => {
     const mod = await as("moderator")
@@ -381,6 +443,82 @@ describe("Hidden reviews stay hidden", () => {
     // staff still see it, so they can restore it
     const staff = (await mod.call("data.php")).body.reviews.find((r: any) => r.id === "RV-2")
     expect(staff.hidden).toBe(true)
+  })
+})
+
+describe("Flagging reviews (SRS FR-9.4)", () => {
+  it("IT-110 a logged-in user can flag a review and staff see the flag count go up — defect D-10", async () => {
+    const before = (await (await as("moderator")).call("data.php")).body.reviews.find((r: any) => r.id === "RV-3").flags
+    const r = await (await as("rafi")).call("reviews.php", { action: "flag", id: "RV-3" })
+    expect(r.status).toBe(200)
+    const after = (await (await as("moderator")).call("data.php")).body.reviews.find((r: any) => r.id === "RV-3").flags
+    expect(after).toBe(before + 1)
+  })
+
+  it("IT-111 a guest cannot flag a review", async () => {
+    expect((await new Client().call("reviews.php", { action: "flag", id: "RV-3" })).status).toBe(401)
+  })
+})
+
+describe("HTTP rules (SRS 3.3 Software interfaces, 5.3 Security)", () => {
+  it("IT-120 unsupported HTTP methods are rejected with 405 — defect D-11", async () => {
+    for (const file of ["auth.php", "users.php", "reports.php", "reviews.php", "vendors.php", "report_action.php"]) {
+      const res = await fetch(`${API}/${file}`, { method: "PUT", body: "{}" })
+      expect(res.status, file).toBe(405)
+    }
+  })
+
+  it("IT-121 CORS pre-flight (OPTIONS) is answered with 204", async () => {
+    const res = await fetch(`${API}/reports.php`, { method: "OPTIONS", headers: { Origin: "http://localhost:8443" } })
+    expect(res.status).toBe(204)
+    expect(res.headers.get("access-control-allow-origin")).toBe("http://localhost:8443")
+  })
+
+  it("IT-122 CORS does not allow an untrusted website", async () => {
+    const res = await fetch(`${API}/data.php`, { headers: { Origin: "https://evil.example" } })
+    expect(res.headers.get("access-control-allow-origin")).toBeNull()
+  })
+
+  it("IT-123 report lists come newest first (SRS 5.1)", async () => {
+    const reports = (await new Client().call("data.php")).body.reports
+    const times = reports.map((r: any) => Date.parse(r.submittedAt))
+    expect([...times].sort((a, b) => b - a)).toEqual(times)
+  })
+
+  it("IT-124 an anonymous reporter's identity is never sent to the public (FR-2.5, privacy)", async () => {
+    const reports = (await new Client().call("data.php")).body.reports
+    for (const r of reports.filter((x: any) => x.anonymous)) expect(r.reporterId).toBeNull()
+  })
+
+  it("IT-125 organization users never receive IP addresses or device IDs (FR-5.5)", async () => {
+    const reports = (await (await as("bsti")).call("data.php")).body.reports
+    for (const r of reports) {
+      expect(r.ip).toBe("")
+      expect(r.deviceId).toBe("")
+    }
+  })
+
+  it("IT-126 the reporter tier is Identified when a logged-in user reports openly (FR-2.6)", async () => {
+    const rafi = await as("rafi")
+    const r = await rafi.call("reports.php", { vendorId: 1, category: "Food", anonymous: false, deviceId: "dev-it", description: "Expired milk!!! seen today" })
+    const saved = (await (await as("admin")).call("data.php")).body
+    expect(saved.reports.find((x: any) => x.id === r.body.id).reporterTier).toBe("Identified")
+    // FR-2.7: an audit entry "Report submitted" is created
+    expect(saved.auditLog.some((a: any) => a.reportId === r.body.id && a.action === "Report submitted")).toBe(true)
+  })
+
+  it("IT-127 a 10 MB photo is accepted and a photo over 10 MB is rejected (FR-2.4, BVA)", async () => {
+    const png = Buffer.from(TINY_PNG.split(",")[1], "base64")
+    const sized = (bytes: number) => "data:image/png;base64," + Buffer.concat([png, Buffer.alloc(bytes - png.length)]).toString("base64")
+    const submit = (img: string) => new Client().call("reports.php", { vendorId: 1, category: "Food", anonymous: true, deviceId: "dev-it", description: "Expired milk!!! large photo", evidenceImage: img })
+    expect((await submit(sized(10 * 1024 * 1024))).status).toBe(200)
+    expect((await submit(sized(10 * 1024 * 1024 + 1))).status).toBe(400)
+  })
+
+  it("IT-129 uploaded evidence is saved under a generated image file name, never the user's name", async () => {
+    const r = await new Client().call("reports.php", { vendorId: 1, category: "Food", anonymous: true, deviceId: "dev-it", description: "Expired milk!!! photo name", evidenceImage: TINY_PNG })
+    const saved = (await new Client().call("data.php")).body.reports.find((x: any) => x.id === r.body.id)
+    expect(saved.evidenceImage).toMatch(/uploads\/report-\d{8}-\d{6}-[0-9a-f]{8}\.png$/)
   })
 })
 
