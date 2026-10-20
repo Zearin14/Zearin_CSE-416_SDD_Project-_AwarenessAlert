@@ -1,6 +1,6 @@
 Run 1:
-  28 passed (54.2s)
+  78 passed (1.9m)
 Run 2:
-  28 passed (53.6s)
+  78 passed (1.9m)
 Run 3:
-  28 passed (52.9s)
+  78 passed (2.1m)

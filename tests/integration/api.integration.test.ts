@@ -1,6 +1,7 @@
 // Integration tests: React API contract -> PHP files -> MariaDB/MySQL test database.
 // Run with: ./scripts/start-test-api.sh && npm run test:integration
 // Expected values come from the SRS rules and the README "Fairness and security" list.
+import { execSync } from "node:child_process"
 import { beforeAll, describe, expect, it } from "vitest"
 import { API, Client, TINY_PNG, as, resetDatabase } from "./client"
 
@@ -535,5 +536,36 @@ describe("Login history (login_history.php)", () => {
   it("IT-81 only the admin can read login history", async () => {
     expect((await (await as("moderator")).call("login_history.php")).status).toBe(403)
     expect((await new Client().call("login_history.php")).status).toBe(403)
+  })
+})
+
+describe("Database rules (SRS 5.1, 5.2, 5.3) — checked directly in the test database", () => {
+  const sql = (q: string, db = process.env.DB_NAME ?? "awarenessalert_test") =>
+    execSync(`mysql -h ${process.env.DB_HOST ?? "127.0.0.1"} -u ${process.env.DB_USER ?? "root"} -N -B ${db} -e "${q}"`, {
+      env: { ...process.env, MYSQL_PWD: process.env.DB_PASS ?? "" },
+    }).toString()
+
+  it("IT-131 reports are indexed on created_at and moderation_status, and have foreign keys (SRS 5.1, 5.2) — defect D-15", () => {
+    const idx = sql("SELECT COLUMN_NAME FROM information_schema.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='reports'")
+    expect(idx).toMatch(/created_at/)
+    expect(idx).toMatch(/moderation_status/)
+    expect(idx).toMatch(/vendor_id/)
+    const fks = sql("SELECT COUNT(*) FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA=DATABASE() AND REFERENCED_TABLE_NAME IS NOT NULL")
+    expect(Number(fks.trim())).toBeGreaterThanOrEqual(6)
+  })
+
+  it("IT-132 passwords are stored only as bcrypt hashes (SRS 5.3)", () => {
+    const rows = sql("SELECT password_hash FROM users").trim().split("\n")
+    expect(rows.length).toBeGreaterThan(0)
+    for (const h of rows) expect(h).toMatch(/^\$2y\$10\$.{53}$/)
+  })
+
+  it("IT-133 the upgrade page never shows the raw database error (SRS 5.3) — defect D-16", () => {
+    sql("DROP DATABASE IF EXISTS aa_empty; CREATE DATABASE aa_empty", "mysql")
+    const html = execSync("php Backend/awarenessalert-api/upgrade.php", {
+      env: { ...process.env, DB_HOST: process.env.DB_HOST ?? "127.0.0.1", DB_NAME: "aa_empty" },
+    }).toString()
+    expect(html).toMatch(/Upgrade failed/)
+    expect(html).not.toMatch(/SQLSTATE|doesn't exist|Base table/i)
   })
 })

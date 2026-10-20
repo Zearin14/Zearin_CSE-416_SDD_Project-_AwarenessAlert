@@ -43,6 +43,7 @@ jobs:
         run: bash scripts/start-test-api.sh
         env: { DB_HOST: 127.0.0.1, DB_NAME: awarenessalert_test, DB_USER: root, DB_PASS: "" }
       - run: npm run test:integration
+        env: { DB_HOST: 127.0.0.1, DB_NAME: awarenessalert_test, DB_USER: root, DB_PASS: "" }
       - name: Performance (p95, 20 users)
         run: npm run test:perf -- 30 20
       - uses: actions/upload-artifact@v4

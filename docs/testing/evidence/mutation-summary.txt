@@ -1,7 +1,7 @@
           | % Mutation score |          |           |            |          |          |
 File      |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
 ----------|--------|---------|----------|-----------|------------|----------|----------|
-All files |  86.40 |   86.40 |      285 |         1 |         45 |        0 |        0 |
- logic.ts |  86.40 |   86.40 |      285 |         1 |         45 |        0 |        0 |
+All files |  86.93 |   86.93 |      305 |         1 |         46 |        0 |        0 |
+ logic.ts |  86.93 |   86.93 |      305 |         1 |         46 |        0 |        0 |
 ----------|--------|---------|----------|-----------|------------|----------|----------|
-01:58:57 (1750) INFO MutationTestReportHelper Final mutation score of 86.40 is greater than or equal to break threshold 60
+02:44:39 (8022) INFO MutationTestReportHelper Final mutation score of 86.93 is greater than or equal to break threshold 60
