@@ -19,3 +19,9 @@ logs/
 # beside it.
 /.plugins/
 /.opencode-skills/
+
+# Testing
+test-results/
+.stryker-tmp/
+playwright-report/
+Backend/awarenessalert-api/uploads/

@@ -1,0 +1,38 @@
+[
+  {
+    "scenario": "GET data.php (home page data)",
+    "users": 20,
+    "seconds": 30,
+    "requests": 27325,
+    "p50_ms": 21,
+    "p95_ms": 37,
+    "max_ms": 118,
+    "error_rate": "0.00%",
+    "target_ms": 1000,
+    "pass": true
+  },
+  {
+    "scenario": "GET vendors.php (safety map)",
+    "users": 20,
+    "seconds": 30,
+    "requests": 47488,
+    "p50_ms": 12,
+    "p95_ms": 21,
+    "max_ms": 55,
+    "error_rate": "0.00%",
+    "target_ms": 1000,
+    "pass": true
+  },
+  {
+    "scenario": "POST reports.php (submit a report)",
+    "users": 20,
+    "seconds": 30,
+    "requests": 27756,
+    "p50_ms": 20,
+    "p95_ms": 38,
+    "max_ms": 123,
+    "error_rate": "0.00%",
+    "target_ms": 1000,
+    "pass": true
+  }
+]

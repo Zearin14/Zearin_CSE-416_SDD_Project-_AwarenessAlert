@@ -1,0 +1,11 @@
+{
+  "page": "/report",
+  "project": "mobile",
+  "critical": 0,
+  "serious": 1,
+  "moderate": 0,
+  "minor": 0,
+  "rules": [
+    "serious: color-contrast (4)"
+  ]
+}

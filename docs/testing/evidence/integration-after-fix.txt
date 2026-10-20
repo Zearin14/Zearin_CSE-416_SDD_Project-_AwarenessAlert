@@ -1,0 +1,11 @@
+
+ RUN  v3.2.4 /home/claude/work/aa
+
+ ✓ tests/integration/api.integration.test.ts (57 tests) 4499ms
+   ✓ Team page (users.php) — admin only > IT-68 changing your own password needs the correct current password  486ms
+
+ Test Files  1 passed (1)
+      Tests  57 passed (57)
+   Start at  01:23:31
+   Duration  4.81s (transform 77ms, setup 0ms, collect 87ms, tests 4.50s, environment 0ms, prepare 51ms)
+

@@ -1,0 +1,90 @@
+
+ RUN  v3.2.4 /home/claude/work/aa
+
+ ❯ tests/integration/api.integration.test.ts (57 tests | 1 failed | 56 skipped) 630ms
+   ↓ Authentication (auth.php) > IT-01 admin logs in with the correct password
+   ↓ Authentication (auth.php) > IT-02 wrong password is rejected with a generic message
+   ↓ Authentication (auth.php) > IT-03 unknown account gets the SAME message (no account enumeration)
+   ↓ Authentication (auth.php) > IT-04 SQL injection in the login field does not log in
+   ↓ Authentication (auth.php) > IT-05 a public account cannot use the Admin login page
+   ↓ Authentication (auth.php) > IT-06 a moderator CAN use the Admin login page
+   ↓ Authentication (auth.php) > IT-07 login is case-insensitive for the email
+   ↓ Authentication (auth.php) > IT-08 logout ends the session
+   ↓ Sign up (auth.php register) — password min 8 characters > IT-10 7-character password is rejected (BVA min-1)
+   ↓ Sign up (auth.php register) — password min 8 characters > IT-11 8-character password is accepted and the user is logged in (BVA min)
+   ↓ Sign up (auth.php register) — password min 8 characters > IT-12 the same email cannot register twice, even with other capitals
+   ↓ Sign up (auth.php register) — password min 8 characters > IT-13 a 4-character Bangla password is rejected (multibyte EP) — defect D-02
+   ↓ Sign up (auth.php register) — password min 8 characters > IT-14 a name longer than 100 characters gets a clear 400 error, not a 500 — defect D-03
+   ↓ Submitting a report (reports.php) — no account needed > IT-20 14-character description is rejected (BVA min-1)
+   ↓ Submitting a report (reports.php) — no account needed > IT-21 15-character description is accepted; report starts as Pending (BVA min)
+   ↓ Submitting a report (reports.php) — no account needed > IT-22 an invalid category is rejected
+   ↓ Submitting a report (reports.php) — no account needed > IT-23 an unknown vendor is rejected
+   ↓ Submitting a report (reports.php) — no account needed > IT-24 a fake image (text renamed as PNG) is rejected
+   ↓ Submitting a report (reports.php) — no account needed > IT-25 a GIF or PDF upload is rejected (only JPG/PNG allowed)
+   ↓ Submitting a report (reports.php) — no account needed > IT-26 a real PNG photo is saved as evidence
+   ↓ Submitting a report (reports.php) — no account needed > IT-27 a logged-in user reporting anonymously is stored as Anonymous
+   ↓ Privacy — what the public can see (data.php) > IT-30 guests never see IP addresses, device IDs or internal notes
+   ↓ Privacy — what the public can see (data.php) > IT-31 guests never see Removed reports; admin does
+   ↓ Privacy — what the public can see (data.php) > IT-32 guests get no audit history; staff do
+   ↓ Privacy — what the public can see (data.php) > IT-33 an organization sees internal notes only for reports routed to it
+   ↓ Moderation workflow (report_action.php) — state transitions > IT-40 a guest cannot change a report status
+   ↓ Moderation workflow (report_action.php) — state transitions > IT-41 a public user and an organization cannot change a report status
+   ↓ Moderation workflow (report_action.php) — state transitions > IT-42 a Pending report cannot be sent to an authority (must be Verified first)
+   ↓ Moderation workflow (report_action.php) — state transitions > IT-43 Pending -> Verified -> Escalated(BSTI) sets the outcome to Awaiting and is audited
+   ↓ Moderation workflow (report_action.php) — state transitions > IT-44 escalating to an organization that does not exist is rejected
+   ↓ Moderation workflow (report_action.php) — state transitions > IT-45 an invalid status value is rejected
+   ↓ Moderation workflow (report_action.php) — state transitions > IT-46 recalling an escalation (Escalated -> Verified) clears the authority
+   ↓ Moderation workflow (report_action.php) — state transitions > IT-47 an unknown report id returns 404
+   ↓ Authority outcome (report_action.php outcome) > IT-50 BSTI cannot set the outcome of a report assigned to DNCRP (access control)
+   ↓ Authority outcome (report_action.php outcome) > IT-51 a moderator cannot set an authority outcome
+   ↓ Authority outcome (report_action.php outcome) > IT-52 Confirmed without a public comment is rejected
+   ↓ Authority outcome (report_action.php outcome) > IT-53 a public comment of 281 characters is rejected (BVA max+1)
+   ↓ Authority outcome (report_action.php outcome) > IT-54 a public comment of 280 characters is accepted (BVA max)
+   ↓ Team page (users.php) — admin only > IT-60 a moderator cannot open the staff list
+   ↓ Team page (users.php) — admin only > IT-61 staff list never contains password hashes
+   ↓ Team page (users.php) — admin only > IT-62 a 7-character staff password is rejected (BVA)
+   ↓ Team page (users.php) — admin only > IT-63 organization staff must have a valid organization
+   ↓ Team page (users.php) — admin only > IT-64 an admin role cannot be created from the Team page
+   ↓ Team page (users.php) — admin only > IT-65 a valid moderator is created and can log in
+   ↓ Team page (users.php) — admin only > IT-66 a turned-off account is blocked immediately, even if already logged in
+   ↓ Team page (users.php) — admin only > IT-67 the admin cannot turn off their own account
+   ↓ Team page (users.php) — admin only > IT-68 changing your own password needs the correct current password
+   ↓ Reviews (reviews.php) > IT-70 a guest cannot write a review
+   ↓ Reviews (reviews.php) > IT-71 rating 0 is rejected (BVA outside 1-5)
+   ↓ Reviews (reviews.php) > IT-71 rating 6 is rejected (BVA outside 1-5)
+   ↓ Reviews (reviews.php) > IT-72 rating 1 is accepted (BVA edges)
+   ↓ Reviews (reviews.php) > IT-72 rating 5 is accepted (BVA edges)
+   ↓ Reviews (reviews.php) > IT-73 a review for a vendor that does not exist gets a 400, not a 500 — defect D-04
+   ↓ Reviews (reviews.php) > IT-74 only staff can hide a review
+   × Hidden reviews stay hidden > IT-75 a review hidden by a moderator is not sent to guests at all — defect D-05 95ms
+     → expected true to be false // Object.is equality
+   ↓ Login history (login_history.php) > IT-80 failed logins are recorded with a reason
+   ↓ Login history (login_history.php) > IT-81 only the admin can read login history
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/api.integration.test.ts > Hidden reviews stay hidden > IT-75 a review hidden by a moderator is not sent to guests at all — defect D-05
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/integration/api.integration.test.ts:357:53
+    355|     await mod.call("reviews.php", { action: "toggle", id: "RV-2" })
+    356|     const guest = (await new Client().call("data.php")).body.reviews
+    357|     expect(guest.some((r: any) => r.id === "RV-2")).toBe(false)
+       |                                                     ^
+    358|     const guestDirect = (await new Client().call("reviews.php")).body.…
+    359|     expect(guestDirect.some((r: any) => r.id === "RV-2")).toBe(false)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 56 skipped (57)
+   Start at  01:23:43
+   Duration  1.02s (transform 112ms, setup 0ms, collect 103ms, tests 630ms, environment 0ms, prepare 87ms)
+

@@ -72,9 +72,11 @@ function load_reports($pdo, $user)
     return $out;
 }
 
-function load_reviews($pdo)
+// fix D-05: reviews hidden by a moderator are only sent to staff (so they can restore them)
+function load_reviews($pdo, $user = null)
 {
-    $rows = $pdo->query("SELECT * FROM reviews ORDER BY created_at DESC, id DESC")->fetchAll();
+    $staff = in_array($user["role"] ?? "", STAFF_ROLES, true);
+    $rows = $pdo->query("SELECT * FROM reviews" . ($staff ? "" : " WHERE hidden = 0") . " ORDER BY created_at DESC, id DESC")->fetchAll();
     $out = [];
     foreach ($rows as $r) {
         $out[] = [
@@ -130,7 +132,7 @@ if (basename($_SERVER["SCRIPT_FILENAME"] ?? "") === "data.php") {
             "success" => true,
             "vendors" => load_vendors($pdo),
             "reports" => load_reports($pdo, $user),
-            "reviews" => load_reviews($pdo),
+            "reviews" => load_reviews($pdo, $user),
             "users" => load_users($pdo),
             "auditLog" => load_audit($pdo, $user),
             "session" => session_payload(),

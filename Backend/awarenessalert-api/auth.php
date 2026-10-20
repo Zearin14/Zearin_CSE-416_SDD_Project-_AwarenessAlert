@@ -62,9 +62,13 @@ try {
         $name = trim((string) ($body["name"] ?? ""));
         $login = trim((string) ($body["login"] ?? ""));
         $pass = (string) ($body["password"] ?? "");
-        if ($name === "" || $login === "" || strlen($pass) < 8) {
+        // text_length() counts characters, not bytes (fix D-02: Bangla passwords)
+        if ($name === "" || $login === "" || text_length($pass) < 8) {
             fail("Name, email/phone and a password of at least 8 characters are required.");
         }
+        // fix D-03: match the database column sizes instead of failing with a 500 error
+        if (text_length($name) > 100) fail("Name must be 100 characters or fewer.");
+        if (text_length($login) > 150) fail("Email/phone must be 150 characters or fewer.");
         $stmt = $pdo->prepare("SELECT id FROM users WHERE LOWER(login) = LOWER(?)");
         $stmt->execute([$login]);
         if ($stmt->fetch()) fail("An account with this email or phone already exists.", 409);

@@ -200,3 +200,43 @@ On each login page click **"Show demo accounts"**, then click an account to fill
 - Vendor portal (right of reply)
 - Online hosting instead of a local XAMPP server
 - Split `App.tsx` into smaller component files
+
+---
+
+## 10. Running the tests
+
+Full results are in **docs/testing/** (Software Test Report + evidence). Every command below
+runs on a fresh clone. The tests use a **separate database** (`awarenessalert_test`), so your
+real XAMPP data is never touched.
+
+```bash
+git clone https://github.com/Zearin14/Zearin_CSE-416_SDD_Project-_AwarenessAlert.git
+cd Zearin_CSE-416_SDD_Project-_AwarenessAlert
+npm ci
+
+# 1. Unit tests + code coverage (no server needed)
+npm test
+
+# 2. API integration tests (needs PHP 8 + MySQL/MariaDB running, root user with empty password,
+#    like XAMPP). On Windows, run the commands inside Git Bash.
+npm run test:api:start        # starts PHP on http://127.0.0.1:8090 with the TEST database
+npm run test:integration
+
+# 3. Performance: p95 response time, 20 users, 30 s per endpoint (test API must be running)
+npm run test:perf
+
+# 4. End-to-end + accessibility tests in a real browser (Playwright)
+npx playwright install chromium   # first time only
+npm run test:e2e
+
+# 5. Mutation testing of the business rules (Stryker)
+npm run test:mutation
+```
+
+| Folder | What is inside |
+|---|---|
+| `tests/unit/` | business rules (`src/logic.ts`) and API client (`src/api.ts`) |
+| `tests/integration/` | real HTTP calls to the PHP files + database |
+| `tests/e2e/` | user journeys and accessibility checks (desktop + mobile) |
+| `tests/performance/` | load test script |
+| `.github/workflows/test.yml` | runs everything on every push and pull request |

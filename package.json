@@ -7,21 +7,40 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "test": "vitest run tests/unit --coverage",
+    "test:unit": "vitest run tests/unit",
+    "test:coverage": "vitest run tests/unit --coverage",
+    "test:integration": "vitest run tests/integration --no-file-parallelism",
+    "test:e2e": "playwright test",
+    "test:perf": "node tests/performance/p95.mjs",
+    "test:api:start": "bash scripts/start-test-api.sh",
+    "test:all": "npm run test && npm run test:integration && npm run test:e2e",
+    "test:mutation": "stryker run"
   },
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.56.1",
+    "@stryker-mutator/core": "^9.6.1",
+    "@stryker-mutator/vitest-runner": "^9.6.1",
+    "@tailwindcss/vite": "^4.0.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^6.0.0",
-    "tailwindcss": "^4.0.0",
-    "@tailwindcss/vite": "^4.0.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "jsdom": "^26.1.0",
     "oxfmt": "^0.2.0",
+    "tailwindcss": "^4.0.0",
     "typescript": "^5.7.0",
-    "vite": "^8.0.5"
+    "vite": "^8.0.5",
+    "vitest": "^4.1.11"
+  },
+  "overrides": {
+    "qs": "6.16.0"
   }
 }

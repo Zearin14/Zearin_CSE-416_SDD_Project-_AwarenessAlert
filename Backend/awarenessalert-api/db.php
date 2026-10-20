@@ -2,10 +2,12 @@
 // AwarenessAlert API - shared database connection and helper functions.
 // Every other PHP file starts with: require_once __DIR__ . "/db.php";
 
-$host = "localhost";
-$dbname = "awarenessalert_db";
-$username = "root";
-$password = "";
+// Defaults are for XAMPP. Tests and CI override them with environment variables
+// (DB_NAME=awarenessalert_test) so the real database is never touched by tests.
+$host = getenv("DB_HOST") ?: "localhost";
+$dbname = getenv("DB_NAME") ?: "awarenessalert_db";
+$username = getenv("DB_USER") ?: "root";
+$password = getenv("DB_PASS") !== false ? getenv("DB_PASS") : "";
 
 date_default_timezone_set("Asia/Dhaka");
 
