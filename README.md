@@ -205,6 +205,8 @@ On each login page click **"Show demo accounts"**, then click an account to fill
 
 ## 10. Running the tests
 
+📄 **Software Test Report:** [docs/testing/Test_Report.pdf](docs/testing/Test_Report.pdf) · full tables: [RTM](docs/testing/RTM.md), [all test cases](docs/testing/TEST_CASES.md) · long version: [Test_Report_full.pdf](docs/testing/Test_Report_full.pdf)
+
 Full results are in **docs/testing/** (Software Test Report + evidence). Every command below
 runs on a fresh clone. The tests use a **separate database** (`awarenessalert_test`), so your
 real XAMPP data is never touched.
