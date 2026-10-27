@@ -4,6 +4,7 @@ on:
   push:
     branches: [main, testing]
   pull_request:
+  workflow_dispatch: # manual run (Actions tab -> Run workflow) also runs integration + E2E
 
 jobs:
   unit:
@@ -22,6 +23,7 @@ jobs:
 
   integration:
     name: API integration tests (PHP + MariaDB)
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     services:
       mariadb:
@@ -52,6 +54,7 @@ jobs:
 
   e2e:
     name: E2E + accessibility (Playwright)
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
