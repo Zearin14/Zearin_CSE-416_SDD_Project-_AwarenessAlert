@@ -4,12 +4,12 @@
 
 // Defaults are for XAMPP. Tests and CI override them with environment variables
 // (DB_NAME=awarenessalert_test) so the real database is never touched by tests.
-// On a web host (e.g. InfinityFree) put the database details in config.php (see config.example.php).
-if (file_exists(__DIR__ . "/config.php")) require __DIR__ . "/config.php";
 $host = getenv("DB_HOST") ?: "localhost";
 $dbname = getenv("DB_NAME") ?: "awarenessalert_db";
 $username = getenv("DB_USER") ?: "root";
 $password = getenv("DB_PASS") !== false ? getenv("DB_PASS") : "";
+// On a web host (e.g. InfinityFree) config.php overrides these four variables (see config.example.php).
+if (file_exists(__DIR__ . "/config.php")) require __DIR__ . "/config.php";
 
 date_default_timezone_set("Asia/Dhaka");
 
