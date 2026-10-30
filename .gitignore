@@ -25,3 +25,5 @@ test-results/
 .stryker-tmp/
 playwright-report/
 Backend/awarenessalert-api/uploads/
+
+Backend/awarenessalert-api/config.php

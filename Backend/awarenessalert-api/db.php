@@ -4,6 +4,8 @@
 
 // Defaults are for XAMPP. Tests and CI override them with environment variables
 // (DB_NAME=awarenessalert_test) so the real database is never touched by tests.
+// On a web host (e.g. InfinityFree) put the database details in config.php (see config.example.php).
+if (file_exists(__DIR__ . "/config.php")) require __DIR__ . "/config.php";
 $host = getenv("DB_HOST") ?: "localhost";
 $dbname = getenv("DB_NAME") ?: "awarenessalert_db";
 $username = getenv("DB_USER") ?: "root";
@@ -13,7 +15,7 @@ date_default_timezone_set("Asia/Dhaka");
 
 // ---------- CORS: allow the Vite frontend (any localhost port) ----------
 $origin = $_SERVER["HTTP_ORIGIN"] ?? "";
-if (preg_match('#^http://(localhost|127\.0\.0\.1)(:\d+)?$#', $origin)) {
+if (preg_match('#^http://(localhost|127\.0\.0\.1)(:\d+)?$#', $origin) || (defined("SITE_ORIGIN") && $origin === SITE_ORIGIN)) {
     header("Access-Control-Allow-Origin: $origin");
     header("Access-Control-Allow-Credentials: true");
     header("Vary: Origin");

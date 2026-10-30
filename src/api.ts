@@ -1,6 +1,10 @@
 // Talks to the PHP API in C:\xampp\htdocs\awarenessalert-api
 // Uses the same host name as the website (localhost / 127.0.0.1) so the login cookie works.
-export const API_BASE = `http://${window.location.hostname}/awarenessalert-api`
+// On localhost (XAMPP + Vite) the API is on port 80; when deployed, the website and the API share one domain.
+const LOCAL = ["localhost", "127.0.0.1"].includes(window.location.hostname)
+export const API_BASE = LOCAL
+  ? `http://${window.location.hostname}/awarenessalert-api`
+  : `${window.location.origin}/awarenessalert-api`
 
 async function request<T = any>(file: string, body?: unknown): Promise<T> {
   const response = await fetch(`${API_BASE}/${file}`, {

@@ -25,7 +25,11 @@ try {
     page("MySQL is not running", "<p>Open the XAMPP Control Panel and click <b>Start</b> next to MySQL, then refresh this page.</p>", false);
 }
 
-$pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+try {
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+} catch (PDOException $e) {
+    // On shared hosting the database is created in the control panel and we may not create databases.
+}
 $pdo->exec("USE `$dbname`");
 
 // Already set up? (new schema has vendors.area) -> don't wipe data unless ?reset=1
