@@ -80,3 +80,35 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy to InfinityFree (FTP)
+    # runs only after the unit tests and the security scan pass, and only for the main branch
+    needs: [unit, security]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run build
+      - name: Assemble the website folder (React build + PHP API)
+        run: |
+          mkdir -p site/awarenessalert-api
+          cp -r dist/* site/
+          cp deploy/.htaccess site/.htaccess
+          cp Backend/awarenessalert-api/*.php site/awarenessalert-api/
+          # never upload the one-time setup scripts or a local config.php
+          rm -f site/awarenessalert-api/setup.php site/awarenessalert-api/upgrade.php site/awarenessalert-api/config.php
+      - name: Upload by FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./site/
+          server-dir: /htdocs/
+          exclude: |
+            **/config.php
+            **/uploads/**
