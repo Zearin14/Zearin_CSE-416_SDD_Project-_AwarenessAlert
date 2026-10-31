@@ -4,12 +4,27 @@
 
 // Defaults are for XAMPP. Tests and CI override them with environment variables
 // (DB_NAME=awarenessalert_test) so the real database is never touched by tests.
-$host = getenv("DB_HOST") ?: "localhost";
-$dbname = getenv("DB_NAME") ?: "awarenessalert_db";
-$username = getenv("DB_USER") ?: "root";
-$password = getenv("DB_PASS") !== false ? getenv("DB_PASS") : "";
-// On a web host (e.g. InfinityFree) config.php overrides these four variables (see config.example.php).
-if (file_exists(__DIR__ . "/config.php")) require __DIR__ . "/config.php";
+// On a web host (e.g. InfinityFree) config.php sets $host, $dbname, $username, $password
+// (or calls putenv). Some hosts only return putenv values with getenv(name, true).
+$config_env = [];
+if (file_exists(__DIR__ . "/config.php")) {
+    require __DIR__ . "/config.php";
+    // Some hosts ignore putenv(), so also read putenv("NAME=value") lines directly from the file.
+    preg_match_all('/putenv\(\s*"([A-Z_]+)=(.*?)"\s*\)/', (string) file_get_contents(__DIR__ . "/config.php"), $m, PREG_SET_ORDER);
+    foreach ($m as $kv) $config_env[$kv[1]] = $kv[2];
+}
+function env_value($name, $default)
+{
+    global $config_env;
+    if (isset($config_env[$name])) return $config_env[$name];
+    $v = getenv($name, true);
+    if ($v === false) $v = getenv($name);
+    return $v === false ? $default : $v;
+}
+$host = $host ?? (env_value("DB_HOST", "") ?: "localhost");
+$dbname = $dbname ?? (env_value("DB_NAME", "") ?: "awarenessalert_db");
+$username = $username ?? (env_value("DB_USER", "") ?: "root");
+$password = $password ?? env_value("DB_PASS", "");
 
 date_default_timezone_set("Asia/Dhaka");
 
