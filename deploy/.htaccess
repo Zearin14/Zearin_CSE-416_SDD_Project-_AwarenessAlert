@@ -1,5 +1,11 @@
 # Single-page app: send every unknown path to index.html (the API folder is excluded)
 RewriteEngine On
+
+# Always use the secure https:// address
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 RewriteCond %{REQUEST_URI} !^/awarenessalert-api/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
