@@ -12,6 +12,8 @@ Accredited Laboratory), and the authority's result is shown to the public.
 
 ---
 
+🌐 **Live site:** https://awarenessalert.infinityfreeapp.com · 📄 [Final report](docs/final/Final_Report.pdf) · 🎤 [Presentation](docs/final/Final_Presentation.pdf) · 🧪 [Test report](docs/testing/Test_Report.pdf)
+
 ## 1. Features
 
 **Public users**
