@@ -7,108 +7,37 @@ import {
   useState,
 } from "react"
 import * as api from "./api"
-type ModerationStatus = "Pending" | "Verified" | "Escalated" | "Disputed" | "Removed"
-type AuthorityOutcome = "Awaiting" | "Confirmed" | "Cleared" | null
-type Category = "Food" | "Fuel" | "Other"
-type OrgId = "BSTI" | "DNCRP" | "Accredited Laboratory"
-type Role = "public" | "admin" | "moderator" | "org"
-
-type Report = {
-  id: string
-  vendorId: string
-  category: Category
-  description: string
-  location: string
-  evidence: boolean
-  evidenceImage?: string
-  submittedAt: string
-  reporterTier: "Guest" | "Anonymous" | "Identified"
-  reporterId?: string
-  anonymous: boolean
-  ip: string
-  deviceId: string
-  moderationStatus: ModerationStatus
-  authorityOutcome: AuthorityOutcome
-  routedTo: OrgId | null
-  outcomePublicComment: string
-  outcomeInternalNote: string
-  outcomeSetBy: string
-  outcomeSetAt: string
-}
-
-type Vendor = {
-  id: string
-  name: string
-  area: string
-  kind: string
-  previousBand: "Trusted" | "Caution" | "High risk" | "Observation"
-  badges: OrgId[]
-  approval: Record<string, string>
-  verifiedDate: string
-  x: number
-  y: number
-  lat?: number
-  lng?: number
-  address?: string
-}
-
-type Review = {
-  id: string
-  vendorId: string
-  userId: string
-  rating: number
-  text: string
-  date: string
-  hidden: boolean
-  flags: number
-}
-
-type User = {
-  id: string
-  name: string
-  login: string
-  password: string
-  role: Role
-  organization?: OrgId
-  title?: string
-  active?: boolean
-}
-
-type Audit = {
-  id: string
-  reportId: string
-  action: string
-  actor: string
-  at: string
-}
-
-type Session = {
-  userId: string;
-  role: Role;
-  organization?: OrgId;
-} | null;
-
-type Store = {
-  reports: Report[]
-  vendors: Vendor[]
-  reviews: Review[]
-  users: User[]
-  organizations: OrgId[]
-  savedAreas: string[]
-  notifications: {
-    id: string
-    title: string
-    body: string
-    href: string
-    at: string
-  }[]
-  auditLog: Audit[]
-  loginHistory?: api.LoginEvent[]
-  routingConfig: Record<Category, OrgId>
-  showOrgNamePublicly: boolean
-  weeklyDigest: boolean
-  session: Session
-}
+import {
+  DAY,
+  MISSING_VENDOR,
+  STAFF_ROLES,
+  areaLabels,
+  errorText,
+  findVendor,
+  formatDate,
+  isStaff,
+  labelTone,
+  layoutVendors,
+  now,
+  publicLabel,
+  ratingFor,
+  reportFrequency,
+  vendorMetrics,
+} from "./logic"
+import type {
+  Audit,
+  AuthorityOutcome,
+  Category,
+  ModerationStatus,
+  OrgId,
+  Report,
+  Review,
+  Role,
+  Session,
+  Store,
+  User,
+  Vendor,
+} from "./logic"
 
 const STORE_KEY = "awareness-alert-v4"
 const SETTINGS_KEY = "awareness-alert-settings-v4"
@@ -122,9 +51,6 @@ const BackendContext = createContext<Backend>({
 })
 const useBackend = () => useContext(BackendContext)
 
-// Admin + moderators can open the moderator portal
-const STAFF_ROLES: Role[] = ["admin", "moderator"]
-const isStaff = (role?: Role) => !!role && STAFF_ROLES.includes(role)
 
 function currentUserName(store: Store) {
   return (
@@ -154,9 +80,6 @@ function localLoginEvent(
   }
 }
 
-function errorText(error: unknown) {
-  return error instanceof Error ? error.message : "Something went wrong."
-}
 
 function deviceId() {
   try {
@@ -229,95 +152,7 @@ const SEED_USERS: User[] = [
   },
 ]
 
-// Turns real latitude/longitude into positions (in %) on the drawn map,
-// then nudges pins apart so they never sit on top of each other.
-function layoutVendors(vendors: Vendor[]): Vendor[] {
-  const geo = vendors.filter((vendor) => vendor.lat && vendor.lng)
-  if (!geo.length) return vendors
-  const lats = geo.map((vendor) => vendor.lat!)
-  const lngs = geo.map((vendor) => vendor.lng!)
-  const minLat = Math.min(...lats)
-  const maxLat = Math.max(...lats)
-  const minLng = Math.min(...lngs)
-  const maxLng = Math.max(...lngs)
-  const points = vendors.map((vendor) =>
-    vendor.lat && vendor.lng
-      ? {
-          x: 8 + ((vendor.lng - minLng) / (maxLng - minLng || 1)) * 80,
-          y: 10 + ((maxLat - vendor.lat) / (maxLat - minLat || 1)) * 72,
-        }
-      : { x: vendor.x, y: vendor.y },
-  )
-  // ~9px per 1% horizontally and ~6px per 1% vertically on a desktop map
-  const minDistance = 50
-  for (let round = 0; round < 80; round++) {
-    let moved = false
-    for (let i = 0; i < points.length; i++) {
-      for (let j = i + 1; j < points.length; j++) {
-        const dx = (points[j].x - points[i].x) * 9
-        const dy = (points[j].y - points[i].y) * 6
-        const distance = Math.hypot(dx, dy)
-        if (distance < minDistance) {
-          const angle = distance ? Math.atan2(dy, dx) : (i + j) * 1.7
-          const push = (minDistance - distance) / 2
-          points[i].x -= (Math.cos(angle) * push) / 9
-          points[i].y -= (Math.sin(angle) * push) / 6
-          points[j].x += (Math.cos(angle) * push) / 9
-          points[j].y += (Math.sin(angle) * push) / 6
-          moved = true
-        }
-      }
-    }
-    for (const point of points) {
-      point.x = Math.min(92, Math.max(4, point.x))
-      point.y = Math.min(84, Math.max(6, point.y))
-    }
-    if (!moved) break
-  }
-  return vendors.map((vendor, index) => ({
-    ...vendor,
-    x: Math.round(points[index].x * 10) / 10,
-    y: Math.round(points[index].y * 10) / 10,
-  }))
-}
 
-// Label each area at the middle of its vendors
-function areaLabels(vendors: Vendor[]) {
-  const groups = new Map<string, Vendor[]>()
-  for (const vendor of vendors) {
-    groups.set(vendor.area, [...(groups.get(vendor.area) ?? []), vendor])
-  }
-  return [...groups.entries()].map(([area, list]) => ({
-    area,
-    x: list.reduce((sum, vendor) => sum + vendor.x, 0) / list.length,
-    y: Math.min(
-      92,
-      Math.max(...list.map((vendor) => vendor.y)) + 9,
-    ),
-  }))
-}
-
-const MISSING_VENDOR: Vendor = {
-  id: "",
-  name: "Unknown vendor",
-  area: "—",
-  kind: "Vendor",
-  previousBand: "Observation",
-  badges: [],
-  approval: {},
-  verifiedDate: "",
-  x: 50,
-  y: 50,
-}
-
-function findVendor(store: Store, id: string): Vendor {
-  return store.vendors.find((vendor) => vendor.id === id) ?? {
-    ...MISSING_VENDOR,
-    id,
-  }
-}
-const DAY = 86_400_000
-const now = Date.now()
 
 const vendorSeeds: Array<[string, string, string, string, Vendor["previousBand"], OrgId[], number, number]> =
   [
@@ -653,94 +488,6 @@ function storeFromServer(data: any, base: Store): Store {
   }
 }
 
-function formatDate(date: string, withTime = false) {
-  if (!date) return "—"
-  return new Intl.DateTimeFormat("en-BD", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    ...(withTime ? { hour: "numeric", minute: "2-digit" } : {}),
-  }).format(new Date(date))
-}
-
-function publicLabel(report: Report) {
-  if (report.moderationStatus === "Pending") return "Under moderator review"
-  if (report.moderationStatus === "Verified") return "Verified by moderators"
-  if (report.moderationStatus === "Disputed") return "Disputed"
-  if (report.moderationStatus === "Removed") return "Hidden from public view"
-  if (report.authorityOutcome === "Confirmed") return "Confirmed by authority"
-  if (report.authorityOutcome === "Cleared") return "Reviewed — no issue found"
-  return "Under authority review"
-}
-
-function labelTone(report: Report) {
-  if (report.moderationStatus === "Verified") return "teal"
-  if (report.authorityOutcome === "Confirmed") return "strong-blue"
-  if (report.authorityOutcome === "Cleared") return "slate"
-  if (report.moderationStatus === "Escalated") return "blue"
-  if (report.moderationStatus === "Disputed") return "outline"
-  return "neutral"
-}
-
-function vendorMetrics(vendor: Vendor, store: Store) {
-  const reports = store.reports.filter(
-    (report) =>
-      report.vendorId === vendor.id && report.moderationStatus !== "Removed",
-  )
-  const confirmed = reports.filter(
-    (report) => report.authorityOutcome === "Confirmed",
-  ).length
-  const weighted = reports.reduce((sum, report) => {
-    if (report.authorityOutcome === "Confirmed") return sum + 24
-    if (
-      report.authorityOutcome === "Cleared" ||
-      report.moderationStatus === "Disputed" ||
-      report.moderationStatus === "Pending"
-    )
-      return sum
-    return sum + (report.evidence ? 11 : 8)
-  }, 0)
-  const sources = new Set(
-    reports
-      .filter(
-        (report) => now - new Date(report.submittedAt).getTime() <= 30 * DAY,
-      )
-      .map((report) => report.reporterId ?? report.deviceId),
-  ).size
-  const recent48 = reports.filter(
-    (report) => now - new Date(report.submittedAt).getTime() <= 2 * DAY,
-  ).length
-  const spike = recent48 >= 3 || reports.length >= 6
-  const threshold = sources >= 3 || confirmed > 0
-  let band = vendor.previousBand
-  let score =
-    vendor.previousBand === "Trusted"
-      ? 84
-      : vendor.previousBand === "Caution"
-        ? 58
-        : vendor.previousBand === "High risk"
-          ? 34
-          : 0
-  if (threshold) {
-    score = Math.max(18, 92 - weighted)
-    band = score >= 70 ? "Trusted" : score >= 40 ? "Caution" : "High risk"
-  }
-  if (!threshold && vendor.previousBand === "Observation") score = 0
-  return { reports, confirmed, sources, spike, threshold, band, score }
-}
-
-function ratingFor(vendorId: string, reviews: Review[]) {
-  const visible = reviews.filter(
-    (review) => review.vendorId === vendorId && !review.hidden,
-  )
-  return {
-    count: visible.length,
-    average: visible.length
-      ? visible.reduce((sum, review) => sum + review.rating, 0) / visible.length
-      : 0,
-    reviews: visible,
-  }
-}
 
 function Icon({ name, size = 20 }: { name: string; size?: number }) {
   const paths: Record<string, ReactNode> = {
@@ -1692,7 +1439,50 @@ function EmptyState({
   )
 }
 
-function VendorProfile({ store, id }: { store: Store; id: string }) {
+// SRS FR-9.4: users can flag a review for moderators (fix D-10)
+function FlagReviewButton({
+  reviewId,
+  store,
+  updateStore,
+}: {
+  reviewId: string
+  store: Store
+  updateStore: StorePageProps["updateStore"]
+}) {
+  const backend = useBackend()
+  const [note, setNote] = useState("")
+  async function flag() {
+    if (!store.session) return setNote("Log in to flag a review.")
+    try {
+      if (backend.online) await api.flagReview(reviewId)
+      updateStore((current) => ({
+        ...current,
+        reviews: current.reviews.map((item) =>
+          item.id === reviewId ? { ...item, flags: item.flags + 1 } : item,
+        ),
+      }))
+      setNote("Thanks — flagged for moderators.")
+    } catch (error) {
+      setNote(errorText(error))
+    }
+  }
+  if (note) return <span className="flag-link" role="status">{note}</span>
+  return (
+    <button type="button" className="flag-link" onClick={flag}>
+      Flag review
+    </button>
+  )
+}
+
+function VendorProfile({
+  store,
+  id,
+  updateStore,
+}: {
+  store: Store
+  id: string
+  updateStore: StorePageProps["updateStore"]
+}) {
   const vendor = store.vendors.find((item) => item.id === id)
   if (!vendor) return <NotFound />
   const metrics = vendorMetrics(vendor, store)
@@ -1884,9 +1674,11 @@ function VendorProfile({ store, id }: { store: Store; id: string }) {
                       <span>{"★".repeat(5 - review.rating)}</span>
                     </div>
                     <p>{review.text}</p>
-                    <button type="button" className="flag-link">
-                      Flag review
-                    </button>
+                    <FlagReviewButton
+                      reviewId={review.id}
+                      store={store}
+                      updateStore={updateStore}
+                    />
                   </div>
                 </article>
               ))}
@@ -2449,6 +2241,23 @@ type StorePageProps = {
   updateStore: (updater: (store: Store) => Store) => void
 }
 
+// SRS FR-9.3: a guest who tried to write a review goes back to that vendor's review form
+// after logging in (fix D-14: the vendor was saved but never used)
+function afterLoginPath(kind: string) {
+  if (kind === "admin") return "/admin"
+  if (kind === "org") return "/org"
+  try {
+    const vendorId = sessionStorage.getItem("reviewDraftVendor")
+    if (vendorId) {
+      sessionStorage.removeItem("reviewDraftVendor")
+      return `/vendor/${vendorId}/review`
+    }
+  } catch {
+    // storage blocked - go to the homepage
+  }
+  return "/"
+}
+
 function AuthPage({
   kind,
   store,
@@ -2485,7 +2294,7 @@ function AuthPage({
       try {
         await api.login(login.trim(), password, kind)
         await backend.refresh()
-        navigate(kind === "admin" ? "/admin" : kind === "org" ? "/org" : "/")
+        navigate(afterLoginPath(kind))
       } catch (loginError) {
         setError(errorText(loginError))
       } finally {
@@ -2537,7 +2346,7 @@ function AuthPage({
         organization: user.organization,
       },
     }))
-    navigate(kind === "admin" ? "/admin" : kind === "org" ? "/org" : "/")
+    navigate(afterLoginPath(kind))
   }
   return (
     <div className={`auth-page ${kind !== "public" ? "secure-auth" : ""}`}>
@@ -2744,6 +2553,7 @@ function SignUp({
 
 function PasswordPage({ reset }: { reset: boolean }) {
   const [sent, setSent] = useState(false)
+  const [error, setError] = useState("")
   return (
     <div className="auth-page">
       <Link to="/" className="auth-brand">
@@ -2764,19 +2574,28 @@ function PasswordPage({ reset }: { reset: boolean }) {
           <form
             onSubmit={(event) => {
               event.preventDefault()
+              // fix D-13 (SRS FR-1.1, FR-1.6): the new password follows the same 8-character rule
+              if (reset) {
+                const form = new FormData(event.currentTarget)
+                const next = String(form.get("password") ?? "")
+                if (next.length < 8) return setError("The new password must be at least 8 characters.")
+                if (next !== String(form.get("confirm") ?? ""))
+                  return setError("The two new passwords do not match.")
+              }
               setSent(true)
             }}
           >
             <label className="field">
               <span>{reset ? "New password" : "Email or phone"}</span>
-              <input required type={reset ? "password" : "text"} />
+              <input required name="password" type={reset ? "password" : "text"} />
             </label>
             {reset && (
               <label className="field">
                 <span>Confirm password</span>
-                <input required type="password" />
+                <input required name="confirm" type="password" />
               </label>
             )}
+            {error && <div className="form-error" role="alert">{error}</div>}
             <button className="button dark full large" type="submit">
               {reset ? "Reset password" : "Send reset link"}
             </button>
@@ -3491,6 +3310,7 @@ function AdminReportDetail({
     }))
   }
   const locked = report.moderationStatus === "Escalated"
+  const frequency = reportFrequency(report, store.reports)
   return (
     <div className="portal-content" aria-busy={busy}>
       <Link to="/admin/reports" className="back-link">
@@ -3639,10 +3459,13 @@ function AdminReportDetail({
                 ],
                 ["IP address", report.ip],
                 ["Device / session ID", report.deviceId],
-                ["Report frequency", "2 reports in the last 30 days"],
+                [
+                  "Report frequency",
+                  `${frequency.last30} report${frequency.last30 === 1 ? "" : "s"} in the last 30 days from this ${report.reporterId ? "account" : "device"}`,
+                ],
                 [
                   "Account activity",
-                  "Active session · no automated pattern detected",
+                  `${frequency.total} report${frequency.total === 1 ? "" : "s"} in total from this ${report.reporterId ? "account" : "device"}`,
                 ],
               ]}
             />
@@ -4560,12 +4383,9 @@ function TeamPage({ store, updateStore }: StorePageProps) {
   async function addStaff(event: FormEvent) {
     event.preventDefault()
     setMessage("")
-    if (!form.name.trim() || !form.login.trim()) {
-      setMessage("Name and email/phone are required.")
-      return
-    }
-    if (form.password.length < 8) {
-      setMessage("The password must be at least 8 characters.")
+       const validationError = api.validateStaffInput(form.name, form.login, form.password)
+    if (validationError) {
+      setMessage(validationError)
       return
     }
     if (backend.online) {
@@ -5377,7 +5197,13 @@ export default function App() {
         />
       )
     if (/^\/vendor\/[^/]+$/.test(path))
-      return <VendorProfile store={store} id={path.split("/")[2]} />
+      return (
+        <VendorProfile
+          store={store}
+          id={path.split("/")[2]}
+          updateStore={updateStore}
+        />
+      )
     if (path === "/saved-areas")
       return <SavedAreas store={store} updateStore={updateStore} />
     if (path === "/profile")

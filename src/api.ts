@@ -1,6 +1,10 @@
 // Talks to the PHP API in C:\xampp\htdocs\awarenessalert-api
 // Uses the same host name as the website (localhost / 127.0.0.1) so the login cookie works.
-export const API_BASE = `http://${window.location.hostname}/awarenessalert-api`
+// On localhost (XAMPP + Vite) the API is on port 80; when deployed, the website and the API share one domain.
+const LOCAL = ["localhost", "127.0.0.1"].includes(window.location.hostname)
+export const API_BASE = LOCAL
+  ? `http://${window.location.hostname}/awarenessalert-api`
+  : `${window.location.origin}/awarenessalert-api`
 
 async function request<T = any>(file: string, body?: unknown): Promise<T> {
   const response = await fetch(`${API_BASE}/${file}`, {
@@ -59,6 +63,7 @@ export const setReportOutcome = (
 export const createReview = (vendorId: string, rating: number, text: string) =>
   request("reviews.php", { action: "create", vendorId, rating, text })
 export const toggleReview = (id: string) => request("reviews.php", { action: "toggle", id })
+export const flagReview = (id: string) => request("reviews.php", { action: "flag", id })
 
 // Vendors (admin)
 export const updateVendor = (
@@ -111,3 +116,8 @@ export const loginHistory = (filter: string) =>
     events: LoginEvent[]
     summary: { logins24h: number; failed24h: number; people24h: number }
   }>(`login_history.php?filter=${encodeURIComponent(filter)}`)
+export const validateStaffInput = (name: string, login: string, password: string): string | null => {
+  if (!name.trim() || !login.trim()) return "Name and email/phone are required."
+  if (password.length < 8) return "The password must be at least 8 characters."
+  return null
+}

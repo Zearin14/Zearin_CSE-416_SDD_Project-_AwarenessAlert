@@ -1,0 +1,166 @@
+
+Running 4 tests using 1 worker
+
+  ✘  1 [chromium] › tests/e2e/srs.spec.ts:57:3 › 4.1 Authentication › E2E-14 FR-1.6 password recovery: reset link and 'choose a new password' page (6.3s)
+  ✘  2 [chromium] › tests/e2e/srs.spec.ts:157:3 › 4.3 Moderation workflow › E2E-20 FR-3.9 + FR-5.3 report detail shows related reports and the real report frequency (6.4s)
+  ✘  3 [chromium] › tests/e2e/srs.spec.ts:263:3 › 4.9 Customer reviews › E2E-31 FR-9.3 a guest who writes a review is asked to log in and comes back to the same vendor (6.1s)
+  ✘  4 [chromium] › tests/e2e/srs.spec.ts:274:3 › 4.9 Customer reviews › E2E-32 FR-9.2 + FR-9.4 a logged-in user writes a 1–5 star review and can flag a review; a guest is asked to log in (5.8s)
+
+
+  1) [chromium] › tests/e2e/srs.spec.ts:57:3 › 4.1 Authentication › E2E-14 FR-1.6 password recovery: reset link and 'choose a new password' page 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('The new password must be at least 8 characters.')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('The new password must be at least 8 characters.')
+
+
+      66 |     await page.getByLabel("Confirm password").fill("Abc#123")
+      67 |     await page.getByRole("button", { name: "Reset password" }).click()
+    > 68 |     await expect(page.getByText("The new password must be at least 8 characters.")).toBeVisible() // defect D-13
+         |                                                                                     ^
+      69 |     await page.getByLabel("New password").fill("NewPass#123")
+      70 |     await page.getByLabel("Confirm password").fill("NewPass#123")
+      71 |     await page.getByRole("button", { name: "Reset password" }).click()
+        at /home/claude/work/aa/tests/e2e/srs.spec.ts:68:85
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/srs-4-1-Authentication-E2E-3064a--choose-a-new-password-page-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/srs-4-1-Authentication-E2E-3064a--choose-a-new-password-page-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/srs-4-1-Authentication-E2E-3064a--choose-a-new-password-page-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/srs-4-1-Authentication-E2E-3064a--choose-a-new-password-page-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/e2e/srs.spec.ts:157:3 › 4.3 Moderation workflow › E2E-20 FR-3.9 + FR-5.3 report detail shows related reports and the real report frequency 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText(/^\d+ reports? in the last 30 days from this (account|device)$/)
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/^\d+ reports? in the last 30 days from this (account|device)$/)
+
+
+      159 |     await page.goto("/admin/reports/AA-01045")
+      160 |     await expect(page.getByRole("heading", { name: "Related reports" })).toBeVisible()
+    > 161 |     await expect(page.getByText(/^\d+ reports? in the last 30 days from this (account|device)$/)).toBeVisible()
+          |                                                                                                   ^
+      162 |     await expect(page.getByText(/^\d+ reports? in total from this (account|device)$/)).toBeVisible()
+      163 |   })
+      164 | })
+        at /home/claude/work/aa/tests/e2e/srs.spec.ts:161:99
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/srs-4-3-Moderation-workflo-c34ae-d-the-real-report-frequency-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/srs-4-3-Moderation-workflo-c34ae-d-the-real-report-frequency-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/srs-4-3-Moderation-workflo-c34ae-d-the-real-report-frequency-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/srs-4-3-Moderation-workflo-c34ae-d-the-real-report-frequency-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › tests/e2e/srs.spec.ts:263:3 › 4.9 Customer reviews › E2E-31 FR-9.3 a guest who writes a review is asked to log in and comes back to the same vendor 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /\/vendor\/v1\/review/
+    Received string:  "http://127.0.0.1:4173/"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 5000ms
+        9 × unexpected value "http://127.0.0.1:4173/"
+
+
+      269 |     await page.getByPlaceholder(/password/i).first().fill("User#1234")
+      270 |     await page.getByRole("button", { name: /^Log in$/ }).click()
+    > 271 |     await expect(page).toHaveURL(/\/vendor\/v1\/review/) // defect D-14
+          |                        ^
+      272 |   })
+      273 |
+      274 |   test("E2E-32 FR-9.2 + FR-9.4 a logged-in user writes a 1–5 star review and can flag a review; a guest is asked to log in", async ({ page }) => {
+        at /home/claude/work/aa/tests/e2e/srs.spec.ts:271:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/srs-4-9-Customer-reviews-E-40fa1-mes-back-to-the-same-vendor-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/srs-4-9-Customer-reviews-E-40fa1-mes-back-to-the-same-vendor-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/srs-4-9-Customer-reviews-E-40fa1-mes-back-to-the-same-vendor-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/srs-4-9-Customer-reviews-E-40fa1-mes-back-to-the-same-vendor-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › tests/e2e/srs.spec.ts:274:3 › 4.9 Customer reviews › E2E-32 FR-9.2 + FR-9.4 a logged-in user writes a 1–5 star review and can flag a review; a guest is asked to log in 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Log in to flag a review.')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('Log in to flag a review.')
+
+
+      275 |     await page.goto("/vendor/v1")
+      276 |     await page.getByRole("button", { name: "Flag review" }).first().click()
+    > 277 |     await expect(page.getByText("Log in to flag a review.")).toBeVisible()
+          |                                                              ^
+      278 |     await asRafi(page)
+      279 |     await page.goto("/vendor/v1")
+      280 |     await page.getByRole("button", { name: "Flag review" }).first().click()
+        at /home/claude/work/aa/tests/e2e/srs.spec.ts:277:62
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/srs-4-9-Customer-reviews-E-a8435--a-guest-is-asked-to-log-in-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/srs-4-9-Customer-reviews-E-a8435--a-guest-is-asked-to-log-in-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/srs-4-9-Customer-reviews-E-a8435--a-guest-is-asked-to-log-in-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/srs-4-9-Customer-reviews-E-a8435--a-guest-is-asked-to-log-in-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    [chromium] › tests/e2e/srs.spec.ts:57:3 › 4.1 Authentication › E2E-14 FR-1.6 password recovery: reset link and 'choose a new password' page 
+    [chromium] › tests/e2e/srs.spec.ts:157:3 › 4.3 Moderation workflow › E2E-20 FR-3.9 + FR-5.3 report detail shows related reports and the real report frequency 
+    [chromium] › tests/e2e/srs.spec.ts:263:3 › 4.9 Customer reviews › E2E-31 FR-9.3 a guest who writes a review is asked to log in and comes back to the same vendor 
+    [chromium] › tests/e2e/srs.spec.ts:274:3 › 4.9 Customer reviews › E2E-32 FR-9.2 + FR-9.4 a logged-in user writes a 1–5 star review and can flag a review; a guest is asked to log in 
+
+To open last HTML report run:
+
+  npx playwright show-report docs/testing/evidence/e2e-report
+

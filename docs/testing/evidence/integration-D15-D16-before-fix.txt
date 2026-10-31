@@ -1,0 +1,141 @@
+
+ RUN  v4.1.11 /home/claude/work/aa
+
+SQLSTATE[42S02]: Base table or view not found: 1146 Table 'aa_empty.users' doesn't exist
+ ↓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-01 admin logs in with the correct password
+ ↓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-02 wrong password is rejected with a generic message
+ ↓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-03 unknown account gets the SAME message (no account enumeration)
+ ↓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-04 SQL injection in the login field does not log in
+ ↓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-05 a public account cannot use the Admin login page
+ ↓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-06 a moderator CAN use the Admin login page
+ ↓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-07 login is case-insensitive for the email
+ ↓ tests/integration/api.integration.test.ts > Authentication (auth.php) > IT-08 logout ends the session
+ ↓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-10 7-character password is rejected (BVA min-1)
+ ↓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-11 8-character password is accepted and the user is logged in (BVA min)
+ ↓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-12 the same email cannot register twice, even with other capitals
+ ↓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-13 a 4-character Bangla password is rejected (multibyte EP) — defect D-02
+ ↓ tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-14 a name longer than 100 characters gets a clear 400 error, not a 500 — defect D-03
+ ↓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-20 14-character description is rejected (BVA min-1)
+ ↓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-21 15-character description is accepted; report starts as Pending (BVA min)
+ ↓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-22 an invalid category is rejected
+ ↓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-23 an unknown vendor is rejected
+ ↓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-24 a fake image (text renamed as PNG) is rejected
+ ↓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-25 a GIF or PDF upload is rejected (only JPG/PNG allowed)
+ ↓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-26 a real PNG photo is saved as evidence
+ ↓ tests/integration/api.integration.test.ts > Submitting a report (reports.php) — no account needed > IT-27 a logged-in user reporting anonymously is stored as Anonymous
+ ↓ tests/integration/api.integration.test.ts > Privacy — what the public can see (data.php) > IT-30 guests never see IP addresses, device IDs or internal notes
+ ↓ tests/integration/api.integration.test.ts > Privacy — what the public can see (data.php) > IT-31 guests never see Removed reports; admin does
+ ↓ tests/integration/api.integration.test.ts > Privacy — what the public can see (data.php) > IT-32 guests get no audit history; staff do
+ ↓ tests/integration/api.integration.test.ts > Privacy — what the public can see (data.php) > IT-33 an organization sees internal notes only for reports routed to it
+ ↓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-40 a guest cannot change a report status
+ ↓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-41 a public user and an organization cannot change a report status
+ ↓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-42 a Pending report cannot be sent to an authority (must be Verified first)
+ ↓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-43 Pending -> Verified -> Escalated(BSTI) sets the outcome to Awaiting and is audited
+ ↓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-44 escalating to an organization that does not exist is rejected
+ ↓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-45 an invalid status value is rejected
+ ↓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-46 recalling an escalation (Escalated -> Verified) clears the authority
+ ↓ tests/integration/api.integration.test.ts > Moderation workflow (report_action.php) — state transitions > IT-47 an unknown report id returns 404
+ ↓ tests/integration/api.integration.test.ts > Moderation state machine (SRS FR-3.2 – FR-3.7) — enforced on the server > IT-100 a Disputed report can be marked Verified (FR-3.2)
+ ↓ tests/integration/api.integration.test.ts > Moderation state machine (SRS FR-3.2 – FR-3.7) — enforced on the server > IT-101 a Verified report can be Disputed and a Disputed report re-opened to Pending (FR-3.3)
+ ↓ tests/integration/api.integration.test.ts > Moderation state machine (SRS FR-3.2 – FR-3.7) — enforced on the server > IT-102 a Verified report cannot jump back to Pending (only Disputed can be re-opened)
+ ↓ tests/integration/api.integration.test.ts > Moderation state machine (SRS FR-3.2 – FR-3.7) — enforced on the server > IT-103 a Removed report cannot be marked Verified (FR-3.2 allows only Pending/Disputed)
+ ↓ tests/integration/api.integration.test.ts > Moderation state machine (SRS FR-3.2 – FR-3.7) — enforced on the server > IT-104 an Escalated report cannot be Removed or Disputed — it is locked (FR-3.4, FR-3.7) — defect D-09
+ ↓ tests/integration/api.integration.test.ts > Moderation state machine (SRS FR-3.2 – FR-3.7) — enforced on the server > IT-105 an escalation with outcome Confirmed cannot be recalled; the official outcome stays (FR-3.6) — defect D-09
+ ↓ tests/integration/api.integration.test.ts > Moderation state machine (SRS FR-3.2 – FR-3.7) — enforced on the server > IT-106 a Pending report can be Removed and is then hidden from the public (FR-3.4)
+ ↓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-50 BSTI cannot set the outcome of a report assigned to DNCRP (access control)
+ ↓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-51 a moderator cannot set an authority outcome
+ ↓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-52 Confirmed without a public comment is rejected
+ ↓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-53 a public comment of 281 characters is rejected (BVA max+1)
+ ↓ tests/integration/api.integration.test.ts > Authority outcome (report_action.php outcome) > IT-54 a public comment of 280 characters is accepted (BVA max)
+ ↓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-60 a moderator cannot open the staff list
+ ↓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-61 staff list never contains password hashes
+ ↓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-62 a 7-character staff password is rejected (BVA)
+ ↓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-63 organization staff must have a valid organization
+ ↓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-64 an admin role cannot be created from the Team page
+ ↓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-65 a valid moderator is created and can log in
+ ↓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-66 a turned-off account is blocked immediately, even if already logged in
+ ↓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-67 the admin cannot turn off their own account
+ ↓ tests/integration/api.integration.test.ts > Team page (users.php) — admin only > IT-68 changing your own password needs the correct current password
+ ↓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-70 a guest cannot write a review
+ ↓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-71 rating 0 is rejected (BVA outside 1-5)
+ ↓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-71 rating 6 is rejected (BVA outside 1-5)
+ ↓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-72 rating 1 is accepted (BVA edges)
+ ↓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-72 rating 5 is accepted (BVA edges)
+ ↓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-73 a review for a vendor that does not exist gets a 400, not a 500 — defect D-04
+ ↓ tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-74 only staff can hide a review
+ ↓ tests/integration/api.integration.test.ts > Vendor badges and approval list (vendors.php) — admin only > IT-90 the admin grants verification badges; the public sees them
+ ↓ tests/integration/api.integration.test.ts > Vendor badges and approval list (vendors.php) — admin only > IT-91 a moderator cannot change badges
+ ↓ tests/integration/api.integration.test.ts > Vendor badges and approval list (vendors.php) — admin only > IT-92 an unknown badge name is ignored (only BSTI, DNCRP, Accredited Laboratory)
+ ↓ tests/integration/api.integration.test.ts > Approval List and Bangla text > IT-93 the admin edits Approval List fields and adds a new field; the public sees them (FR-7.2)
+ ↓ tests/integration/api.integration.test.ts > Approval List and Bangla text > IT-130 a report written in Bangla is stored and returned unchanged (SRS 3.4 UTF-8)
+ ↓ tests/integration/api.integration.test.ts > Hidden reviews stay hidden > IT-75 a review hidden by a moderator is not sent to guests at all — defect D-05
+ ↓ tests/integration/api.integration.test.ts > Flagging reviews (SRS FR-9.4) > IT-110 a logged-in user can flag a review and staff see the flag count go up — defect D-10
+ ↓ tests/integration/api.integration.test.ts > Flagging reviews (SRS FR-9.4) > IT-111 a guest cannot flag a review
+ ↓ tests/integration/api.integration.test.ts > HTTP rules (SRS 3.3 Software interfaces, 5.3 Security) > IT-120 unsupported HTTP methods are rejected with 405 — defect D-11
+ ↓ tests/integration/api.integration.test.ts > HTTP rules (SRS 3.3 Software interfaces, 5.3 Security) > IT-121 CORS pre-flight (OPTIONS) is answered with 204
+ ↓ tests/integration/api.integration.test.ts > HTTP rules (SRS 3.3 Software interfaces, 5.3 Security) > IT-122 CORS does not allow an untrusted website
+ ↓ tests/integration/api.integration.test.ts > HTTP rules (SRS 3.3 Software interfaces, 5.3 Security) > IT-123 report lists come newest first (SRS 5.1)
+ ↓ tests/integration/api.integration.test.ts > HTTP rules (SRS 3.3 Software interfaces, 5.3 Security) > IT-124 an anonymous reporter's identity is never sent to the public (FR-2.5, privacy)
+ ↓ tests/integration/api.integration.test.ts > HTTP rules (SRS 3.3 Software interfaces, 5.3 Security) > IT-125 organization users never receive IP addresses or device IDs (FR-5.5)
+ ↓ tests/integration/api.integration.test.ts > HTTP rules (SRS 3.3 Software interfaces, 5.3 Security) > IT-126 the reporter tier is Identified when a logged-in user reports openly (FR-2.6)
+ ↓ tests/integration/api.integration.test.ts > HTTP rules (SRS 3.3 Software interfaces, 5.3 Security) > IT-127 a 10 MB photo is accepted and a photo over 10 MB is rejected (FR-2.4, BVA)
+ ↓ tests/integration/api.integration.test.ts > HTTP rules (SRS 3.3 Software interfaces, 5.3 Security) > IT-129 uploaded evidence is saved under a generated image file name, never the user's name
+ ↓ tests/integration/api.integration.test.ts > Login history (login_history.php) > IT-80 failed logins are recorded with a reason
+ ↓ tests/integration/api.integration.test.ts > Login history (login_history.php) > IT-81 only the admin can read login history
+ × tests/integration/api.integration.test.ts > Database rules (SRS 5.1, 5.2, 5.3) — checked directly in the test database > IT-131 reports are indexed on created_at and moderation_status, and have foreign keys (SRS 5.1, 5.2) — defect D-15 19ms
+   → expected 'id\nreport_code\nuser_id\nvendor_id\n' to match /created_at/
+ ↓ tests/integration/api.integration.test.ts > Database rules (SRS 5.1, 5.2, 5.3) — checked directly in the test database > IT-132 passwords are stored only as bcrypt hashes (SRS 5.3)
+ × tests/integration/api.integration.test.ts > Database rules (SRS 5.1, 5.2, 5.3) — checked directly in the test database > IT-133 the upgrade page never shows the raw database error (SRS 5.3) — defect D-16 41ms
+   → expected '<body style=\'font-family:system-ui;m…' not to match /SQLSTATE|doesn't exist|Base table/i
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/api.integration.test.ts > Database rules (SRS 5.1, 5.2, 5.3) — checked directly in the test database > IT-131 reports are indexed on created_at and moderation_status, and have foreign keys (SRS 5.1, 5.2) — defect D-15
+AssertionError: expected 'id\nreport_code\nuser_id\nvendor_id\n' to match /created_at/
+
+- Expected:
+/created_at/
+
++ Received:
+"id
+report_code
+user_id
+vendor_id
+"
+
+ ❯ tests/integration/api.integration.test.ts:550:17
+    548|   it("IT-131 reports are indexed on created_at and moderation_status, …
+    549|     const idx = sql("SELECT COLUMN_NAME FROM information_schema.STATIS…
+    550|     expect(idx).toMatch(/created_at/)
+       |                 ^
+    551|     expect(idx).toMatch(/moderation_status/)
+    552|     expect(idx).toMatch(/vendor_id/)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/api.integration.test.ts > Database rules (SRS 5.1, 5.2, 5.3) — checked directly in the test database > IT-133 the upgrade page never shows the raw database error (SRS 5.3) — defect D-16
+AssertionError: expected '<body style=\'font-family:system-ui;m…' not to match /SQLSTATE|doesn't exist|Base table/i
+
+- Expected:
+/SQLSTATE|doesn't exist|Base table/i
+
++ Received:
+"<body style='font-family:system-ui;max-width:700px;margin:60px auto'><h1 style='color:#c94b45'>Upgrade failed</h1>
+          <p>Did you open setup.php before? Is MySQL running? Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table &#039;aa_empty.users&#039; doesn&#039;t exist</p></body>"
+
+ ❯ tests/integration/api.integration.test.ts:569:22
+    567|     }).toString()
+    568|     expect(html).toMatch(/Upgrade failed/)
+    569|     expect(html).not.toMatch(/SQLSTATE|doesn't exist|Base table/i)
+       |                      ^
+    570|   })
+    571| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 81 skipped (83)
+   Start at  02:52:03
+   Duration  915ms (transform 82ms, setup 0ms, import 101ms, tests 626ms, environment 0ms)
+

@@ -1,0 +1,114 @@
+name: test
+
+on:
+  push:
+    branches: [main, testing]
+  pull_request:
+  workflow_dispatch: # manual run (Actions tab -> Run workflow) also runs integration + E2E
+
+jobs:
+  unit:
+    name: Unit tests + coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx tsc --noEmit -p .
+      - run: npm test # fails the job if any unit test fails
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: coverage, path: docs/testing/evidence/coverage/ }
+
+  integration:
+    name: API integration tests (PHP + MariaDB)
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "1"
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: "8.3", extensions: "pdo_mysql, mbstring" }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Start PHP API on a separate test database
+        run: bash scripts/start-test-api.sh
+        env: { DB_HOST: 127.0.0.1, DB_NAME: awarenessalert_test, DB_USER: root, DB_PASS: "" }
+      - run: npm run test:integration
+        env: { DB_HOST: 127.0.0.1, DB_NAME: awarenessalert_test, DB_USER: root, DB_PASS: "" }
+      - name: Performance (p95, 20 users)
+        run: npm run test:perf -- 30 20
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: performance, path: docs/testing/evidence/performance-p95.json }
+
+  e2e:
+    name: E2E + accessibility (Playwright)
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox
+      - run: npm run test:e2e
+        env: { CI: "true" }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: e2e-report, path: docs/testing/evidence/e2e-report/ }
+
+  security:
+    name: Dependency audit + secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm audit --audit-level=high
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy to InfinityFree (FTP)
+    # runs only after the unit tests and the security scan pass, and only for the main branch
+    needs: [unit, security]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run build
+      - name: Assemble the website folder (React build + PHP API)
+        run: |
+          mkdir -p site/awarenessalert-api
+          cp -r dist/* site/
+          cp deploy/.htaccess site/.htaccess
+          cp Backend/awarenessalert-api/*.php site/awarenessalert-api/
+          # never upload the one-time setup scripts or a local config.php
+          rm -f site/awarenessalert-api/setup.php site/awarenessalert-api/upgrade.php site/awarenessalert-api/config.php
+      - name: Upload by FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./site/
+          server-dir: /htdocs/
+          exclude: |
+            **/config.php
+            **/uploads/**

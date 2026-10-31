@@ -1,0 +1,16 @@
+# Evidence (SRS 5.1, 5.2): indexes and foreign keys on the reports table, test database awarenessalert_test
+# Command: SHOW INDEX FROM reports; + foreign keys from information_schema
+INDEX_NAME	COLUMN_NAME
+PRIMARY	id
+report_code	report_code
+idx_reports_created	created_at
+idx_reports_status	moderation_status
+user_id	user_id
+vendor_id	vendor_id
+TABLE_NAME	COLUMN_NAME	REFERENCED_TABLE_NAME
+login_history	user_id	users
+reports	user_id	users
+reports	vendor_id	vendors
+report_actions	report_id	reports
+reviews	user_id	users
+reviews	vendor_id	vendors

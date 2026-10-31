@@ -24,6 +24,23 @@ try {
         $label = trim((string) ($body["label"] ?? "")) ?: "Status set to $next";
         if (!in_array($next, ["Pending", "Verified", "Escalated", "Disputed", "Removed"], true)) fail("Invalid status");
 
+        // fix D-09: the moderation state machine of SRS FR-3.2 - FR-3.7 is enforced on the server,
+        // not only by hiding buttons in the UI.
+        $current = $report["moderation_status"];
+        $allowedFrom = [
+            "Verified" => ["Pending", "Disputed"],           // FR-3.2 (+ recall below)
+            "Disputed" => ["Pending", "Verified"],           // FR-3.3
+            "Pending" => ["Disputed"],                       // FR-3.3 re-open
+            "Removed" => ["Pending", "Verified", "Disputed"], // FR-3.4 any report that is not escalated
+            "Escalated" => ["Verified"],                     // FR-3.5
+        ];
+        $isRecall = $current === "Escalated" && $next === "Verified" && $report["authority_outcome"] === "Awaiting"; // FR-3.6
+        if (!$isRecall && !in_array($current, $allowedFrom[$next], true)) {
+            if ($current === "Escalated") fail("This report is with an authority and is locked. Only an escalation with outcome Awaiting can be recalled.");
+            if ($next === "Escalated") fail("Only verified reports can be sent to an authority.");
+            fail("A $current report cannot be changed to $next.");
+        }
+
         $outcome = $report["authority_outcome"];
         $routed = $report["routed_to"];
         if ($next === "Escalated") {

@@ -1,0 +1,129 @@
+
+ RUN  v3.2.4 /home/claude/work/aa
+
+ ❯ tests/integration/api.integration.test.ts (56 tests | 3 failed) 4575ms
+   ✓ Authentication (auth.php) > IT-01 admin logs in with the correct password 66ms
+   ✓ Authentication (auth.php) > IT-02 wrong password is rejected with a generic message 67ms
+   ✓ Authentication (auth.php) > IT-03 unknown account gets the SAME message (no account enumeration) 4ms
+   ✓ Authentication (auth.php) > IT-04 SQL injection in the login field does not log in 4ms
+   ✓ Authentication (auth.php) > IT-05 a public account cannot use the Admin login page 63ms
+   ✓ Authentication (auth.php) > IT-06 a moderator CAN use the Admin login page 63ms
+   ✓ Authentication (auth.php) > IT-07 login is case-insensitive for the email 64ms
+   ✓ Authentication (auth.php) > IT-08 logout ends the session 77ms
+   ✓ Sign up (auth.php register) — password min 8 characters > IT-10 7-character password is rejected (BVA min-1) 2ms
+   ✓ Sign up (auth.php register) — password min 8 characters > IT-11 8-character password is accepted and the user is logged in (BVA min) 64ms
+   ✓ Sign up (auth.php register) — password min 8 characters > IT-12 the same email cannot register twice, even with other capitals 2ms
+   × Sign up (auth.php register) — password min 8 characters > IT-13 a 4-character Bangla password is rejected (multibyte EP) — defect D-02 70ms
+     → expected 200 to be 400 // Object.is equality
+   × Sign up (auth.php register) — password min 8 characters > IT-14 a name longer than 100 characters gets a clear 400 error, not a 500 — defect D-03 65ms
+     → expected 500 to be 400 // Object.is equality
+   ✓ Submitting a report (reports.php) — no account needed > IT-20 14-character description is rejected (BVA min-1) 2ms
+   ✓ Submitting a report (reports.php) — no account needed > IT-21 15-character description is accepted; report starts as Pending (BVA min) 73ms
+   ✓ Submitting a report (reports.php) — no account needed > IT-22 an invalid category is rejected 2ms
+   ✓ Submitting a report (reports.php) — no account needed > IT-23 an unknown vendor is rejected 2ms
+   ✓ Submitting a report (reports.php) — no account needed > IT-24 a fake image (text renamed as PNG) is rejected 2ms
+   ✓ Submitting a report (reports.php) — no account needed > IT-25 a GIF or PDF upload is rejected (only JPG/PNG allowed) 2ms
+   ✓ Submitting a report (reports.php) — no account needed > IT-26 a real PNG photo is saved as evidence 6ms
+   ✓ Submitting a report (reports.php) — no account needed > IT-27 a logged-in user reporting anonymously is stored as Anonymous 143ms
+   ✓ Privacy — what the public can see (data.php) > IT-30 guests never see IP addresses, device IDs or internal notes 5ms
+   ✓ Privacy — what the public can see (data.php) > IT-31 guests never see Removed reports; admin does 81ms
+   ✓ Privacy — what the public can see (data.php) > IT-32 guests get no audit history; staff do 78ms
+   ✓ Privacy — what the public can see (data.php) > IT-33 an organization sees internal notes only for reports routed to it 68ms
+   ✓ Moderation workflow (report_action.php) — state transitions > IT-40 a guest cannot change a report status 2ms
+   ✓ Moderation workflow (report_action.php) — state transitions > IT-41 a public user and an organization cannot change a report status 129ms
+   ✓ Moderation workflow (report_action.php) — state transitions > IT-42 a Pending report cannot be sent to an authority (must be Verified first) 62ms
+   ✓ Moderation workflow (report_action.php) — state transitions > IT-43 Pending -> Verified -> Escalated(BSTI) sets the outcome to Awaiting and is audited 70ms
+   ✓ Moderation workflow (report_action.php) — state transitions > IT-44 escalating to an organization that does not exist is rejected 67ms
+   ✓ Moderation workflow (report_action.php) — state transitions > IT-45 an invalid status value is rejected 70ms
+   ✓ Moderation workflow (report_action.php) — state transitions > IT-46 recalling an escalation (Escalated -> Verified) clears the authority 74ms
+   ✓ Moderation workflow (report_action.php) — state transitions > IT-47 an unknown report id returns 404 75ms
+   ✓ Authority outcome (report_action.php outcome) > IT-50 BSTI cannot set the outcome of a report assigned to DNCRP (access control) 68ms
+   ✓ Authority outcome (report_action.php outcome) > IT-51 a moderator cannot set an authority outcome 69ms
+   ✓ Authority outcome (report_action.php outcome) > IT-52 Confirmed without a public comment is rejected 67ms
+   ✓ Authority outcome (report_action.php outcome) > IT-53 a public comment of 281 characters is rejected (BVA max+1) 69ms
+   ✓ Authority outcome (report_action.php outcome) > IT-54 a public comment of 280 characters is accepted (BVA max) 72ms
+   ✓ Team page (users.php) — admin only > IT-60 a moderator cannot open the staff list 63ms
+   ✓ Team page (users.php) — admin only > IT-61 staff list never contains password hashes 69ms
+   ✓ Team page (users.php) — admin only > IT-62 a 7-character staff password is rejected (BVA) 71ms
+   ✓ Team page (users.php) — admin only > IT-63 organization staff must have a valid organization 71ms
+   ✓ Team page (users.php) — admin only > IT-64 an admin role cannot be created from the Team page 75ms
+   ✓ Team page (users.php) — admin only > IT-65 a valid moderator is created and can log in 219ms
+   ✓ Team page (users.php) — admin only > IT-66 a turned-off account is blocked immediately, even if already logged in 217ms
+   ✓ Team page (users.php) — admin only > IT-67 the admin cannot turn off their own account 70ms
+   ✓ Team page (users.php) — admin only > IT-68 changing your own password needs the correct current password  481ms
+   ✓ Reviews (reviews.php) > IT-70 a guest cannot write a review 3ms
+   ✓ Reviews (reviews.php) > IT-71 rating 0 is rejected (BVA outside 1-5) 71ms
+   ✓ Reviews (reviews.php) > IT-71 rating 6 is rejected (BVA outside 1-5) 74ms
+   ✓ Reviews (reviews.php) > IT-72 rating 1 is accepted (BVA edges) 71ms
+   ✓ Reviews (reviews.php) > IT-72 rating 5 is accepted (BVA edges) 76ms
+   × Reviews (reviews.php) > IT-73 a review for a vendor that does not exist gets a 400, not a 500 — defect D-04 82ms
+     → expected 500 to be 400 // Object.is equality
+   ✓ Reviews (reviews.php) > IT-74 only staff can hide a review 141ms
+   ✓ Login history (login_history.php) > IT-80 failed logins are recorded with a reason 135ms
+   ✓ Login history (login_history.php) > IT-81 only the admin can read login history 93ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-13 a 4-character Bangla password is rejected (multibyte EP) — defect D-02
+AssertionError: expected 200 to be 400 // Object.is equality
+
+- Expected
++ Received
+
+- 400
++ 200
+
+ ❯ tests/integration/api.integration.test.ts:78:61
+     76|   it("IT-13 a 4-character Bangla password is rejected (multibyte EP) —…
+     77|     // "পাসও" is 4 characters but 12 bytes; strlen() counted bytes.
+     78|     expect((await reg("Test", "bn@x.test", "পাসও")).status).toBe(400)
+       |                                                             ^
+     79|   })
+     80| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/integration/api.integration.test.ts > Sign up (auth.php register) — password min 8 characters > IT-14 a name longer than 100 characters gets a clear 400 error, not a 500 — defect D-03
+AssertionError: expected 500 to be 400 // Object.is equality
+
+- Expected
++ Received
+
+- 400
++ 500
+
+ ❯ tests/integration/api.integration.test.ts:83:22
+     81|   it("IT-14 a name longer than 100 characters gets a clear 400 error, …
+     82|     const r = await reg("N".repeat(101), "long@x.test", "Abcd#123")
+     83|     expect(r.status).toBe(400)
+       |                      ^
+     84|     expect(r.body.error).toMatch(/100 characters/)
+     85|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/integration/api.integration.test.ts > Reviews (reviews.php) > IT-73 a review for a vendor that does not exist gets a 400, not a 500 — defect D-04
+AssertionError: expected 500 to be 400 // Object.is equality
+
+- Expected
++ Received
+
+- 400
++ 500
+
+ ❯ tests/integration/api.integration.test.ts:341:63
+    339| 
+    340|   it("IT-73 a review for a vendor that does not exist gets a 400, not …
+    341|     expect((await create(await as("rafi"), 4, 99999)).status).toBe(400)
+       |                                                               ^
+    342|   })
+    343| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 53 passed (56)
+   Start at  01:22:49
+   Duration  4.93s (transform 81ms, setup 0ms, collect 87ms, tests 4.57s, environment 0ms, prepare 73ms)
+

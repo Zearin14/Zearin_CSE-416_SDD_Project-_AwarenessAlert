@@ -52,7 +52,7 @@ try {
         $stmt->execute([$user["id"]]);
         $hash = $stmt->fetchColumn();
         if (!$hash || !password_verify($current, $hash)) fail("Your current password is not correct.");
-        if (strlen($new) < 8) fail("The new password must be at least 8 characters.");
+        if (text_length($new) < 8) fail("The new password must be at least 8 characters.");
         $pdo->prepare("UPDATE users SET password_hash = ? WHERE id = ?")
             ->execute([password_hash($new, PASSWORD_DEFAULT), $user["id"]]);
         json_out(["success" => true]);
@@ -69,7 +69,9 @@ try {
         $title = trim((string) ($body["title"] ?? "")) ?: ($role === "moderator" ? "Moderator" : null);
 
         if ($name === "" || $login === "") fail("Name and email/phone are required.");
-        if (strlen($password) < 8) fail("The password must be at least 8 characters.");
+        if (text_length($name) > 100) fail("Name must be 100 characters or fewer.");
+        if (text_length($login) > 150) fail("Email/phone must be 150 characters or fewer.");
+        if (text_length($password) < 8) fail("The password must be at least 8 characters.");
         if (!in_array($role, ["moderator", "org"], true)) fail("Choose Moderator or Organization staff.");
         if ($role === "org" && !in_array($organization, $orgs, true)) fail("Choose the organization.");
 
@@ -98,7 +100,7 @@ try {
 
     if ($action === "reset_password") {
         $password = (string) ($body["password"] ?? "");
-        if (strlen($password) < 8) fail("The password must be at least 8 characters.");
+        if (text_length($password) < 8) fail("The password must be at least 8 characters.");
         $pdo->prepare("UPDATE users SET password_hash = ? WHERE id = ?")
             ->execute([password_hash($password, PASSWORD_DEFAULT), $id]);
         json_out(["success" => true, "users" => staff_list($pdo)]);
