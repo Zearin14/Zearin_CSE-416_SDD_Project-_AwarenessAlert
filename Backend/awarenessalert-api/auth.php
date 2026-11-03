@@ -48,7 +48,8 @@ try {
         // Admin login page accepts admins AND moderators
         $allowed = $kind === "admin" ? STAFF_ROLES : [$kind];
         if (!in_array($row["role"], $allowed, true)) {
-            $page = in_array($row["role"], STAFF_ROLES, true) ? "Admin" : ($row["role"] === "org" ? "Organization" : "public");
+            $page = in_array($row["role"], STAFF_ROLES, true) ? "Admin"
+                : ($row["role"] === "org" ? "Organization" : ($row["role"] === "vendor" ? "Vendor" : "public"));
             log_login($pdo, $row, $login, "failed", "Used the wrong login page");
             fail("This account cannot log in here. Use the $page login page.", 403);
         }

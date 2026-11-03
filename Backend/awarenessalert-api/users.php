@@ -11,7 +11,7 @@ $orgs = ["BSTI", "DNCRP", "Accredited Laboratory"];
 
 function staff_list($pdo)
 {
-    $order = " WHERE u.role <> 'public' ORDER BY FIELD(u.role, 'admin', 'moderator', 'org'), u.name";
+    $order = " WHERE u.role NOT IN ('public', 'vendor') ORDER BY FIELD(u.role, 'admin', 'moderator', 'org'), u.name";
     try {
         $rows = $pdo->query(
             "SELECT u.id, u.name, u.login, u.role, u.organization, u.title, u.active, u.created_at,

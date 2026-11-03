@@ -1,0 +1,13 @@
+# Online hosting (Apache): open the React app for every page address,
+# so refreshing e.g. /reports/AA-01025 does not give "404 Not Found".
+DirectoryIndex index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # real files/folders (assets, the PHP API, uploaded photos) are served as they are
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  RewriteRule ^awarenessalert-api/ - [L]
+  # everything else is a page of the React app
+  RewriteRule ^ index.html [L]
+</IfModule>

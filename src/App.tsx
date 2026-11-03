@@ -23,6 +23,10 @@ import {
   ratingFor,
   reportFrequency,
   vendorMetrics,
+  canDispute,
+  ownedVendor,
+  vendorClaimState,
+  vendorResponseFor,
 } from "./logic"
 import type {
   Audit,
@@ -37,6 +41,8 @@ import type {
   Store,
   User,
   Vendor,
+  VendorClaim,
+  VendorResponse,
 } from "./logic"
 
 const STORE_KEY = "awareness-alert-v4"
@@ -149,6 +155,22 @@ const SEED_USERS: User[] = [
     login: "01700000000",
     password: "User#1234",
     role: "public",
+  },
+  {
+    id: "vendor1",
+    name: "Arif Hossain",
+    title: "Manager, Chillox Banani",
+    login: "vendor@awarenessalert.test",
+    password: "Vendor#1234",
+    role: "vendor",
+  },
+  {
+    id: "vendor2",
+    name: "Nadia Karim",
+    title: "Manager, Sajna Restaurant (claim pending)",
+    login: "newvendor@awarenessalert.test",
+    password: "Vendor#1234",
+    role: "vendor",
   },
 ]
 
@@ -461,6 +483,8 @@ function storeFromServer(data: any, base: Store): Store {
     })),
     auditLog: data.auditLog,
     session: data.session,
+    vendorClaims: data.vendorClaims ?? [],
+    vendorResponses: data.vendorResponses ?? [],
     notifications: [
       ...(latest
         ? [
@@ -713,6 +737,7 @@ function AppHeader({ store, logout }: { store: Store; logout: () => void }) {
     store.session?.role === "public"
       ? store.users.find((user) => user.id === store.session?.userId)
       : null
+  const vendorUser = store.session?.role === "vendor"
   return (
     <header className="site-header">
       <div className="header-inner">
@@ -751,6 +776,20 @@ function AppHeader({ store, logout }: { store: Store; logout: () => void }) {
               <Link to="/profile" className="user-chip">
                 <Icon name="user" size={17} />
                 <span>{publicUser.name.split(" ")[0]}</span>
+              </Link>
+              <button
+                className="link-button desktop-only"
+                type="button"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </>
+          ) : vendorUser ? (
+            <>
+              <Link to="/vendor-portal" className="user-chip vendor-chip">
+                <Icon name="shield" size={17} />
+                <span>Vendor portal</span>
               </Link>
               <button
                 className="link-button desktop-only"
@@ -1293,6 +1332,9 @@ function ReportCard({
           )}
         </span>
         {metrics.spike && <span className="spike-tag">Unusual activity</span>}
+        {vendorResponseFor(report.id, store.vendorResponses).reply && (
+          <span className="vendor-replied-tag">Vendor replied</span>
+        )}
         <Icon name="arrow" size={17} />
       </div>
     </Link>
@@ -1507,6 +1549,12 @@ function VendorProfile({
           </span>
           <h1>{vendor.name}</h1>
           <AuthorityBadges vendor={vendor} />
+          {vendor.ownerVerified && (
+            <span className="owner-chip">
+              <Icon name="check" size={14} />
+              Verified owner on AwarenessAlert
+            </span>
+          )}
           <div className="vendor-quick">
             <TrustBadge band={metrics.band} score={metrics.score} />
             <span className="rating large">
@@ -1686,6 +1734,25 @@ function VendorProfile({
           </section>
         </div>
         <aside className="profile-aside">
+          {(vendor.phone || vendor.openingHours || vendor.shopDescription) && (
+            <div className="side-card shop-info-card">
+              <h3>Shop information</h3>
+              {vendor.shopDescription && <p>{vendor.shopDescription}</p>}
+              {vendor.openingHours && (
+                <div className="stat-row">
+                  <span>Opening hours</span>
+                  <strong>{vendor.openingHours}</strong>
+                </div>
+              )}
+              {vendor.phone && (
+                <div className="stat-row">
+                  <span>Phone</span>
+                  <strong>{vendor.phone}</strong>
+                </div>
+              )}
+              <small>Provided by the verified shop owner.</small>
+            </div>
+          )}
           <div className="side-card">
             <h3>At a glance</h3>
             <div className="stat-row">
@@ -1809,6 +1876,7 @@ function ReportDetail({ store, id }: { store: Store; id: string }) {
           issue and should not be read as a legal finding.
         </p>
         <AuthorityComment report={report} store={store} />
+        <VendorResponseBlock report={report} store={store} />
       </section>
       <section className="content-card">
         <h2>Review timeline</h2>
@@ -2246,6 +2314,7 @@ type StorePageProps = {
 function afterLoginPath(kind: string) {
   if (kind === "admin") return "/admin"
   if (kind === "org") return "/org"
+  if (kind === "vendor") return "/vendor-portal"
   try {
     const vendorId = sessionStorage.getItem("reviewDraftVendor")
     if (vendorId) {
@@ -2265,7 +2334,7 @@ function AuthPage({
   navigate,
   guardMessage,
 }: StorePageProps & {
-  kind: "public" | "admin" | "org"
+  kind: "public" | "admin" | "org" | "vendor"
   navigate: (path: string) => void
   guardMessage?: string
 }) {
@@ -2277,7 +2346,9 @@ function AuthPage({
       ? ["Admin Login", "Moderation team access"]
       : kind === "org"
         ? ["Organization Login", "Partner authority access"]
-        : ["Welcome back", "Sign in to your account"]
+        : kind === "vendor"
+          ? ["Vendor Login", "Shop owners and managers"]
+          : ["Welcome back", "Sign in to your account"]
   const backend = useBackend()
   const [busy, setBusy] = useState(false)
   const [showDemo, setShowDemo] = useState(false)
@@ -2363,7 +2434,9 @@ function AuthPage({
           <p>
             {kind === "public"
               ? "Save areas, follow your reports, and contribute customer reviews. Browsing and safety reporting always remain open."
-              : "This is a simulated role-protected portal for the AwarenessAlert prototype."}
+              : kind === "vendor"
+                ? "Reply publicly to reports about your shop, dispute unfair reports and keep your shop details up to date."
+                : "This is a simulated role-protected portal for the AwarenessAlert prototype."}
           </p>
           <div className="auth-points">
             <span>
@@ -2439,7 +2512,11 @@ function AuthPage({
               >
                 <span>
                   {user.organization ??
-                    (user.role === "moderator" ? `${user.name} (Moderator)` : user.name)}
+                    (user.role === "moderator"
+                      ? `${user.name} (Moderator)`
+                      : user.role === "vendor"
+                        ? `${user.name} (${user.title})`
+                        : user.name)}
                 </span>
                 <code>
                   {user.login} / {user.password}
@@ -2451,6 +2528,12 @@ function AuthPage({
           {kind === "public" && (
             <p className="auth-switch">
               New to AwarenessAlert? <Link to="/signup">Create an account</Link>
+            </p>
+          )}
+          {kind === "vendor" && (
+            <p className="auth-switch">
+              Own or manage a shop?{" "}
+              <Link to="/vendor/register">Register your shop</Link>
             </p>
           )}
           <Link to="/" className="back-home">
@@ -3013,6 +3096,20 @@ function AdminShell({
               Login history
             </Link>
           )}
+          <Link to="/admin/vendor-requests">
+            <Icon name="filter" />
+            Vendor requests
+            {(() => {
+              const waiting =
+                (isAdmin
+                  ? (store.vendorClaims ?? []).filter((claim) => claim.status === "Pending").length
+                  : 0) +
+                (store.vendorResponses ?? []).filter(
+                  (response) => response.kind === "dispute" && response.status === "Open",
+                ).length
+              return waiting ? <span className="nav-count">{waiting}</span> : null
+            })()}
+          </Link>
           <Link to="/admin/account">
             <Icon name="shield" />
             My account
@@ -3345,7 +3442,7 @@ function AdminReportDetail({
                 className="button teal"
                 onClick={() => action("Verified", "Marked Verified")}
               >
-                Mark Verified
+                Accept report
               </button>
             )}
           {!locked &&
@@ -3447,6 +3544,13 @@ function AdminReportDetail({
               />
             )}
           </section>
+          {vendorResponseFor(report.id, store.vendorResponses).reply ||
+          vendorResponseFor(report.id, store.vendorResponses).dispute ? (
+            <section className="portal-card">
+              <h2>Vendor response</h2>
+              <VendorResponseBlock report={report} store={store} staffView />
+            </section>
+          ) : null}
           <section className="portal-card">
             <h2>Reporter & abuse-prevention signals</h2>
             <InfoGrid
@@ -4301,28 +4405,819 @@ function OrgReportDetail({
   )
 }
 
-function VendorPortal() {
+// ---------- Vendor portal ----------
+
+// Vendor reply / dispute shown under a report (public page, admin page, vendor dashboard)
+function VendorResponseBlock({
+  report,
+  store,
+  staffView = false,
+}: {
+  report: Report
+  store: Store
+  staffView?: boolean
+}) {
+  const { reply, dispute } = vendorResponseFor(report.id, store.vendorResponses)
+  const vendor = findVendor(store, report.vendorId)
+  if (!reply && !dispute) return null
   return (
-    <div className="page confirmation-page">
-      <div className="confirmation-mark future">
-        <Icon name="shield" size={34} />
+    <div className="vendor-response">
+      {reply && (
+        <div className="vendor-reply">
+          <strong>
+            <Icon name="shield" size={14} />
+            Response from {vendor.name} · {formatDate(reply.updatedAt || reply.createdAt)}
+            {reply.updatedAt && " (edited)"}
+          </strong>
+          <p>{reply.body}</p>
+        </div>
+      )}
+      {dispute && (
+        <div className={`vendor-dispute ${dispute.status.toLowerCase()}`}>
+          <strong>
+            {dispute.status === "Open"
+              ? "The vendor has disputed this report. A moderator is reviewing it."
+              : dispute.status === "Accepted"
+                ? "Vendor dispute accepted by a moderator — this report no longer counts towards the trust status."
+                : "Vendor dispute reviewed — the report stays as it is."}
+          </strong>
+          {dispute.body && (
+            <p>
+              <b>Vendor's reason:</b> {dispute.body}
+            </p>
+          )}
+          {dispute.moderatorNote && (
+            <p>
+              <b>Moderator note:</b> {dispute.moderatorNote}
+            </p>
+          )}
+          {staffView && dispute.status === "Open" && (
+            <Link to="/admin/vendor-requests" className="button secondary small">
+              Decide in Vendor requests
+            </Link>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function VendorPortal({ store }: { store: Store }) {
+  const backend = useBackend()
+  if (store.session?.role !== "vendor") return <VendorLanding />
+  if (!backend.online)
+    return (
+      <div className="page narrow-page">
+        <EmptyState
+          title="The Vendor portal needs the database"
+          text="Start Apache and MySQL in XAMPP, then refresh the page."
+        />
       </div>
-      <span className="eyebrow">Future phase</span>
-      <h1>Vendor Dashboard — Coming Soon</h1>
-      <p>
-        A future right-of-reply space for reported vendors. This role is not
-        active in the current prototype.
-      </p>
-      <div className="future-list">
-        <span>Claim a vendor listing</span>
-        <span>Respond publicly to reports</span>
-        <span>Display verification</span>
-        <span>Manage vendor information</span>
-        <span>Raise a dispute on a report</span>
+    )
+  const vendor = ownedVendor(store)
+  if (vendor) return <VendorDashboard store={store} vendor={vendor} />
+  return <VendorClaimStatus store={store} />
+}
+
+function VendorLanding() {
+  return (
+    <div className="page vendor-landing">
+      <PageTitle
+        eyebrow="For shop owners and managers"
+        title="Vendor portal"
+        text="Every vendor deserves a fair hearing. Claim your shop to reply publicly to reports, dispute reports you believe are wrong, and keep your shop information up to date."
+      />
+      <div className="vendor-feature-grid">
+        {[
+          ["shield", "Claim your shop", "Send your trade licence number. The admin checks it before you get access."],
+          ["report", "Reply to reports", "Your public reply is shown under the report for every customer to read."],
+          ["filter", "Dispute unfair reports", "A moderator reviews your reason. Accepted disputes stop counting towards your trust status."],
+          ["pin", "Update shop details", "Phone number, opening hours and a short description on your public profile."],
+        ].map(([icon, title, text]) => (
+          <div className="content-card" key={title}>
+            <Icon name={icon} size={24} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </div>
+        ))}
       </div>
-      <Link to="/" className="button dark">
-        Return to Homepage
+      <div className="confirmation-actions">
+        <Link to="/vendor/register" className="button primary large">
+          Register your shop
+        </Link>
+        <Link to="/vendor/login" className="button secondary large">
+          Vendor login
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+const EMPTY_CLAIM = {
+  vendorId: "",
+  businessRole: "Owner",
+  phone: "",
+  tradeLicense: "",
+  message: "",
+}
+
+function ClaimFields({
+  store,
+  claim,
+  setClaim,
+}: {
+  store: Store
+  claim: typeof EMPTY_CLAIM
+  setClaim: (claim: typeof EMPTY_CLAIM) => void
+}) {
+  const free = store.vendors.filter((vendor) => !vendor.ownerVerified)
+  return (
+    <>
+      <label className="field">
+        <span>Your shop</span>
+        <select
+          value={claim.vendorId}
+          onChange={(event) => setClaim({ ...claim, vendorId: event.target.value })}
+        >
+          <option value="">Choose your shop...</option>
+          {free.map((vendor) => (
+            <option key={vendor.id} value={vendor.id}>
+              {vendor.name} — {vendor.area}
+            </option>
+          ))}
+        </select>
+        <small>Shops that already have a verified owner are not listed.</small>
+      </label>
+      <label className="field">
+        <span>Your role</span>
+        <select
+          value={claim.businessRole}
+          onChange={(event) => setClaim({ ...claim, businessRole: event.target.value })}
+        >
+          <option>Owner</option>
+          <option>Manager</option>
+          <option>Authorised staff</option>
+        </select>
+      </label>
+      <label className="field">
+        <span>Business phone</span>
+        <input
+          value={claim.phone}
+          onChange={(event) => setClaim({ ...claim, phone: event.target.value })}
+          placeholder="e.g. 01711000000"
+        />
+      </label>
+      <label className="field">
+        <span>Trade licence number</span>
+        <input
+          value={claim.tradeLicense}
+          onChange={(event) => setClaim({ ...claim, tradeLicense: event.target.value })}
+          placeholder="e.g. TRAD/DNCC/012345/2026"
+        />
+      </label>
+      <label className="field">
+        <span>Message to the admin (optional)</span>
+        <textarea
+          rows={3}
+          maxLength={500}
+          value={claim.message}
+          onChange={(event) => setClaim({ ...claim, message: event.target.value })}
+          placeholder="Anything that helps the admin verify you"
+        />
+      </label>
+    </>
+  )
+}
+
+function VendorRegister({
+  store,
+  navigate,
+}: {
+  store: Store
+  navigate: (path: string) => void
+}) {
+  const backend = useBackend()
+  const [account, setAccount] = useState({ name: "", login: "", password: "" })
+  const [claim, setClaim] = useState(EMPTY_CLAIM)
+  const [error, setError] = useState("")
+  const [busy, setBusy] = useState(false)
+  async function submit(event: FormEvent) {
+    event.preventDefault()
+    setError("")
+    if (!backend.online) {
+      setError("The Vendor portal needs the database. Start Apache and MySQL in XAMPP.")
+      return
+    }
+    if (!account.name.trim() || !account.login.trim()) return setError("Enter your name and email or phone.")
+    if (account.password.length < 8) return setError("The password must be at least 8 characters.")
+    if (!claim.vendorId) return setError("Choose your shop from the list.")
+    setBusy(true)
+    try {
+      await api.registerVendor({ ...account, ...claim })
+      await backend.refresh()
+      navigate("/vendor-portal")
+    } catch (registerError) {
+      setError(errorText(registerError))
+    } finally {
+      setBusy(false)
+    }
+  }
+  return (
+    <div className="auth-page">
+      <Link to="/" className="auth-brand">
+        <span className="brand-mark">
+          <Icon name="shield" />
+        </span>
+        Awareness<span>Alert</span>
       </Link>
+      <div className="single-auth-card wide-auth-card">
+        <span className="eyebrow">Vendor portal</span>
+        <h1>Register your shop</h1>
+        <p>
+          Create a vendor account and claim your shop. The admin verifies your
+          trade licence before you can reply to reports.
+        </p>
+        <form onSubmit={submit}>
+          <label className="field">
+            <span>Your full name</span>
+            <input
+              value={account.name}
+              onChange={(event) => setAccount({ ...account, name: event.target.value })}
+            />
+          </label>
+          <label className="field">
+            <span>Email or phone (used to log in)</span>
+            <input
+              value={account.login}
+              onChange={(event) => setAccount({ ...account, login: event.target.value })}
+            />
+          </label>
+          <label className="field">
+            <span>Password (min 8 characters)</span>
+            <input
+              type="password"
+              value={account.password}
+              onChange={(event) => setAccount({ ...account, password: event.target.value })}
+            />
+          </label>
+          <ClaimFields store={store} claim={claim} setClaim={setClaim} />
+          {error && <div className="field-error boxed">{error}</div>}
+          <button className="button dark full large" type="submit" disabled={busy}>
+            {busy ? "Sending…" : "Create account and claim shop"}
+          </button>
+        </form>
+        <p className="auth-switch">
+          Already registered? <Link to="/vendor/login">Vendor login</Link>
+        </p>
+        <Link to="/vendor-portal" className="back-home">
+          <Icon name="back" size={16} />
+          Back to the Vendor portal
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+// Vendor account without an approved shop: pending / rejected / claim again
+function VendorClaimStatus({ store }: { store: Store }) {
+  const backend = useBackend()
+  const latest = vendorClaimState(store.vendorClaims, store.session?.userId)
+  const [claim, setClaim] = useState(EMPTY_CLAIM)
+  const [message, setMessage] = useState("")
+  async function claimAgain(event: FormEvent) {
+    event.preventDefault()
+    setMessage("")
+    if (!claim.vendorId) return setMessage("Choose your shop from the list.")
+    try {
+      await api.claimShop(claim)
+      await backend.refresh()
+    } catch (claimError) {
+      setMessage(errorText(claimError))
+    }
+  }
+  return (
+    <div className="page narrow-page">
+      <PageTitle eyebrow="Vendor portal" title="Your shop claim" />
+      {latest?.status === "Pending" ? (
+        <section className="content-card claim-card pending">
+          <span className="claim-status pending">Waiting for the admin</span>
+          <h2>{latest.vendorName}</h2>
+          <p>
+            You asked to manage this shop as <b>{latest.businessRole}</b> on{" "}
+            {formatDate(latest.createdAt)}. The admin checks your trade licence (
+            {latest.tradeLicense}) before giving you access. Please check back
+            later.
+          </p>
+        </section>
+      ) : (
+        <>
+          {latest?.status === "Rejected" && (
+            <section className="content-card claim-card rejected">
+              <span className="claim-status rejected">Claim not approved</span>
+              <h2>{latest.vendorName}</h2>
+              <p>
+                <b>Reason from the admin:</b> {latest.adminNote || "No reason given."}
+              </p>
+              <p>You can send a new claim below.</p>
+            </section>
+          )}
+          <form className="form-card claim-form" onSubmit={claimAgain}>
+            <fieldset>
+              <legend>Claim a shop</legend>
+              <ClaimFields store={store} claim={claim} setClaim={setClaim} />
+              {message && <div className="field-error boxed">{message}</div>}
+              <button className="button dark" type="submit">
+                Send claim to the admin
+              </button>
+            </fieldset>
+          </form>
+        </>
+      )}
+    </div>
+  )
+}
+
+function VendorDashboard({ store, vendor }: { store: Store; vendor: Vendor }) {
+  const [tab, setTab] = useState("reports")
+  const metrics = vendorMetrics(vendor, store)
+  const rating = ratingFor(vendor.id, store.reviews)
+  const reports = store.reports.filter(
+    (report) => report.vendorId === vendor.id && report.moderationStatus !== "Removed",
+  )
+  const responses = store.vendorResponses ?? []
+  const openDisputes = responses.filter(
+    (response) => response.vendorId === vendor.id && response.kind === "dispute" && response.status === "Open",
+  ).length
+  const replies = responses.filter(
+    (response) => response.vendorId === vendor.id && response.kind === "reply",
+  ).length
+  const waiting = reports.filter(
+    (report) => !vendorResponseFor(report.id, responses).reply,
+  ).length
+  return (
+    <div className="page vendor-dashboard">
+      <section className="vendor-hero">
+        <div className="vendor-monogram">
+          {vendor.name
+            .split(" ")
+            .map((part) => part[0])
+            .slice(0, 2)
+            .join("")}
+        </div>
+        <div className="vendor-title">
+          <span className="eyebrow">Vendor portal · {vendor.kind} · {vendor.area}</span>
+          <h1>{vendor.name}</h1>
+          <span className="owner-chip">
+            <Icon name="check" size={14} />
+            You are the verified owner
+          </span>
+          <div className="vendor-quick">
+            <TrustBadge band={metrics.band} score={metrics.score} />
+            <span className="rating large">
+              <Icon name="star" size={18} />
+              {rating.average.toFixed(1)} <small>{rating.count} reviews</small>
+            </span>
+          </div>
+        </div>
+        <div className="vendor-actions">
+          <Link to={`/vendor/${vendor.id}`} className="button secondary">
+            View public profile
+          </Link>
+        </div>
+      </section>
+      <div className="org-metrics vendor-metrics">
+        <div>
+          <span>Public reports</span>
+          <strong>{reports.length}</strong>
+        </div>
+        <div className={waiting ? "metric-alert" : ""}>
+          <span>Waiting for your reply</span>
+          <strong>{waiting}</strong>
+        </div>
+        <div>
+          <span>Open disputes</span>
+          <strong>{openDisputes}</strong>
+        </div>
+        <div>
+          <span>Replies posted</span>
+          <strong>{replies}</strong>
+        </div>
+      </div>
+      <div className="tabs">
+        {[
+          ["reports", "Reports about your shop"],
+          ["info", "Shop information"],
+          ["reviews", "Customer reviews"],
+        ].map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            className={tab === value ? "active" : ""}
+            onClick={() => setTab(value)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+      {tab === "reports" &&
+        (reports.length ? (
+          <div className="vendor-report-list">
+            {reports.map((report) => (
+              <VendorReportCard key={report.id} report={report} store={store} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState title="No reports about your shop" text="Great news — there is nothing to reply to." />
+        ))}
+      {tab === "info" && <ShopInfoForm vendor={vendor} />}
+      {tab === "reviews" &&
+        (rating.reviews.length ? (
+          <section className="content-card review-list">
+            {rating.reviews.map((review) => (
+              <article key={review.id} className="review">
+                <div className="review-avatar">★</div>
+                <div>
+                  <div>
+                    <strong>
+                      {store.users.find((user) => user.id === review.userId)?.name ??
+                        "Community member"}
+                    </strong>
+                    <span>{formatDate(review.date)}</span>
+                  </div>
+                  <div className="stars small">
+                    {"★".repeat(review.rating)}
+                    <span>{"★".repeat(5 - review.rating)}</span>
+                  </div>
+                  <p>{review.text}</p>
+                </div>
+              </article>
+            ))}
+          </section>
+        ) : (
+          <EmptyState title="No reviews yet" text="Customer reviews will appear here." />
+        ))}
+    </div>
+  )
+}
+
+function VendorReportCard({ report, store }: { report: Report; store: Store }) {
+  const backend = useBackend()
+  const { reply } = vendorResponseFor(report.id, store.vendorResponses)
+  const [mode, setMode] = useState<"" | "reply" | "dispute">("")
+  const [text, setText] = useState(reply?.body ?? "")
+  const [message, setMessage] = useState("")
+  const [busy, setBusy] = useState(false)
+  const disputable = canDispute(report, store.vendorResponses)
+  async function send(event: FormEvent) {
+    event.preventDefault()
+    setMessage("")
+    setBusy(true)
+    try {
+      if (mode === "reply") await api.vendorReply(report.id, text.trim())
+      else await api.vendorDispute(report.id, text.trim())
+      await backend.refresh()
+      setMessage(mode === "reply" ? "Saved: your reply is now public." : "Saved: a moderator will review your dispute.")
+      setMode("")
+    } catch (sendError) {
+      setMessage(errorText(sendError))
+    } finally {
+      setBusy(false)
+    }
+  }
+  return (
+    <article className="content-card vendor-report-card">
+      <div className="report-card-top">
+        <span className={`category ${report.category.toLowerCase()}`}>{report.category}</span>
+        <span className="report-time">
+          {report.id} · {formatDate(report.submittedAt)}
+        </span>
+      </div>
+      <StatusPill report={report} />
+      <p className="vendor-report-text">{report.description}</p>
+      <AuthorityComment report={report} store={store} compact />
+      <VendorResponseBlock report={report} store={store} />
+      {message && (
+        <div className={`notice ${message.startsWith("Saved") ? "success" : "warning"}`}>{message}</div>
+      )}
+      {mode ? (
+        <form className="vendor-response-form" onSubmit={send}>
+          <label className="field">
+            <span>
+              {mode === "reply"
+                ? "Your public reply (everyone can read it)"
+                : "Why is this report wrong? (only moderators see this)"}
+            </span>
+            <textarea
+              rows={4}
+              maxLength={1000}
+              value={text}
+              onChange={(event) => setText(event.target.value)}
+              placeholder={
+                mode === "reply"
+                  ? "e.g. Thank you for telling us. We replaced the fridge and checked all stock."
+                  : "e.g. We were closed on that day for renovation — see our trade licence notice."
+              }
+            />
+            <small>{text.length} / 1000</small>
+          </label>
+          <div className="vendor-form-actions">
+            <button className="button dark small" type="submit" disabled={busy}>
+              {busy ? "Saving…" : mode === "reply" ? "Publish reply" : "Send dispute"}
+            </button>
+            <button type="button" className="button secondary small" onClick={() => setMode("")}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="vendor-form-actions">
+          <button
+            type="button"
+            className="button primary small"
+            onClick={() => {
+              setMode("reply")
+              setText(reply?.body ?? "")
+            }}
+          >
+            {reply ? "Edit reply" : "Reply publicly"}
+          </button>
+          {disputable ? (
+            <button
+              type="button"
+              className="button secondary small"
+              onClick={() => {
+                setMode("dispute")
+                setText("")
+              }}
+            >
+              Dispute report
+            </button>
+          ) : (
+            <small className="vendor-hint">
+              {report.moderationStatus === "Escalated"
+                ? "With an authority — you can reply, the authority decides the outcome."
+                : vendorResponseFor(report.id, store.vendorResponses).openDispute
+                  ? "Your dispute is being reviewed."
+                  : "This report can no longer be disputed."}
+            </small>
+          )}
+        </div>
+      )}
+    </article>
+  )
+}
+
+function ShopInfoForm({ vendor }: { vendor: Vendor }) {
+  const backend = useBackend()
+  const [info, setInfo] = useState({
+    phone: vendor.phone ?? "",
+    openingHours: vendor.openingHours ?? "",
+    description: vendor.shopDescription ?? "",
+  })
+  const [message, setMessage] = useState("")
+  async function save(event: FormEvent) {
+    event.preventDefault()
+    setMessage("")
+    try {
+      await api.updateShopInfo(info)
+      await backend.refresh()
+      setMessage("Saved: your public profile is updated.")
+    } catch (saveError) {
+      setMessage(errorText(saveError))
+    }
+  }
+  return (
+    <form className="form-card shop-info-form" onSubmit={save}>
+      <fieldset>
+        <legend>Shown on your public profile</legend>
+        <label className="field">
+          <span>Phone</span>
+          <input value={info.phone} onChange={(event) => setInfo({ ...info, phone: event.target.value })} />
+        </label>
+        <label className="field">
+          <span>Opening hours</span>
+          <input
+            value={info.openingHours}
+            onChange={(event) => setInfo({ ...info, openingHours: event.target.value })}
+            placeholder="e.g. 10:00 AM – 10:00 PM, closed Friday morning"
+          />
+        </label>
+        <label className="field">
+          <span>Short description</span>
+          <textarea
+            rows={3}
+            maxLength={500}
+            value={info.description}
+            onChange={(event) => setInfo({ ...info, description: event.target.value })}
+          />
+          <small>{info.description.length} / 500</small>
+        </label>
+        <p className="legal-note">
+          Your trust status cannot be edited here. It is calculated from verified
+          reports and authority outcomes only.
+        </p>
+        {message && (
+          <div className={`notice ${message.startsWith("Saved") ? "success" : "warning"}`}>{message}</div>
+        )}
+        <button className="button dark" type="submit">
+          Save shop information
+        </button>
+      </fieldset>
+    </form>
+  )
+}
+
+// ---------- Admin / moderator: shop claims and vendor disputes ----------
+function VendorRequestsPage({ store }: { store: Store }) {
+  const backend = useBackend()
+  const isAdmin = store.session?.role === "admin"
+  const [tab, setTab] = useState(isAdmin ? "claims" : "disputes")
+  const [notes, setNotes] = useState<Record<string, string>>({})
+  const [message, setMessage] = useState("")
+  const claims = store.vendorClaims ?? []
+  const disputes = (store.vendorResponses ?? []).filter((response) => response.kind === "dispute")
+  const pendingClaims = claims.filter((claim) => claim.status === "Pending").length
+  const openDisputes = disputes.filter((dispute) => dispute.status === "Open").length
+
+  async function run(task: () => Promise<unknown>, done: string) {
+    setMessage("")
+    try {
+      await task()
+      await backend.refresh()
+      setMessage(`Saved: ${done}`)
+    } catch (runError) {
+      setMessage(errorText(runError))
+    }
+  }
+
+  if (!backend.online)
+    return (
+      <div className="portal-content">
+        <EmptyState
+          title="Vendor requests need the database"
+          text="Start Apache and MySQL in XAMPP, then refresh the page."
+        />
+      </div>
+    )
+
+  return (
+    <div className="portal-content">
+      <PageTitle
+        eyebrow="Vendor portal"
+        title="Vendor requests"
+        text="Approve shop owners after checking their trade licence, and decide disputes that vendors raise against reports."
+      />
+      {message && (
+        <div className={`notice ${message.startsWith("Saved") ? "success" : "warning"}`}>{message}</div>
+      )}
+      <div className="tabs">
+        {isAdmin && (
+          <button type="button" className={tab === "claims" ? "active" : ""} onClick={() => setTab("claims")}>
+            Shop claims <span>{pendingClaims}</span>
+          </button>
+        )}
+        <button type="button" className={tab === "disputes" ? "active" : ""} onClick={() => setTab("disputes")}>
+          Disputes <span>{openDisputes}</span>
+        </button>
+      </div>
+
+      {tab === "claims" && isAdmin &&
+        (claims.length ? (
+          <div className="request-list">
+            {claims.map((claim: VendorClaim) => (
+              <section key={claim.id} className={`portal-card request-card ${claim.status.toLowerCase()}`}>
+                <div className="request-head">
+                  <div>
+                    <strong>{claim.vendorName}</strong>
+                    <small>
+                      {claim.userName} ({claim.businessRole}) · {claim.userLogin} · {formatDate(claim.createdAt, true)}
+                    </small>
+                  </div>
+                  <span className={`claim-status ${claim.status.toLowerCase()}`}>{claim.status}</span>
+                </div>
+                <InfoGrid
+                  items={[
+                    ["Trade licence", claim.tradeLicense],
+                    ["Business phone", claim.phone],
+                    ["Message", claim.message || "—"],
+                    [
+                      "Decision",
+                      claim.status === "Pending"
+                        ? "Waiting"
+                        : `${claim.status} by ${claim.decidedBy}${claim.adminNote ? ` — ${claim.adminNote}` : ""}`,
+                    ],
+                  ]}
+                />
+                {claim.status === "Pending" && (
+                  <div className="request-actions">
+                    <input
+                      placeholder="Note to the vendor (required when rejecting)"
+                      value={notes[claim.id] ?? ""}
+                      onChange={(event) => setNotes({ ...notes, [claim.id]: event.target.value })}
+                    />
+                    <button
+                      type="button"
+                      className="button teal small"
+                      onClick={() =>
+                        run(
+                          () => api.decideClaim(claim.id, "Approved", notes[claim.id] ?? ""),
+                          `${claim.userName} is now the verified owner of ${claim.vendorName}.`,
+                        )
+                      }
+                    >
+                      Approve
+                    </button>
+                    <button
+                      type="button"
+                      className="button danger-outline small"
+                      onClick={() =>
+                        run(
+                          () => api.decideClaim(claim.id, "Rejected", notes[claim.id] ?? ""),
+                          `the claim for ${claim.vendorName} was rejected.`,
+                        )
+                      }
+                    >
+                      Reject
+                    </button>
+                  </div>
+                )}
+              </section>
+            ))}
+          </div>
+        ) : (
+          <EmptyState title="No shop claims yet" text="Claims appear here when a vendor registers a shop." />
+        ))}
+
+      {tab === "disputes" &&
+        (disputes.length ? (
+          <div className="request-list">
+            {disputes.map((dispute: VendorResponse) => {
+              const report = store.reports.find((item) => item.id === dispute.reportId)
+              return (
+                <section key={dispute.id} className={`portal-card request-card ${dispute.status.toLowerCase()}`}>
+                  <div className="request-head">
+                    <div>
+                      <strong>{findVendor(store, dispute.vendorId).name}</strong>
+                      <small>
+                        disputes <Link to={`/admin/reports/${dispute.reportId}`}>{dispute.reportId}</Link> ·{" "}
+                        {formatDate(dispute.createdAt, true)}
+                      </small>
+                    </div>
+                    <span className={`claim-status ${dispute.status.toLowerCase()}`}>{dispute.status}</span>
+                  </div>
+                  <InfoGrid
+                    items={[
+                      ["Report", report?.description ?? "—"],
+                      ["Report status", report?.moderationStatus ?? "—"],
+                      ["Vendor's reason", dispute.body],
+                      [
+                        "Decision",
+                        dispute.status === "Open"
+                          ? "Waiting"
+                          : `${dispute.status} by ${dispute.decidedBy}${dispute.moderatorNote ? ` — ${dispute.moderatorNote}` : ""}`,
+                      ],
+                    ]}
+                  />
+                  {dispute.status === "Open" && (
+                    <div className="request-actions">
+                      <input
+                        placeholder="Note (shown to the vendor)"
+                        value={notes[dispute.id] ?? ""}
+                        onChange={(event) => setNotes({ ...notes, [dispute.id]: event.target.value })}
+                      />
+                      <button
+                        type="button"
+                        className="button teal small"
+                        onClick={() =>
+                          run(
+                            () => api.decideDispute(dispute.id, "Accepted", notes[dispute.id] ?? ""),
+                            `${dispute.reportId} is now Disputed and no longer counts towards the trust status.`,
+                          )
+                        }
+                      >
+                        Accept dispute
+                      </button>
+                      <button
+                        type="button"
+                        className="button danger-outline small"
+                        onClick={() =>
+                          run(
+                            () => api.decideDispute(dispute.id, "Rejected", notes[dispute.id] ?? ""),
+                            `the dispute on ${dispute.reportId} was rejected.`,
+                          )
+                        }
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  )}
+                </section>
+              )
+            })}
+          </div>
+        ) : (
+          <EmptyState title="No disputes" text="Disputes appear here when a vendor challenges a report." />
+        ))}
     </div>
   )
 }
@@ -5095,6 +5990,18 @@ export default function App() {
           guardMessage={guardMessage}
         />
       )
+    if (path === "/vendor/login")
+      return (
+        <AuthPage
+          key="login-vendor"
+          kind="vendor"
+          store={store}
+          updateStore={updateStore}
+          navigate={navigate}
+        />
+      )
+    if (path === "/vendor/register")
+      return <VendorRegister store={store} navigate={navigate} />
     if (path.startsWith("/admin") && isStaff(store.session?.role)) {
       const isAdmin = store.session?.role === "admin"
       const adminOnly =
@@ -5108,6 +6015,8 @@ export default function App() {
         content = <TeamPage store={store} updateStore={updateStore} />
       else if (path === "/admin/logins")
         content = <LoginHistoryPage store={store} />
+      else if (path === "/admin/vendor-requests")
+        content = <VendorRequestsPage store={store} />
       else if (path === "/admin/account")
         content = <AccountPage store={store} updateStore={updateStore} />
       else
@@ -5233,7 +6142,7 @@ export default function App() {
           logout={logout}
         />
       )
-    if (path === "/vendor-portal") return <VendorPortal />
+    if (path === "/vendor-portal") return <VendorPortal store={store} />
     return <NotFound />
   }
 }

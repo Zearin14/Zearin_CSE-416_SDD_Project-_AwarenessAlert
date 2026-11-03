@@ -172,3 +172,46 @@ AwarenessAlert v0.9-test — all 168 automated test cases. Type: + positive, −
 | E2E-33 | FR-10.2, FR-10.3 | FR-10.2 all notification settings are off by default | E2E | Use case | P3 | + | Y | Own | Pass |
 | E2E-34 | FR-10.4, FR-10.5 | FR-10.4 + FR-10.5 Notifications link to the report/vendor; My Reports is private to the us | E2E | Use case | P3 | ± | Y | Own | Pass |
 | E2E-35 | FR-11.1, FR-11.2 | FR-11.1 + FR-11.2 the dashboard shows status counts, spikes, a chart and the most reported | E2E | Use case | P2 | + | Y | Own | Pass |
+
+## Addendum — Vendor portal (v1.1, added after the SRS v2.0)
+
+New requirements FR-12.x (Vendor portal: claim, reply, dispute, shop information). 34 new automated test cases.
+
+| TC ID | Req ID | Title | Level | Technique | Pri | +/− | Auto | Source | Result |
+|---|---|---|---|---|---|---|---|---|---|
+| TC-U63 | FR-12.3 | a vendor manages only the shop it is the verified owner of | Unit | EP | P1 | + | Y | Own | Pass |
+| TC-U64 | FR-12.2 | no shop is managed while the claim is not approved | Unit | EP | P1 | − | Y | Own | Pass |
+| TC-U65 | FR-12.3, SE-3 | a non-vendor session never owns a shop | Unit | EP | P1 | − | Y | Own | Pass |
+| TC-U66 | FR-12.4 | reply and open dispute are found for the right report only | Unit | EP | P2 | + | Y | Own | Pass |
+| TC-U67 | FR-12.5 | a decided dispute is not an open dispute | Unit | EP | P2 | − | Y | Own | Pass |
+| TC-U68 | FR-12.5 | a Verified report can be disputed | Unit | Decision table | P1 | + | Y | Own | Pass |
+| TC-U69 | FR-12.5 | a Pending report can be disputed | Unit | Decision table | P1 | + | Y | Own | Pass |
+| TC-U70 | FR-12.5 | an Escalated report cannot be disputed | Unit | Decision table | P1 | − | Y | Own | Pass |
+| TC-U71 | FR-12.5 | Disputed / Removed reports cannot be disputed again | Unit | Decision table | P2 | − | Y | Own | Pass |
+| TC-U72 | FR-12.5 | a second dispute is blocked while one is open | Unit | State transition | P1 | − | Y | Own | Pass |
+| TC-U73 | FR-12.5 | after a rejected dispute the vendor may dispute again | Unit | State transition | P2 | + | Y | Own | Pass |
+| TC-U74 | FR-12.2 | an approved claim wins over an older rejected one | Unit | EP | P2 | + | Y | Own | Pass |
+| TC-U75 | FR-12.2 | a pending claim is shown while waiting for the admin | Unit | EP | P2 | + | Y | Own | Pass |
+| TC-U76 | FR-12.2, SE-3 | claims of other accounts are never used | Unit | EP | P1 | − | Y | Own | Pass |
+| IT-140 | FR-12.1, SE-3 | a vendor logs in only on the Vendor login page | Integ | EP | P1 | ± | Y | Own | Pass* |
+| IT-141 | FR-12.1, FR-12.2 | registering creates a vendor account with a Pending claim | Integ | Use case | P1 | + | Y | Own | Pass* |
+| IT-142 | FR-12.1 | registration validates password (BVA 7 chars), phone and trade licence | Integ | BVA | P2 | − | Y | Own | Pass* |
+| IT-143 | FR-12.2 | a shop with a verified owner cannot be claimed again | Integ | Error guessing | P1 | − | Y | Own | Pass* |
+| IT-144 | FR-12.2, SE-3 | a vendor with a pending claim cannot reply yet | Integ | EP | P1 | − | Y | Own | Pass* |
+| IT-145 | FR-12.2, SE-3 | only the admin decides claims; rejecting needs a reason | Integ | EP | P1 | − | Y | Own | Pass* |
+| IT-146 | FR-12.2 | approving a claim makes the vendor the verified owner; decided claims are final | Integ | State transition | P1 | ± | Y | Own | Pass* |
+| IT-147 | FR-12.6, SE-4 | the public never receives shop claims or owner ids | Integ | EP | P1 | − | Y | Own | Pass* |
+| IT-148 | FR-12.4 | the owner posts a public reply everyone can read | Integ | Use case | P1 | + | Y | Own | Pass* |
+| IT-149 | FR-12.4 | replying again edits the same reply (one per report) | Integ | EP | P2 | ± | Y | Own | Pass* |
+| IT-150 | FR-12.4 | a reply shorter than 10 characters is rejected | Integ | BVA | P3 | − | Y | Own | Pass* |
+| IT-151 | FR-12.4, SE-3 | a vendor cannot reply to another shop's report | Integ | Error guessing | P1 | − | Y | Own | Pass* |
+| IT-152 | SE-3 | a public user cannot use vendor actions | Integ | EP | P1 | − | Y | Own | Pass* |
+| IT-153 | FR-12.5, FR-12.6 | a dispute reason is visible to staff, hidden from the public | Integ | EP | P1 | ± | Y | Own | Pass* |
+| IT-154 | FR-12.5 | only one open dispute per report | Integ | State transition | P2 | − | Y | Own | Pass* |
+| IT-155 | FR-12.5, FR-4.4 | accepting a dispute marks the report Disputed and logs it | Integ | State transition | P1 | + | Y | Own | Pass* |
+| IT-156 | FR-12.5, SE-3 | a vendor cannot decide its own dispute | Integ | EP | P1 | − | Y | Own | Pass* |
+| IT-157 | FR-12.5, FR-3.5 | an escalated report cannot be disputed | Integ | Decision table | P1 | − | Y | Own | Pass* |
+| IT-158 | FR-12.7 | the owner updates phone, opening hours and description | Integ | Use case | P2 | + | Y | Own | Pass* |
+| IT-159 | SRS 3.3 | GET on vendor_portal.php returns 405 | Integ | Error guessing | P3 | − | Y | Own | Pass* |
+
+\* Verified against a local API stand-in during development. To confirm against PHP + MariaDB, run the **test** workflow manually in GitHub Actions (Actions → test → Run workflow), which runs `npm run test:integration`.

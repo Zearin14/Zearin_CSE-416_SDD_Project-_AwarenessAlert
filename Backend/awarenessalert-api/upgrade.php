@@ -1,7 +1,8 @@
 <?php
-// UPGRADE for the moderator + login history features (safe to run more than once). Your reports are NOT deleted.
+// UPGRADE for the moderator, login history and vendor portal features (safe to run more than once). Your reports are NOT deleted.
 // Open http://localhost/awarenessalert-api/upgrade.php in the browser.
 require_once __DIR__ . "/db.php";
+require_once __DIR__ . "/vendor_schema.php";
 header("Content-Type: text/html; charset=UTF-8");
 
 $done = [];
@@ -55,6 +56,10 @@ try {
     } else {
         $done[] = "Demo moderator already exists";
     }
+
+    // 5. vendor portal (shop claims, replies, disputes) + demo vendor accounts
+    vendor_schema($pdo, $done);
+    vendor_demo_data($pdo, $done);
 } catch (PDOException $e) {
     error_log($e->getMessage());
     echo "<body style='font-family:system-ui;max-width:700px;margin:60px auto'><h1 style='color:#c94b45'>Upgrade failed</h1>

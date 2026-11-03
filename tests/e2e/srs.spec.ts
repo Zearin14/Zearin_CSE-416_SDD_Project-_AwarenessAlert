@@ -120,14 +120,14 @@ test.describe("4.3 Moderation workflow", () => {
     await asAdmin(page)
     await page.goto(`/admin/reports/${id}`)
     const status = page.locator(".admin-control-bar .admin-status")
-    await page.getByRole("button", { name: "Mark Verified" }).click()
+    await page.getByRole("button", { name: "Accept report" }).click()
     await expect(status).toHaveText("Verified")
     // FR-8.1 default routing: Food -> DNCRP
     await page.getByRole("button", { name: "Assign to DNCRP" }).click()
     await expect(status).toHaveText("Escalated")
     await expect(page.getByText("Authority: Awaiting")).toBeVisible()
     // FR-3.7 locked: no other moderation buttons
-    for (const name of ["Mark Verified", "Dispute", "Remove"]) {
+    for (const name of ["Accept report", "Dispute", "Remove"]) {
       await expect(page.getByRole("button", { name, exact: true })).toHaveCount(0)
     }
     // FR-3.6 recall while Awaiting

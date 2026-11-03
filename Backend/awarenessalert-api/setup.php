@@ -5,6 +5,19 @@
 
 define("SKIP_DB_CONNECT", true);
 require_once __DIR__ . "/db.php";
+
+// Online, setup.php must not be usable by strangers (it can delete everything).
+// On your own computer (XAMPP) no key is needed. Online, set $setupKey in config.php and open
+// setup.php?key=YOUR-KEY  (or setup.php?key=YOUR-KEY&reset=1 to reload the demo data).
+$isLocal = in_array($_SERVER["REMOTE_ADDR"] ?? "", ["127.0.0.1", "::1"], true);
+if (!$isLocal && (empty($setupKey) || !hash_equals((string) $setupKey, (string) ($_GET["key"] ?? "")))) {
+    header("Content-Type: text/html; charset=UTF-8");
+    http_response_code(403);
+    echo "<body style='font-family:system-ui;max-width:640px;margin:60px auto'><h1>Setup is locked</h1>
+          <p>Add <code>\$setupKey</code> to config.php and open <code>setup.php?key=YOUR-KEY</code>.</p></body>";
+    exit;
+}
+require_once __DIR__ . "/vendor_schema.php";
 header("Content-Type: text/html; charset=UTF-8");
 
 function page($title, $body, $ok = true)
@@ -28,7 +41,8 @@ try {
 try {
     $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
 } catch (PDOException $e) {
-    // On shared hosting the database is created in the control panel and we may not create databases.
+    // Online hosting: the database is created in the hosting control panel, and the
+    // account may not be allowed to create databases. That's fine - we just use it.
 }
 $pdo->exec("USE `$dbname`");
 
@@ -48,7 +62,7 @@ if ($alreadySetUp && !isset($_GET["reset"])) {
 
 // ---------------- Tables ----------------
 $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
-foreach (["login_history", "report_actions", "reviews", "reports", "vendors", "users"] as $table) {
+foreach (["vendor_responses", "vendor_claims", "login_history", "report_actions", "reviews", "reports", "vendors", "users"] as $table) {
     $pdo->exec("DROP TABLE IF EXISTS `$table`");
 }
 $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
@@ -281,13 +295,18 @@ for ($i = 0; $i < 40; $i++) {
     ]);
 }
 
+// Vendor portal tables + demo vendor accounts
+$vendorDone = [];
+vendor_schema($pdo, $vendorDone);
+vendor_demo_data($pdo, $vendorDone);
+
 // Folder for uploaded photo evidence
 if (!is_dir(__DIR__ . "/uploads")) {
     mkdir(__DIR__ . "/uploads", 0777, true);
 }
 
 page("Setup complete ✓", "<p>Database <b>$dbname</b> is ready with:</p>
-  <ul><li>7 user accounts (admin, moderator, 3 organizations, 2 public users)</li>
-  <li>25 vendors in Gulshan &amp; Banani</li><li>24 sample reports with history</li><li>40 reviews</li></ul>
+  <ul><li>9 user accounts (admin, moderator, 3 organizations, 2 public users, 2 vendors)</li>
+  <li>25 vendors in Gulshan &amp; Banani</li><li>24 sample reports with history</li><li>40 reviews</li><li>Vendor portal: 1 approved shop owner (Chillox Banani) and 1 shop claim waiting for the admin</li></ul>
   <p>Now go back to your website and refresh the page.</p>
   <p><a href='api.php'>Check the API →</a></p>");

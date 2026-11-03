@@ -34,6 +34,8 @@ export const ACCOUNTS = {
   bsti: ["bsti@awarenessalert.test", "Org#1234", "org"],
   dncrp: ["dncrp@awarenessalert.test", "Org#1234", "org"],
   rafi: ["rafi@example.test", "User#1234", "public"],
+  vendor: ["vendor@awarenessalert.test", "Vendor#1234", "vendor"],
+  newvendor: ["newvendor@awarenessalert.test", "Vendor#1234", "vendor"],
 } as const
 
 export async function as(who: keyof typeof ACCOUNTS) {

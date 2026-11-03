@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "deploy:package": "vite build && node scripts/make-deploy.mjs",
     "format": "oxfmt",
     "test": "vitest run tests/unit --coverage",
     "test:unit": "vitest run tests/unit",

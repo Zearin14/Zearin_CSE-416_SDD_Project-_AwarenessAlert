@@ -48,7 +48,7 @@ test("E2E-03 a moderator verifies a newly submitted report", async ({ page }) =>
   await adminLogin(page)
   await page.goto(`/admin/reports/${id}`)
   await expect(page.locator(".admin-control-bar .admin-status")).toHaveText("Pending")
-  await page.getByRole("button", { name: "Mark Verified" }).click()
+  await page.getByRole("button", { name: "Accept report" }).click()
   await expect(page.locator(".admin-control-bar .admin-status")).toHaveText("Verified")
 })
 

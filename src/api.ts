@@ -1,10 +1,15 @@
-// Talks to the PHP API in C:\xampp\htdocs\awarenessalert-api
-// Uses the same host name as the website (localhost / 127.0.0.1) so the login cookie works.
-// On localhost (XAMPP + Vite) the API is on port 80; when deployed, the website and the API share one domain.
-const LOCAL = ["localhost", "127.0.0.1"].includes(window.location.hostname)
-export const API_BASE = LOCAL
-  ? `http://${window.location.hostname}/awarenessalert-api`
-  : `${window.location.origin}/awarenessalert-api`
+// Talks to the PHP API in the "awarenessalert-api" folder.
+// - Development (npm run dev on port 8443): the website and XAMPP's Apache (port 80) are separate,
+//   so the API is http://<same host name>/awarenessalert-api (same host name keeps the login cookie).
+// - Online (deployed build on a normal port): the API is on the SAME website,
+//   e.g. https://awarenessalert.example.com/awarenessalert-api
+const { protocol, hostname } = window.location
+const port = window.location.port ?? ""
+const onDevServer = port !== "" && port !== "80" && port !== "443"
+export const API_BASE =
+  onDevServer || !protocol
+    ? `http://${hostname}/awarenessalert-api`
+    : `${protocol}//${hostname}/awarenessalert-api`
 
 async function request<T = any>(file: string, body?: unknown): Promise<T> {
   const response = await fetch(`${API_BASE}/${file}`, {
@@ -121,3 +126,27 @@ export const validateStaffInput = (name: string, login: string, password: string
   if (password.length < 8) return "The password must be at least 8 characters."
   return null
 }
+
+// Vendor portal
+export type VendorClaimInput = {
+  vendorId: string
+  businessRole: string
+  phone: string
+  tradeLicense: string
+  message: string
+}
+export const registerVendor = (
+  account: { name: string; login: string; password: string } & VendorClaimInput,
+) => request("vendor_portal.php", { action: "register", ...account })
+export const claimShop = (claim: VendorClaimInput) =>
+  request("vendor_portal.php", { action: "claim", ...claim })
+export const vendorReply = (reportId: string, text: string) =>
+  request("vendor_portal.php", { action: "reply", reportId, text })
+export const vendorDispute = (reportId: string, reason: string) =>
+  request("vendor_portal.php", { action: "dispute", reportId, reason })
+export const updateShopInfo = (info: { phone: string; openingHours: string; description: string }) =>
+  request("vendor_portal.php", { action: "update_info", ...info })
+export const decideClaim = (claimId: string, decision: "Approved" | "Rejected", note: string) =>
+  request("vendor_portal.php", { action: "decide_claim", claimId, decision, note })
+export const decideDispute = (responseId: string, decision: "Accepted" | "Rejected", note: string) =>
+  request("vendor_portal.php", { action: "decide_dispute", responseId, decision, note })

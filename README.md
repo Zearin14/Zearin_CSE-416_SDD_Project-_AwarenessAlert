@@ -12,8 +12,6 @@ Accredited Laboratory), and the authority's result is shown to the public.
 
 ---
 
-🌐 **Live site:** https://awarenessalert.infinityfreeapp.com · 📄 [Final report](docs/final/Final_Report.pdf) · 🎤 [Presentation](docs/final/Final_Presentation.pdf) · 🧪 [Test report](docs/testing/Test_Report.pdf)
-
 ## 1. Features
 
 **Public users**
@@ -24,7 +22,7 @@ Accredited Laboratory), and the authority's result is shown to the public.
 - Optional account: sign up, log in, write reviews, see "My Reports", saved areas
 
 **Moderators**
-- Review reports: Mark Verified, Dispute, Remove, Re-open
+- Review reports: Accept report, Dispute, Remove, Re-open
 - Assign a verified report to the right authority (Assign to BSTI / DNCRP / Lab)
 - Hide or restore customer reviews
 - Change their own password (My account)
@@ -39,6 +37,17 @@ Accredited Laboratory), and the authority's result is shown to the public.
 - See only the reports assigned to them
 - Set the outcome: Confirmed, Cleared or Awaiting, with a public comment and an internal note
 
+**Vendors (shop owners and managers): Vendor portal**
+- Register and **claim a shop** with a trade licence number; the **admin approves** the claim
+  before the vendor gets access (one verified owner per shop)
+- **Vendor dashboard:** trust status, score, every public report about the shop, reviews
+- **Public reply** to any report (shown under the report for everyone, can be edited)
+- **Dispute** a Pending or Verified report with a reason; a **moderator** accepts or rejects it.
+  An accepted dispute marks the report Disputed, so it **no longer counts** towards the trust status.
+  Escalated reports can only be replied to: the authority decides those.
+- Update the shop's phone, opening hours and description on the public profile
+- The trust status itself can never be edited by the vendor
+
 **Fairness and security**
 - One report cannot change a vendor's status: it needs **3 independent sources in 30 days**
   or **1 authority confirmation**
@@ -47,6 +56,7 @@ Accredited Laboratory), and the authority's result is shown to the public.
 - The public never sees IP addresses, device IDs or internal notes
 - Audit history of every report action (`report_actions` table)
 - Login history of every login attempt (`login_history` table)
+- Vendors get a **right of reply**, but dispute reasons are only shown to staff and the vendor
 - Turned-off accounts lose access immediately
 - If the database is offline, the site switches to **demo mode** instead of crashing
 
@@ -93,6 +103,8 @@ C:\xampp\htdocs\awarenessalert-api\   <- PHP backend
 ├── reviews.php        reviews + hide/restore
 ├── users.php          Team page + change password
 ├── login_history.php  login history (admin)
+├── vendor_portal.php  vendor register / claim / reply / dispute + admin & moderator decisions
+├── vendor_schema.php  vendor portal tables (used by setup.php and upgrade.php)
 ├── api.php            health check (shows tables + row counts)
 └── uploads\           uploaded evidence photos (created automatically)
 ```
@@ -109,10 +121,13 @@ C:\xampp\htdocs\awarenessalert-api\   <- PHP backend
 | `reviews` | customer ratings and comments |
 | `report_actions` | audit history: who did what to which report, and when |
 | `login_history` | every login, failed attempt and logout, with IP and browser |
+| `vendor_claims` | shop claims: which vendor account asks to manage which shop, trade licence, Pending / Approved / Rejected |
+| `vendor_responses` | vendor public replies and disputes on reports, with the moderator's decision |
 
 Links (foreign keys): `reports.vendor_id → vendors.id`, `reports.user_id → users.id`,
 `reviews.vendor_id → vendors.id`, `report_actions.report_id → reports.id`,
-`login_history.user_id → users.id`.
+`login_history.user_id → users.id`, `vendors.owner_user_id → users.id`,
+`vendor_claims.vendor_id → vendors.id`, `vendor_responses.report_id → reports.id`.
 
 Report status flow:
 **Pending → Verified → Escalated (assigned) → Confirmed / Cleared**
@@ -154,6 +169,8 @@ On each login page click **"Show demo accounts"**, then click an account to fill
 | BSTI | bsti@awarenessalert.test | Org#1234 | Footer → Organization Login |
 | DNCRP | dncrp@awarenessalert.test | Org#1234 | Footer → Organization Login |
 | Laboratory | lab@awarenessalert.test | Org#1234 | Footer → Organization Login |
+| Vendor (approved, Chillox Banani) | vendor@awarenessalert.test | Vendor#1234 | Footer → Vendor Portal → Vendor login |
+| Vendor (claim waiting for the admin) | newvendor@awarenessalert.test | Vendor#1234 | Footer → Vendor Portal → Vendor login |
 | Public user | rafi@example.test | User#1234 | Header → Log in |
 | Public user | 01700000000 | User#1234 | Header → Log in |
 
@@ -167,7 +184,7 @@ On each login page click **"Show demo accounts"**, then click an account to fill
 3. **Proof it's a real database:** phpMyAdmin → `awarenessalert_db` → `reports` shows the
    new row, and the photo is in `C:\xampp\htdocs\awarenessalert-api\uploads`.
 4. **Moderator:** Admin Login (moderator account) → Reports → open the report →
-   **Mark Verified** → **Assign to DNCRP**. Show the **Audit history** box.
+   **Accept report** → **Assign to DNCRP**. Show the **Audit history** box.
 5. **Authority:** Logout → Organization Login (DNCRP) → open the report → **Confirmed**
    → write a public comment → Save.
 6. **Public result:** Logout → Recent Reports → the report shows
@@ -176,6 +193,23 @@ On each login page click **"Show demo accounts"**, then click an account to fill
    login page. As a moderator, the Team page says "Only the admin can open this page".
 8. **Admin tools:** log in as admin → **Team** (add a moderator, turn an account off) →
    **Login history** (type a wrong password first, so the failed attempt appears).
+9. **Vendor portal (right of reply):**
+   - Admin → **Vendor requests** → **Shop claims**: approve the waiting claim for Sajna Restaurant.
+   - Logout → Footer → **Vendor Portal** → **Vendor login** (`vendor@awarenessalert.test`) →
+     the Chillox Banani dashboard → **Reply publicly** on a report → **Dispute report** on another.
+   - Logout → open that report on the public site: the shop's reply is shown under it.
+   - Admin Login (moderator) → **Vendor requests** → **Disputes** → **Accept dispute** →
+     the report becomes **Disputed** and stops counting towards the trust status.
+
+---
+
+## 7b. Live version (deployment)
+
+The project can be put online for free (InfinityFree: Apache + PHP + MySQL) with one command:
+`npm run deploy:package`, then upload the `deploy/htdocs` folder.
+Full step-by-step guide: **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
+
+Live link: _add your link here after deploying_
 
 ---
 
@@ -196,11 +230,11 @@ On each login page click **"Show demo accounts"**, then click an account to fill
 
 ## 9. Future improvements
 
+(The Vendor portal, planned here earlier, is now built — see section 1.)
+
 - Real interactive map (OpenStreetMap / Leaflet)
 - Bangla language (the EN/বাংলা switch is a placeholder)
 - SMS / email alerts for saved areas and report updates
-- Vendor portal (right of reply)
-- Online hosting instead of a local XAMPP server
 - Split `App.tsx` into smaller component files
 
 ---

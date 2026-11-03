@@ -6,7 +6,7 @@ export type ModerationStatus = "Pending" | "Verified" | "Escalated" | "Disputed"
 export type AuthorityOutcome = "Awaiting" | "Confirmed" | "Cleared" | null
 export type Category = "Food" | "Fuel" | "Other"
 export type OrgId = "BSTI" | "DNCRP" | "Accredited Laboratory"
-export type Role = "public" | "admin" | "moderator" | "org"
+export type Role = "public" | "admin" | "moderator" | "org" | "vendor"
 
 export type Report = {
   id: string
@@ -45,6 +45,46 @@ export type Vendor = {
   lat?: number
   lng?: number
   address?: string
+  // Vendor portal (filled from the database)
+  ownerVerified?: boolean
+  ownerUserId?: string | null
+  phone?: string
+  openingHours?: string
+  shopDescription?: string
+}
+
+// A vendor asks to manage a shop; the admin approves or rejects it
+export type VendorClaim = {
+  id: string
+  userId: string
+  userName: string
+  userLogin: string
+  vendorId: string
+  vendorName: string
+  businessRole: string
+  phone: string
+  tradeLicense: string
+  message: string
+  status: "Pending" | "Approved" | "Rejected"
+  adminNote: string
+  decidedBy: string
+  createdAt: string
+  decidedAt: string
+}
+
+// A vendor's public reply to a report, or a dispute that a moderator decides
+export type VendorResponse = {
+  id: string
+  reportId: string
+  vendorId: string
+  kind: "reply" | "dispute"
+  body: string
+  status: "Published" | "Open" | "Accepted" | "Rejected"
+  moderatorNote: string
+  decidedBy: string
+  createdAt: string
+  updatedAt: string
+  decidedAt: string
 }
 
 export type Review = {
@@ -99,6 +139,8 @@ export type Store = {
   }[]
   auditLog: Audit[]
   loginHistory?: LoginEvent[]
+  vendorClaims?: VendorClaim[]
+  vendorResponses?: VendorResponse[]
   routingConfig: Record<Category, OrgId>
   showOrgNamePublicly: boolean
   weeklyDigest: boolean
@@ -304,4 +346,41 @@ export function reportFrequency(report: Report, reports: Report[], at: number = 
     (item) => at - new Date(item.submittedAt).getTime() <= 30 * DAY,
   ).length
   return { last30, total: same.length }
+}
+
+// ---------- Vendor portal rules ----------
+
+// The shop that this vendor account is the verified owner of
+export function ownedVendor(store: Store): Vendor | undefined {
+  const userId = store.session?.role === "vendor" ? store.session.userId : undefined
+  return userId ? store.vendors.find((vendor) => vendor.ownerUserId === userId) : undefined
+}
+
+// The vendor's public reply and latest dispute for one report
+export function vendorResponseFor(reportId: string, responses: VendorResponse[] = []) {
+  const forReport = responses.filter((response) => response.reportId === reportId)
+  return {
+    reply: forReport.find((response) => response.kind === "reply"),
+    dispute: forReport.find((response) => response.kind === "dispute"),
+    openDispute: forReport.find(
+      (response) => response.kind === "dispute" && response.status === "Open",
+    ),
+  }
+}
+
+// A vendor may dispute a report only while moderators still own it (Pending / Verified)
+// and only once at a time. Escalated reports are decided by the authority instead.
+export function canDispute(report: Report, responses: VendorResponse[] = []) {
+  if (report.moderationStatus !== "Pending" && report.moderationStatus !== "Verified") return false
+  return !vendorResponseFor(report.id, responses).openDispute
+}
+
+// The newest claim of a vendor account decides what its portal shows
+export function vendorClaimState(claims: VendorClaim[] = [], userId?: string) {
+  const mine = claims.filter((claim) => claim.userId === userId)
+  return (
+    mine.find((claim) => claim.status === "Approved") ??
+    mine.find((claim) => claim.status === "Pending") ??
+    mine[0]
+  )
 }
