@@ -115,3 +115,13 @@ function vendor_demo_data($pdo, &$done)
         $done[] = "Created demo vendor: $login / $password ($shop, claim $status)";
     }
 }
+
+// Online the deploy workflow does not upload setup.php / upgrade.php, so the API adds the
+// vendor portal tables by itself the first time they are missing (existing data is kept).
+function ensure_vendor_schema($pdo)
+{
+    if ($pdo->query("SHOW TABLES LIKE 'vendor_responses'")->fetch()) return;
+    $done = [];
+    vendor_schema($pdo, $done);
+    vendor_demo_data($pdo, $done);
+}

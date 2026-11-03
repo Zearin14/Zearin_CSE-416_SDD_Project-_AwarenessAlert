@@ -13,6 +13,12 @@
 // Admin or moderator:
 //   POST {action:"decide_dispute", responseId, decision:"Accepted"|"Rejected", note}
 require_once __DIR__ . "/db.php";
+require_once __DIR__ . "/vendor_schema.php";
+try {
+    ensure_vendor_schema($pdo); // adds the vendor portal tables online if they are missing
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+}
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") fail("Method not allowed", 405);
 

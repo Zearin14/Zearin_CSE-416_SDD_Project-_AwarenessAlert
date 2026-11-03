@@ -6,6 +6,12 @@
 //   - organizations: + internal notes for reports routed to them
 //   - admin: everything, including the audit history
 require_once __DIR__ . "/db.php";
+require_once __DIR__ . "/vendor_schema.php";
+try {
+    ensure_vendor_schema($pdo); // adds the vendor portal tables online if they are missing
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+}
 
 function load_vendors($pdo, $user = null)
 {

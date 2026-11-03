@@ -26,4 +26,4 @@ test-results/
 playwright-report/
 Backend/awarenessalert-api/uploads/
 Backend/awarenessalert-api/config.php
-deploy/
+deploy/htdocs/

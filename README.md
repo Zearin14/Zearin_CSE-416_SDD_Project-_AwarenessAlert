@@ -12,6 +12,8 @@ Accredited Laboratory), and the authority's result is shown to the public.
 
 ---
 
+🌐 **Live site:** https://awarenessalert.infinityfreeapp.com · 📄 [Final report](docs/final/Final_Report.pdf) · 🎤 [Presentation](docs/final/Final_Presentation.pdf) · 🧪 [Test report](docs/testing/Test_Report.pdf)
+
 ## 1. Features
 
 **Public users**
@@ -209,7 +211,7 @@ The project can be put online for free (InfinityFree: Apache + PHP + MySQL) with
 `npm run deploy:package`, then upload the `deploy/htdocs` folder.
 Full step-by-step guide: **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
 
-Live link: _add your link here after deploying_
+Live link: https://awarenessalert.infinityfreeapp.com
 
 ---
 
